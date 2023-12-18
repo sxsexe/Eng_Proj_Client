@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:logger/logger.dart';
 import 'package:my_eng_program/data/model_category.dart';
 import 'package:my_eng_program/data/net.dart';
 import 'package:provider/provider.dart';
@@ -11,6 +12,17 @@ void main() {
   runApp(const MyApp());
 }
 
+var logger = Logger(
+  printer: PrettyPrinter(
+      methodCount: 0, // number of method calls to be displayed
+      errorMethodCount: 8, // number of method calls if stacktrace is provided
+      lineLength: 120, // width of the output
+      colors: true, // Colorful log messages
+      printEmojis: true, // Print an emoji for each log message
+      printTime: true // Should each log print contain a timestamp
+      ),
+);
+
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
@@ -18,6 +30,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
         create: (context) {
+          debugPrint("MyApp build");
           if (Platform.isWindows) {
             debugPrint("Windows");
           }
@@ -41,7 +54,7 @@ class _MyHomePageState extends State<MyHomePage> {
       appBar: AppBar(title: Text("Go")),
       drawer: HomeDrawer(),
       body: Center(
-        child: Text(""),
+        child: Text("xxxx"),
       ),
     );
   }
@@ -128,7 +141,10 @@ class _HomneDrawerState extends State<HomeDrawer> {
               );
             } else {
               return ListTile(
-                title: Text('$name'),
+                title: Text(
+                  '$name',
+                  style: TextStyle(color: Colors.white),
+                ),
                 selected: drawerData.getCurrentIndex() == index,
                 onTap: () {
                   var item = drawerData.getItem(index);

@@ -5,10 +5,7 @@ import 'package:http/http.dart' as http;
 import 'package:my_eng_program/data/model_category.dart';
 
 Future<List<Category>> fetchCategories(http.Client client) async {
-  debugPrint("fetchCategories  begin ");
   final response = await http.get(Uri.parse("https://jsonplaceholder.typicode.com/albums/1"));
-
-  debugPrint("fetchCategories  response.statusCode = ${response.statusCode} ");
 
   if (response.statusCode == 200) {
     // If the server did return a 200 OK response,
