@@ -1,7 +1,6 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:logger/logger.dart';
 import 'package:my_eng_program/data/model_category.dart';
 import 'package:my_eng_program/data/net.dart';
@@ -28,22 +27,13 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider(
-        create: (context) {
-          debugPrint("MyApp build");
-          if (Platform.isWindows) {
-            debugPrint("Windows");
-          }
-
-          return DrawerDataNotifier();
-        },
-        child: MaterialApp(
-            title: 'EnglishER',
-            theme: ThemeData(
-              useMaterial3: true,
-              colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepOrange),
-            ),
-            home: MyHomePage()));
+    return MaterialApp(
+        title: 'EnglishER',
+        theme: ThemeData(
+          useMaterial3: true,
+          colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepOrange),
+        ),
+        home: MyHomePage());
   }
 }
 
@@ -73,7 +63,7 @@ class DrawerDataNotifier extends ChangeNotifier {
 
   final List<DrawerItem> _items = [];
   DrawerDataNotifier() {
-    futureCategories = fetchCategories(http.Client());
+    futureCategories = Service.fetchCategories(http.Client());
     futureCategories.then((categories) {
       if (_items.isNotEmpty) {
         _items.clear();
@@ -125,40 +115,52 @@ class _HomneDrawerState extends State<HomeDrawer> {
 
   @override
   Widget build(BuildContext context) {
-    var drawerData = context.watch<DrawerDataNotifier>();
     return Drawer(
         backgroundColor: Colors.orange,
-        child: ListView.builder(
-          itemCount: drawerData.getCount(),
-          itemBuilder: (context, index) {
-            // debugPrint("build ListView index = $index");
-            DrawerItem? item = drawerData.getItem(index);
-            var name = item == null ? '' : item.name;
-            if (index == 0) {
-              return const DrawerHeader(
-                child: Text("Header"),
-                decoration: BoxDecoration(color: Colors.blue),
-              );
-            } else {
-              return ListTile(
-                title: Text(
-                  '$name',
-                  style: TextStyle(color: Colors.white),
-                ),
-                selected: drawerData.getCurrentIndex() == index,
-                onTap: () {
-                  var item = drawerData.getItem(index);
-                  String title = item == null ? 'nothing' : item.name;
-                  final snackBar = SnackBar(content: Text(title));
-                  // 从组件树种找到ScaffoldMessager，并用它去show一个snackBar
-                  ScaffoldMessenger.of(context).showSnackBar(snackBar);
-                  drawerData.onItemTapped(index);
-                  Navigator.pop(context);
-                },
-              );
-            }
-          },
+        child: FutureProvider<List<Category>>(
+          initialData: [],
+          create: (context) => Service.fetchCategories(http.Client()),
+          child: DrawerListView(),
         ));
+  }
+}
+
+class DrawerListView extends StatelessWidget {
+  late var drawerItems;
+
+  @override
+  Widget build(BuildContext context) {
+    drawerItems = context.watch<List<Category>>();
+    return ListView.builder(
+      itemCount: drawerItems.length,
+      itemBuilder: (context, index) {
+        // debugPrint("build ListView index = $index");
+        var title = drawerItems[index].title;
+
+        if (index == 0) {
+          return const DrawerHeader(
+            child: Text("Header"),
+            decoration: BoxDecoration(color: Colors.blue),
+          );
+        } else {
+          return ListTile(
+            title: Text(
+              '$title',
+              style: TextStyle(color: Colors.white),
+            ),
+            onTap: () {
+              final snackBar = SnackBar(content: Text(title));
+              // 从组件树种找到ScaffoldMessager，并用它去show一个snackBar
+              ScaffoldMessenger.of(context).showSnackBar(snackBar);
+              Navigator.pop(context);
+
+              var mp3_url =
+                  "https://dictionary.blob.core.chinacloudapi.cn/media/audio/tom/79/25/79256C2B5F37973C77D41B497E12F7E2.mp3";
+            },
+          );
+        }
+      },
+    );
   }
 }
 
