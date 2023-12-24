@@ -1,0 +1,255 @@
+[
+    {
+        "id": "",
+        "name": "actor",
+        "image_url": "",
+        "genders": [
+            "noun [ C ]"
+        ],
+        "noun [ C ]": {
+            "UK_audio": "https://dictionary.cambridge.org//media/english-chinese-simplified/uk_pron/u/uka/ukact/ukactiv008.mp3",
+            "US_audio": "https://dictionary.cambridge.org//media/english-chinese-simplified/us_pron/a/act/actor/actor.mp3",
+            "text": "actor",
+            "defines": [
+                {
+                    "text": "actor",
+                    "trans_ch": "演员",
+                    "trans_en": "someone who pretends to be someone else while performing in a film, play, or television or radio programme",
+                    "examples": [
+                        {
+                            "ch": "“你最喜欢的演员是谁？”“罗伯特•德尼罗。”",
+                            "en": "\"Who's your favourite actor?\" \"Robert de Niro.\""
+                        }
+                    ]
+                }
+            ],
+            "phrases": []
+        }
+    },
+    {
+        "id": "",
+        "name": "across",
+        "image_url": "",
+        "genders": [
+            "adverb, preposition",
+            "preposition"
+        ],
+        "adverb, preposition": {
+            "UK_audio": "https://dictionary.cambridge.org//media/english-chinese-simplified/uk_pron/u/uka/ukacq/ukacqua024.mp3",
+            "US_audio": "https://dictionary.cambridge.org//media/english-chinese-simplified/us_pron/a/acr/acros/across.mp3",
+            "text": "across",
+            "defines": [
+                {
+                    "text": "across",
+                    "trans_ch": "从一边到另一边;穿过;横过",
+                    "trans_en": "from one side to the other of something with clear limits, such as an area of land, a road, or a river",
+                    "examples": [
+                        {
+                            "ch": "她穿过田野／横过马路。",
+                            "en": "She walked across the field/road."
+                        },
+                        {
+                            "ch": "他们正在河上修建新桥。",
+                            "en": "They're building a new bridge across the river."
+                        },
+                        {
+                            "ch": "到河边后，我直接游了过去。",
+                            "en": "When I reached the river, I simply swam across."
+                        }
+                    ]
+                }
+            ],
+            "phrases": []
+        },
+        "preposition": {
+            "UK_audio": "https://dictionary.cambridge.org//media/english-chinese-simplified/uk_pron/u/uka/ukacq/ukacqua024.mp3",
+            "US_audio": "https://dictionary.cambridge.org//media/english-chinese-simplified/us_pron/a/acr/acros/across.mp3",
+            "text": "across",
+            "defines": [
+                {
+                    "text": "across",
+                    "trans_ch": "在…的另一边;在…的对面",
+                    "trans_en": "on the opposite side of",
+                    "examples": [
+                        {
+                            "ch": "图书馆就在马路对面。",
+                            "en": "The library is just across the road."
+                        }
+                    ]
+                },
+                {
+                    "text": "across",
+                    "trans_ch": "在…各处;在整个…;遍及",
+                    "trans_en": "in every part of a particular place or country",
+                    "examples": [
+                        {
+                            "ch": "在这个国家大部分地区，选举进行得井然有序。",
+                            "en": "Voting took place peacefully across most of the country."
+                        }
+                    ]
+                }
+            ],
+            "phrases": []
+        }
+    },
+    {
+        "id": "",
+        "name": "above",
+        "image_url": "",
+        "genders": [
+            "adverb, preposition",
+            "adverb, adjective"
+        ],
+        "adverb, preposition": {
+            "UK_audio": "https://dictionary.cambridge.org//media/english-chinese-simplified/uk_pron/u/uka/ukabn/ukabnor023.mp3",
+            "US_audio": "https://dictionary.cambridge.org//media/english-chinese-simplified/us_pron/a/abo/above/above.mp3",
+            "text": "above",
+            "defines": [
+                {
+                    "text": "above",
+                    "trans_ch": "在（或向）…上面；在（或向）…较高处",
+                    "trans_en": "in or to a higher position than something else",
+                    "examples": [
+                        {
+                            "ch": "洗碗槽上方有面镜子。",
+                            "en": "There's a mirror above the sink."
+                        },
+                        {
+                            "ch": "他兴奋地把信举过头顶挥舞着。",
+                            "en": "He waved the letter excitedly above his head."
+                        },
+                        {
+                            "ch": "她在一家店铺的楼上租了个房间。",
+                            "en": "She's rented a room above a shop."
+                        },
+                        {
+                            "ch": "名单上她的名字列在我的前面。",
+                            "en": "Her name comes above mine on the list."
+                        },
+                        {
+                            "ch": "直升机在大楼上空盘旋。",
+                            "en": "The helicopter was hovering above the building."
+                        },
+                        {
+                            "ch": "就在你头顶上方的架子上。",
+                            "en": "It's on the shelf just above your head."
+                        },
+                        {
+                            "ch": "灯具上方的天花板上已经出现了一道裂缝。",
+                            "en": "A crack had started to appear just above the light on the ceiling."
+                        }
+                    ]
+                },
+                {
+                    "text": "above",
+                    "trans_ch": "多于；大于；高于；超过",
+                    "trans_en": "more than an amount or level",
+                    "examples": [
+                        {
+                            "ch": "包装盒上标明适于3岁及以上的儿童。",
+                            "en": "It says on the box it's for children aged three and above."
+                        },
+                        {
+                            "ch": "工资高于平均水平。",
+                            "en": "Rates of pay are above average."
+                        },
+                        {
+                            "ch": "冬季气温很少高于零度。",
+                            "en": "Temperatures rarely rise above zero in winter."
+                        },
+                        {
+                            "ch": "她把工作看得比家庭重要。",
+                            "en": "She values her job above her family."
+                        },
+                        {
+                            "ch": "他们把自由看得高于一切。",
+                            "en": "They value their freedom above (and beyond) all else."
+                        }
+                    ]
+                },
+                {
+                    "text": "above",
+                    "trans_ch": "高于",
+                    "trans_en": "in a more important or advanced position than someone else",
+                    "examples": [
+                        {
+                            "ch": "萨莉比我高一年级。",
+                            "en": "Sally's a grade above me."
+                        }
+                    ]
+                },
+                {
+                    "text": "above",
+                    "trans_ch": "（品质、能力等）超出…，不受…影响",
+                    "trans_en": "too good or important for something",
+                    "examples": [
+                        {
+                            "ch": "这件事情上没有人可以避开嫌疑。",
+                            "en": "No one is above suspicion in this matter."
+                        },
+                        {
+                            "ch": "为了保护自己，他也不免要撒谎。",
+                            "en": "He's not above lying (= he sometimes lies) to protect himself."
+                        }
+                    ]
+                }
+            ],
+            "phrases": [
+                {
+                    "text": "above all",
+                    "trans_ch": "最重要的是；尤其是；首先",
+                    "trans_en": "most importantly",
+                    "examples": [
+                        {
+                            "ch": "首先，我要感谢我的家人。",
+                            "en": "Above all, I'd like to thank my family."
+                        },
+                        {
+                            "ch": "我认为仁慈是最重要的（情操）。",
+                            "en": "Above all, I'd say I value kindness."
+                        }
+                    ]
+                }
+            ]
+        },
+        "adverb, adjective": {
+            "UK_audio": "https://dictionary.cambridge.org//media/english-chinese-simplified/uk_pron/u/uka/ukabn/ukabnor023.mp3",
+            "US_audio": "https://dictionary.cambridge.org//media/english-chinese-simplified/us_pron/a/abo/above/above.mp3",
+            "text": "above",
+            "defines": [
+                {
+                    "text": "above",
+                    "trans_ch": "（同页中）上面提到的（地）；上文（的），前文（的）",
+                    "trans_en": "When used in a piece of writing, \"above\" means higher on the page, or on a previous page.",
+                    "examples": [
+                        {
+                            "ch": "请将文章寄到上述地址。",
+                            "en": "Please send the articles to the address given above."
+                        },
+                        {
+                            "ch": "此信件已被送往上述地址。",
+                            "en": "The letter was sent to the above address."
+                        }
+                    ]
+                }
+            ],
+            "phrases": [
+                {
+                    "text": "the above",
+                    "trans_ch": "前面列出的所有人（或事物）",
+                    "trans_en": "all the people or things listed earlier",
+                    "examples": [
+                        {
+                            "ch": "上面列出的所有人都应该受到邀请。",
+                            "en": "All of the above should be invited."
+                        },
+                        {
+                            "ch": "上述所有事情一完成，我们就可以立刻开始下一个项目。",
+                            "en": "Once we've finished all of the above we can start on the next project."
+                        }
+                    ]
+                }
+            ]
+        }
+    }
+]

@@ -1,27 +1,28 @@
+import 'dart:convert';
+
 import 'package:http/http.dart' as http;
-import 'package:my_eng_program/data/model_category.dart';
+import 'package:my_eng_program/data/model_book.dart';
+
+const URL_ROOT = "http://127.0.0.1:8090/";
 
 class Service {
-  static List<Category> s_categories = [];
+  static List<Book> s_categories = [];
 
-  static Future<List<Category>> fetchCategories(http.Client client) async {
+  static Future<List<Book>> fetchCategories(http.Client client) async {
     if (s_categories.isEmpty) {
-      final response = await http.get(Uri.parse("https://jsonplaceholder.typicode.com/albums/1"));
+      final response = await http.get(Uri.parse(URL_ROOT + "books"));
 
       if (response.statusCode == 200) {
-        // If the server did return a 200 OK response,
-        // then parse the JSON.
+        List<Book> categories = [Book(id: 'ID_Header', title: 'Header')];
         // Map<String, dynamic> map = jsonDecode(response.body) as Map<String, dynamic>;
         // return Category.fromJson(map);
-
-        List<Category> categories = [];
-        categories.add(Category(id: 1, title: 'A-Z'));
-        categories.add(Category(id: 2, title: '小学单词800'));
-        categories.add(Category(id: 3, title: '扩展单词1200'));
-        categories.add(Category(id: 3, title: '情景对话100篇'));
+        var list_books = jsonDecode(response.body);
+        for (var book_map in list_books) {
+          Book book = Book.fromJson(book_map);
+          categories.add(book);
+        }
 
         s_categories.addAll(categories);
-
         return categories;
       } else {
         // If the server did not return a 200 OK response,

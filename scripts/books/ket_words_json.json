@@ -1,0 +1,1617 @@
+[
+    {
+        "id": "",
+        "name": "ill",
+        "image_url": "",
+        "genders": [
+            "adjective",
+            "adverb",
+            "noun",
+            "prefix"
+        ],
+        "adjective": {
+            "defines": [
+                {
+                    "text": "ill",
+                    "trans_ch": "生病的，不舒服的",
+                    "trans_en": "not feeling well, or suffering from a disease",
+                    "examples": [
+                        {
+                            "ch": "我感到不舒服，于是就回家了。",
+                            "en": "I felt ill so I went home."
+                        },
+                        {
+                            "ch": "他得了脑膜炎。",
+                            "en": "He's been ill with meningitis."
+                        },
+                        {
+                            "ch": "索菲娅在休假时生病了。",
+                            "en": "Sophia fell ill/was taken ill (= became ill) while on holiday."
+                        },
+                        {
+                            "ch": "他在住院，病得很重。",
+                            "en": "He is critically (= very badly) ill in hospital."
+                        }
+                    ]
+                },
+                {
+                    "text": "ill",
+                    "trans_ch": "坏的，恶劣的",
+                    "trans_en": "bad",
+                    "examples": [
+                        {
+                            "ch": "糟糕的健康状况",
+                            "en": "ill health"
+                        },
+                        {
+                            "ch": "你感到治疗有什么副作用吗？",
+                            "en": "Did you experience any ill effects from the treatment?"
+                        }
+                    ]
+                }
+            ],
+            "phrases": [],
+            "alters": [],
+            "UK_audio": "https://dictionary.cambridge.org//media/english-chinese-simplified/uk_pron/u/uki/ukign/ukignor006.mp3",
+            "US_audio": "https://dictionary.cambridge.org//media/english-chinese-simplified/us_pron/i/ill/ill__/ill.mp3",
+            "text": "ill"
+        },
+        "adverb": {
+            "defines": [
+                {
+                    "text": "ill",
+                    "trans_ch": "坏，恶劣地",
+                    "trans_en": "badly",
+                    "examples": [
+                        {
+                            "ch": "他对她很不好。",
+                            "en": "He treated her very ill."
+                        }
+                    ]
+                }
+            ],
+            "phrases": [
+                {
+                    "text": "speak ill of sb",
+                    "trans_ch": "说（某人）的坏话",
+                    "trans_en": "to say unkind things about someone",
+                    "examples": [
+                        {
+                            "ch": "我认识到不应该说死人的坏话。",
+                            "en": "I realize one shouldn't speak ill of the dead."
+                        }
+                    ]
+                },
+                {
+                    "text": "augur/bode ill",
+                    "trans_ch": "是凶兆，不是好兆头",
+                    "trans_en": "to be a sign of bad things in the future",
+                    "examples": [
+                        {
+                            "ch": "这种天气对今晚的花园聚会不是好兆头。",
+                            "en": "This weather bodes ill for the garden party tonight."
+                        }
+                    ]
+                },
+                {
+                    "text": "can ill afford (to do sth)",
+                    "trans_ch": "经不起（做…）；一旦…就会遇麻烦",
+                    "trans_en": "If you can ill afford to do something, it will cause problems for you if you do it.",
+                    "examples": [
+                        {
+                            "ch": "我们可经不起再失去一位员工了。",
+                            "en": "We can ill afford to lose another member of staff."
+                        }
+                    ]
+                }
+            ],
+            "alters": [],
+            "UK_audio": "https://dictionary.cambridge.org//media/english-chinese-simplified/uk_pron/u/uki/ukign/ukignor006.mp3",
+            "US_audio": "https://dictionary.cambridge.org//media/english-chinese-simplified/us_pron/i/ill/ill__/ill.mp3",
+            "text": "ill"
+        },
+        "noun": {
+            "defines": [
+                {
+                    "text": "ill",
+                    "trans_ch": "坏；伤害",
+                    "trans_en": "harm",
+                    "examples": [
+                        {
+                            "ch": "我并不希望她倒霉。",
+                            "en": "I wish her no ill."
+                        }
+                    ]
+                },
+                {
+                    "text": "ill",
+                    "trans_ch": "问题，弊病",
+                    "trans_en": "a problem",
+                    "examples": [
+                        {
+                            "ch": "这个国家经济／社会的弊病似乎无药可救。",
+                            "en": "There seems to be no cure for the country's economic/social ills."
+                        }
+                    ]
+                }
+            ],
+            "phrases": [],
+            "alters": [],
+            "UK_audio": "https://dictionary.cambridge.org//media/english-chinese-simplified/uk_pron/u/uki/ukign/ukignor006.mp3",
+            "US_audio": "https://dictionary.cambridge.org//media/english-chinese-simplified/us_pron/i/ill/ill__/ill.mp3",
+            "text": "ill"
+        },
+        "prefix": {
+            "defines": [
+                {
+                    "text": "ill-",
+                    "trans_ch": "不好的；不合适的",
+                    "trans_en": "in a way that is bad or not suitable",
+                    "examples": [
+                        {
+                            "ch": "准备得不好的",
+                            "en": "ill-prepared"
+                        },
+                        {
+                            "ch": "判断不当的评论",
+                            "en": "an ill-judged remark"
+                        }
+                    ]
+                }
+            ],
+            "phrases": [],
+            "alters": [],
+            "UK_audio": "https://dictionary.cambridge.org//media/english-chinese-simplified/uk_pron/u/ukl/ukl30/ukl30154.mp3",
+            "US_audio": "https://dictionary.cambridge.org//media/english-chinese-simplified/us_pron/u/usl/usl30/usl30149.mp3",
+            "text": "ill-"
+        }
+    },
+    {
+        "id": "",
+        "name": "in",
+        "image_url": "",
+        "genders": [
+            "preposition",
+            "adverb",
+            "adjective",
+            "noun[C]",
+            "prefix",
+            "adjective",
+            "suffix"
+        ],
+        "preposition": {
+            "defines": [
+                {
+                    "text": "in",
+                    "trans_ch": "在（…）里面，在（…）内",
+                    "trans_en": "inside a container, place, or area, or surrounded or closed off by something",
+                    "examples": [
+                        {
+                            "ch": "马克还在睡觉吗？",
+                            "en": "Is Mark still in bed?"
+                        },
+                        {
+                            "ch": "我堵车堵了半个小时。",
+                            "en": "I got stuck in a traffic jam for half an hour."
+                        },
+                        {
+                            "ch": "他们住在一幢可爱的老屋内。",
+                            "en": "They live in a charming old house."
+                        },
+                        {
+                            "ch": "橱窗内展示的那件大衣多少钱？",
+                            "en": "How much is that coat on display in the window (= in the space behind the window of the shop)?"
+                        },
+                        {
+                            "ch": "我背疼。",
+                            "en": "I've got a pain in my back."
+                        },
+                        {
+                            "ch": "你手里拿的是什么东西？",
+                            "en": "What's that in your hand?"
+                        },
+                        {
+                            "ch": "我眼睛里进了东西。",
+                            "en": "I've got something in (= on the surface of) my eye."
+                        },
+                        {
+                            "ch": "他们以前住在巴黎，但现在住在奥地利的某个地方。",
+                            "en": "They used to live in Paris, but now they're somewhere in Austria."
+                        },
+                        {
+                            "ch": "他老是在镜子前照来照去。",
+                            "en": "He's always looking at himself in the mirror (= at the image of his face produced by the mirror)."
+                        },
+                        {
+                            "ch": "我从来不知道她在想什么。",
+                            "en": "I never know what's going on in her head (= what she's thinking about)."
+                        },
+                        {
+                            "ch": "我女儿在住院切除扁桃体。",
+                            "en": "My daughter's in hospital (US in the hospital) having her tonsils out."
+                        },
+                        {
+                            "ch": "埃丽卡还上学吗？",
+                            "en": "Is Erika still in school (= does she still go to school)?"
+                        }
+                    ]
+                },
+                {
+                    "text": "in",
+                    "trans_ch": "到…里面",
+                    "trans_en": "into something",
+                    "examples": [
+                        {
+                            "ch": "快点儿，我们迟到了——快上车。",
+                            "en": "Come on, we're late - get in the car."
+                        },
+                        {
+                            "ch": "喝完牛奶后把它放回冰箱。",
+                            "en": "Put the milk back in the fridge when you've finished with it."
+                        },
+                        {
+                            "ch": "他们把他扔进了游泳池。",
+                            "en": "They threw him in the swimming pool."
+                        }
+                    ]
+                },
+                {
+                    "text": "in",
+                    "trans_ch": "在…中，在…内",
+                    "trans_en": "forming a part of something",
+                    "examples": [
+                        {
+                            "ch": "他曾是一支摇滚乐队的主唱。",
+                            "en": "He used to be the lead singer in a rock band."
+                        },
+                        {
+                            "ch": "这篇文章中的拼写错误太多。",
+                            "en": "There are too many spelling mistakes in this essay."
+                        },
+                        {
+                            "ch": "我在这个队伍里排了很长时间了。",
+                            "en": "I've been waiting in this queue for ages."
+                        },
+                        {
+                            "ch": "你想从情爱关系中得到什么？",
+                            "en": "What do you look for in a relationship?"
+                        },
+                        {
+                            "ch": "我觉得乔利将来会成为冠军。",
+                            "en": "I can see a future champion in Joely (= I think that Joely might become a champion)."
+                        },
+                        {
+                            "ch": "像她这样年轻又有如此才能者实属罕见。",
+                            "en": "Talent like hers is rare in someone so young."
+                        }
+                    ]
+                },
+                {
+                    "text": "in",
+                    "trans_ch": "在…期间",
+                    "trans_en": "during part or all of a period of time",
+                    "examples": [
+                        {
+                            "ch": "我们将在4月去意大利。",
+                            "en": "We're going to Italy in April."
+                        },
+                        {
+                            "ch": "有些树秋天落叶。",
+                            "en": "Some trees lose their leaves in (the) autumn."
+                        },
+                        {
+                            "ch": "我从2009年开始在这儿工作。",
+                            "en": "I started working here in 2009."
+                        },
+                        {
+                            "ch": "19世纪时的生活与现在大不相同。",
+                            "en": "Life in the 19th century was very different from what it is now."
+                        },
+                        {
+                            "ch": "再见，明早见。",
+                            "en": "Bye, see you in the morning (= tomorrow morning)."
+                        },
+                        {
+                            "ch": "她年轻时是个优秀的体操运动员。",
+                            "en": "She was a brilliant gymnast in her youth (= when she was young)."
+                        },
+                        {
+                            "ch": "越南战争中有多少平民死亡？",
+                            "en": "How many civilians died in the Vietnam War?"
+                        },
+                        {
+                            "ch": "这是我3年来抽的第一支烟。",
+                            "en": "This is the first cigarette I've had in three years."
+                        },
+                        {
+                            "ch": "我很久没有好好睡过一觉了。",
+                            "en": "I haven't had a decent night's sleep in years/ages (= for a long time)."
+                        }
+                    ]
+                },
+                {
+                    "text": "in",
+                    "trans_ch": "在…之内",
+                    "trans_en": "needing or using no more time than a particular amount of time",
+                    "examples": [
+                        {
+                            "ch": "你能在两周内完成这项工作吗？",
+                            "en": "Can you finish the job in two weeks?"
+                        },
+                        {
+                            "ch": "如果她真的尽力的话，她可在几小时内完成那篇文章。",
+                            "en": "She could get that essay done in a couple of hours if she really tried."
+                        },
+                        {
+                            "ch": "他们完成行程耗时之短前所未有。",
+                            "en": "They completed the journey in record time (= faster than ever done before)."
+                        }
+                    ]
+                },
+                {
+                    "text": "in",
+                    "trans_ch": "在…结束之前;在…结束之时",
+                    "trans_en": "before or at the end of a particular period",
+                    "examples": [
+                        {
+                            "ch": "晚饭将在10分钟后准备好。",
+                            "en": "Dinner will be ready in ten minutes."
+                        },
+                        {
+                            "ch": "百年后我们都已死去，因此为此担心是没有必要的。",
+                            "en": "We'll all be dead in a hundred years so there's no point worrying about it."
+                        },
+                        {
+                            "ch": "我正要出发，所以我半小时后应该会到你那里。",
+                            "en": "I'm just setting off, so I should be with you in half an hour."
+                        }
+                    ]
+                },
+                {
+                    "text": "in",
+                    "trans_ch": "处于…中;处于…状态",
+                    "trans_en": "experiencing a situation or condition, or feeling an emotion",
+                    "examples": [
+                        {
+                            "ch": "我们惊恐地看着他们把尸体从残骸中拖了出来。",
+                            "en": "We watched in horror as they pulled the bodies from the wreckage."
+                        },
+                        {
+                            "ch": "他正在法国南部过着奢侈的生活。",
+                            "en": "He's living in luxury in the south of France."
+                        },
+                        {
+                            "ch": "她离开时有点儿匆忙。",
+                            "en": "She left in a bit of a hurry."
+                        },
+                        {
+                            "ch": "你很危险。",
+                            "en": "You're in great danger."
+                        },
+                        {
+                            "ch": "我能私下与你谈谈吗？",
+                            "en": "Could I have a word with you in private?"
+                        },
+                        {
+                            "ch": "你谈过恋爱吗？",
+                            "en": "Have you ever been in love?"
+                        },
+                        {
+                            "ch": "鉴于你的汽车这么旧，车况算是很不错的了。",
+                            "en": "Your car's in very good condition, considering how old it is."
+                        }
+                    ]
+                },
+                {
+                    "text": "in",
+                    "trans_ch": "（表达或书写的方式）用，以",
+                    "trans_en": "expressed or written in a particular way",
+                    "examples": [
+                        {
+                            "ch": "支票要用墨水笔填写。",
+                            "en": "Cheques should be written in ink."
+                        },
+                        {
+                            "ch": "她通常用水彩画画。",
+                            "en": "She usually paints in watercolour."
+                        },
+                        {
+                            "ch": "他们一直用俄语交谈。",
+                            "en": "They spoke in Russian the whole time."
+                        },
+                        {
+                            "ch": "他说话时声音总是那么小。",
+                            "en": "He always talks in a whisper."
+                        }
+                    ]
+                },
+                {
+                    "text": "in",
+                    "trans_ch": "（表示一事为另一事的结果）作为",
+                    "trans_en": "used when referring to something that is done as a result of something else",
+                    "examples": [
+                        {
+                            "ch": "我想为你做些事来报答你为我所做的一切。",
+                            "en": "I'd like to do something for you in return/exchange for everything you've done for me."
+                        },
+                        {
+                            "ch": "这些变化是应我们顾客的要求而作出的。",
+                            "en": "The changes are in response to demand from our customers."
+                        },
+                        {
+                            "ch": "他拒绝对记者的提问作任何回答。",
+                            "en": "He refused to say anything in reply to the journalists' questions."
+                        }
+                    ]
+                },
+                {
+                    "text": "in",
+                    "trans_ch": "（表示组织或划分方式）以，按照",
+                    "trans_en": "used to show how things or people are arranged or divided",
+                    "examples": [
+                        {
+                            "ch": "我们大家围坐成一圈。",
+                            "en": "We all sat down in a circle."
+                        },
+                        {
+                            "ch": "课桌每10张排成一排。",
+                            "en": "The desks were arranged in rows of ten."
+                        },
+                        {
+                            "ch": "多人组团旅游享有折扣。",
+                            "en": "Discounts are available to people travelling in large groups."
+                        },
+                        {
+                            "ch": "有时顾客会一次买两三本书，但很少超过这个数。",
+                            "en": "Sometimes customers buy books in twos and threes, but rarely in larger quantities than that."
+                        },
+                        {
+                            "ch": "把土豆切成两半。",
+                            "en": "Cut the potatoes in two."
+                        },
+                        {
+                            "ch": "成千上万的人死于寒冷和饥饿。",
+                            "en": "People are dying in their thousands from cold and starvation."
+                        }
+                    ]
+                },
+                {
+                    "text": "in",
+                    "trans_ch": "（表示年龄、气温）在…左右",
+                    "trans_en": "used when referring approximately to someone's age or the weather temperature",
+                    "examples": [
+                        {
+                            "ch": "如今许多妇女生第一胎时都已经接近40岁了。",
+                            "en": "Nowadays many women are in their late thirties when they have their first child."
+                        },
+                        {
+                            "ch": "气温将在25度左右。",
+                            "en": "Temperatures will be in the mid-twenties (= about 25 degrees)."
+                        }
+                    ]
+                },
+                {
+                    "text": "in",
+                    "trans_ch": "参与；从事；与…有关",
+                    "trans_en": "involved or connected with a particular subject or activity",
+                    "examples": [
+                        {
+                            "ch": "我以前从不知道你在出版界工作。",
+                            "en": "I never knew you were in publishing."
+                        },
+                        {
+                            "ch": "哲学学位",
+                            "en": "a degree in philosophy"
+                        },
+                        {
+                            "ch": "医学的进步",
+                            "en": "advances in medical science"
+                        }
+                    ]
+                },
+                {
+                    "text": "in",
+                    "trans_ch": "穿着",
+                    "trans_en": "wearing",
+                    "examples": [
+                        {
+                            "ch": "你能认出那个穿着灰色西装的男人吗？",
+                            "en": "Do you recognize that man in the grey suit?"
+                        },
+                        {
+                            "ch": "帕特抗拒不了穿制服的男人的魅力。",
+                            "en": "Pat can't resist men in uniform."
+                        },
+                        {
+                            "ch": "你穿绿色衣服很好看。",
+                            "en": "You look nice in green (= green clothes)."
+                        }
+                    ]
+                },
+                {
+                    "text": "in",
+                    "trans_ch": "（表示比率）每…中",
+                    "trans_en": "used to compare one part of an amount of something with the total amount of it",
+                    "examples": [
+                        {
+                            "ch": "据说10个人中有1个阅读有问题。",
+                            "en": "Apparently one in ten people/one person in ten has problems with reading."
+                        },
+                        {
+                            "ch": "所得税基本税率是每英镑25便士。",
+                            "en": "The basic rate of income tax is 25 pence in (US on) the pound."
+                        }
+                    ]
+                },
+                {
+                    "text": "in",
+                    "trans_ch": "在…方面",
+                    "trans_en": "used to show which characteristic or part of a person or thing is being described",
+                    "examples": [
+                        {
+                            "ch": "新版本在各方面都较差——我更喜欢原来的版本。",
+                            "en": "The new version is worse in every respect - I much preferred the original."
+                        },
+                        {
+                            "ch": "两个包同样重吗？",
+                            "en": "Are the two bags equal in weight?"
+                        },
+                        {
+                            "ch": "她左耳失聪。",
+                            "en": "She's deaf in her left ear."
+                        }
+                    ]
+                },
+                {
+                    "text": "in",
+                    "trans_ch": "因为，由于",
+                    "trans_en": "used to show when doing one thing is the cause of another thing happening",
+                    "examples": [
+                        {
+                            "ch": "由于拒绝去国外工作，她错过了一个极好的工作机会。",
+                            "en": "In refusing (= because she refused) to work abroad, she missed an excellent job opportunity."
+                        },
+                        {
+                            "ch": "政府禁止烟草广告，这样做对国民的健康大有裨益。",
+                            "en": "The government banned tobacco advertising and, in doing so (= because of this), contributed greatly to the nation's health."
+                        }
+                    ]
+                }
+            ],
+            "phrases": [
+                {
+                    "text": "in between",
+                    "trans_ch": "在期间",
+                    "trans_en": "between the two times mentioned",
+                    "examples": [
+                        {
+                            "ch": "我7点30分吃早饭，下午1点吃午饭，有时在这之间吃一点儿零食。",
+                            "en": "I have breakfast at 7.30, lunch at 1.00, and sometimes a snack in between."
+                        }
+                    ]
+                },
+                {
+                    "text": "in that",
+                    "trans_ch": "因为，由于",
+                    "trans_en": "because",
+                    "examples": [
+                        {
+                            "ch": "这项研究非常重要，因为它证实了攻击行为和酗酒之间的联系。",
+                            "en": "This research is important in that it confirms the link between aggression and alcohol."
+                        }
+                    ]
+                }
+            ],
+            "alters": [],
+            "UK_audio": "https://dictionary.cambridge.org//media/english-chinese-simplified/uk_pron/u/uki/ukimp/ukimpro019.mp3",
+            "US_audio": "https://dictionary.cambridge.org//media/english-chinese-simplified/us_pron/i/in_/in___/in.mp3",
+            "text": "in"
+        },
+        "adverb": {
+            "defines": [
+                {
+                    "text": "in",
+                    "trans_ch": "从外面;朝中间;朝里",
+                    "trans_en": "from outside, or towards the centre",
+                    "examples": [
+                        {
+                            "ch": "你能帮我把衣服拿进来吗？",
+                            "en": "Could you bring the clothes in for me?"
+                        },
+                        {
+                            "ch": "他们的屋顶在飓风来袭时坍塌了。",
+                            "en": "The roof of their house caved in during a hurricane."
+                        },
+                        {
+                            "ch": "把油酥面团切成一个小方块，然后把四角向内叠起。",
+                            "en": "Cut the pastry into a square and turn in the corners."
+                        }
+                    ]
+                },
+                {
+                    "text": "in",
+                    "trans_ch": "在家；在工作",
+                    "trans_en": "at home or at work",
+                    "examples": [
+                        {
+                            "ch": "你是什么时候回家的？我一直就没听见你进来。",
+                            "en": "When did you get home? I never heard you come in."
+                        },
+                        {
+                            "ch": "埃利斯先生这个星期不工作。",
+                            "en": "Mr Ellis isn't in this week."
+                        }
+                    ]
+                },
+                {
+                    "text": "in",
+                    "trans_ch": "在（某个物体，地区或实物）里面",
+                    "trans_en": "within an object, area, or substance",
+                    "examples": [
+                        {
+                            "ch": "我们被关了一整天。",
+                            "en": "We've been shut in all day."
+                        },
+                        {
+                            "ch": "这汤放盐了吗？",
+                            "en": "Has the soup got any salt in?"
+                        }
+                    ]
+                },
+                {
+                    "text": "in",
+                    "trans_ch": "到达（上下车地点）",
+                    "trans_en": "having arrived at the place where people can get on or off",
+                    "examples": [
+                        {
+                            "ch": "罗兹的航班该什么时候到？",
+                            "en": "What time is Roz's flight due in?"
+                        }
+                    ]
+                },
+                {
+                    "text": "in",
+                    "trans_ch": "交给，呈上，递交",
+                    "trans_en": "given or sent to someone official in order to be read",
+                    "examples": [
+                        {
+                            "ch": "你的文章要什么时候交？",
+                            "en": "When does your essay have to be in?"
+                        },
+                        {
+                            "ch": "别忘了在周末前递交申请。",
+                            "en": "Remember to get your application in by the end of the week."
+                        }
+                    ]
+                },
+                {
+                    "text": "in",
+                    "trans_ch": "接近，抵达（海岸、沙滩或港口）",
+                    "trans_en": "towards the coast, beach, or harbour",
+                    "examples": [
+                        {
+                            "ch": "这儿的潮水涨得很快，马上你就会发现自己被困住了。",
+                            "en": "The tide comes in very quickly here and you can soon find yourself stranded."
+                        },
+                        {
+                            "ch": "我们站在那儿看船进港。",
+                            "en": "We stood watching the ship come in."
+                        }
+                    ]
+                },
+                {
+                    "text": "in",
+                    "trans_ch": "（表示完成某事物的活动）",
+                    "trans_en": "used to refer to an activity that makes something complete",
+                    "examples": [
+                        {
+                            "ch": "如果对答案不是很确定就先用铅笔填。",
+                            "en": "Just pencil in the answer unless you're sure it's correct."
+                        },
+                        {
+                            "ch": "文字完成了，但之后还得把图片贴上去。",
+                            "en": "The text is finished, but the pictures will have to be pasted in later."
+                        },
+                        {
+                            "ch": "请填写一份关于你收看的电视节目的调查问卷好吗？",
+                            "en": "Would you mind filling in a questionnaire about what you watch on television?"
+                        }
+                    ]
+                },
+                {
+                    "text": "in",
+                    "trans_ch": "（网球等）在界内",
+                    "trans_en": "If the ball is in during a game of tennis or a similar sport, it has not gone outside the edges of the area on which the game is played.",
+                    "examples": [
+                        {
+                            "ch": "我敢说，我赢了那一分！球肯定在界内！",
+                            "en": "I won that point, I'm telling you! The ball was definitely in!"
+                        }
+                    ]
+                },
+                {
+                    "text": "in",
+                    "trans_ch": "轮到上场（尤指击球）",
+                    "trans_en": "taking your turn to play, especially taking your turn to hit the ball",
+                    "examples": [
+                        {
+                            "ch": "我们队下一个轮到谁？",
+                            "en": "Who's in next for our team?"
+                        },
+                        {
+                            "ch": "刚轮到我们队击球就下起了雨。",
+                            "en": "It started to rain just as our team was going in to bat."
+                        }
+                    ]
+                }
+            ],
+            "phrases": [
+                {
+                    "text": "be in and out of somewhere",
+                    "trans_ch": "经常出入于，是…的常客",
+                    "trans_en": "to often be staying in and receiving treatment in a particular place",
+                    "examples": [
+                        {
+                            "ch": "自从那次事故之后，她成了医院的常客。",
+                            "en": "She's been in and out of hospitals ever since the accident."
+                        }
+                    ]
+                }
+            ],
+            "alters": [],
+            "UK_audio": "https://dictionary.cambridge.org//media/english-chinese-simplified/uk_pron/u/uki/ukimp/ukimpro019.mp3",
+            "US_audio": "https://dictionary.cambridge.org//media/english-chinese-simplified/us_pron/i/in_/in___/in.mp3",
+            "text": "in"
+        },
+        "adjective": {
+            "defines": [
+                {
+                    "text": "in",
+                    "trans_ch": "时髦的，流行的",
+                    "trans_en": "fashionable or popular",
+                    "examples": [
+                        {
+                            "ch": "本季高跟鞋很流行。",
+                            "en": "High heels are in this season."
+                        },
+                        {
+                            "ch": "这家新的爵士乐俱乐部好像是当前的热门去处。",
+                            "en": "The new jazz club seems to be the in place to go at the moment."
+                        }
+                    ]
+                },
+                {
+                    "text": "IN",
+                    "trans_ch": "鼻内的（intranasal的缩写）",
+                    "trans_en": "abbreviation for intranasal: through the nose",
+                    "examples": [
+                        {
+                            "ch": "鼻内给药的优点是给药容易效果迅速。",
+                            "en": "IN drug delivery offers advantages such as ease of administration and rapid onset of action."
+                        }
+                    ]
+                }
+            ],
+            "phrases": [],
+            "alters": [],
+            "UK_audio": "https://dictionary.cambridge.org//media/english-chinese-simplified/uk_pron/c/ces/cespu/cespuk000547.mp3",
+            "US_audio": "https://dictionary.cambridge.org//media/english-chinese-simplified/us_pron/c/ces/cespu/cespus000547.mp3",
+            "text": "IN"
+        },
+        "noun[C]": {
+            "defines": [
+                {
+                    "text": "in.",
+                    "trans_ch": "英寸（inch的缩写）",
+                    "trans_en": "written abbreviation for \ninch ",
+                    "examples": []
+                }
+            ],
+            "phrases": [],
+            "alters": [],
+            "text": "in."
+        },
+        "prefix": {
+            "defines": [
+                {
+                    "text": "in-",
+                    "trans_ch": "（加在形容词及由形容词转化而来的词前）不，无，非",
+                    "trans_en": "used to add the meaning \"not\", \"lacking\", or \"the opposite of\" to adjectives and to words formed from adjectives",
+                    "examples": [
+                        {
+                            "ch": "不完全的／不完全地",
+                            "en": "incomplete/incompletely"
+                        },
+                        {
+                            "ch": "非法的／非法地",
+                            "en": "illegal/illegally"
+                        },
+                        {
+                            "ch": "不可能的／不可能地",
+                            "en": "impossible/impossibly"
+                        },
+                        {
+                            "ch": "不规则的／不规则地",
+                            "en": "irregular/irregularly"
+                        }
+                    ]
+                }
+            ],
+            "phrases": [],
+            "alters": [],
+            "UK_audio": "https://dictionary.cambridge.org//media/english-chinese-simplified/uk_pron/u/uki/ukimp/ukimpro019.mp3",
+            "US_audio": "https://dictionary.cambridge.org//media/english-chinese-simplified/us_pron/i/in_/in___/in.mp3",
+            "text": "in-"
+        },
+        "suffix": {
+            "defines": [
+                {
+                    "text": "-in",
+                    "trans_ch": "（构成名词，描述某种很多人可以参加的活动）",
+                    "trans_en": "used to form a noun which describes an activity in which many people take part",
+                    "examples": [
+                        {
+                            "ch": "静坐示威／热线电话直播节目",
+                            "en": "a sit-in/phone-in"
+                        }
+                    ]
+                }
+            ],
+            "phrases": [],
+            "alters": [],
+            "UK_audio": "https://dictionary.cambridge.org//media/english-chinese-simplified/uk_pron/u/uka/uka31/uka31248.mp3",
+            "US_audio": "https://dictionary.cambridge.org//media/english-chinese-simplified/us_pron/u/usa/usa31/usa31248.mp3",
+            "text": "-in"
+        }
+    },
+    {
+        "id": "",
+        "name": "its",
+        "image_url": "",
+        "genders": [
+            "determiner"
+        ],
+        "determiner": {
+            "defines": [
+                {
+                    "text": "its",
+                    "trans_ch": "它的，其",
+                    "trans_en": "belonging to or relating to something that has already been mentioned",
+                    "examples": [
+                        {
+                            "ch": "狗的爪子受伤了。",
+                            "en": "The dog hurt its paw."
+                        },
+                        {
+                            "ch": "他们的房子带游泳池。",
+                            "en": "Their house has its own swimming pool."
+                        },
+                        {
+                            "ch": "公司的利润增加了。",
+                            "en": "The company increased its profits."
+                        },
+                        {
+                            "ch": "我倾向于第2种选择——其优点是简单、便宜。",
+                            "en": "I prefer the second option - its advantages are simplicity and cheapness."
+                        }
+                    ]
+                }
+            ],
+            "phrases": [],
+            "alters": [],
+            "UK_audio": "https://dictionary.cambridge.org//media/english-chinese-simplified/uk_pron/u/uki/ukiti/ukitine002.mp3",
+            "US_audio": "https://dictionary.cambridge.org//media/english-chinese-simplified/us_pron/e/eus/eus72/eus72619.mp3",
+            "text": "its"
+        }
+    },
+    {
+        "id": "",
+        "name": "kg",
+        "image_url": "",
+        "genders": []
+    },
+    {
+        "id": "",
+        "name": "km",
+        "image_url": "",
+        "genders": []
+    },
+    {
+        "id": "",
+        "name": "pence",
+        "image_url": "",
+        "genders": []
+    },
+    {
+        "id": "",
+        "name": "pop",
+        "image_url": "",
+        "genders": [
+            "noun",
+            "verb",
+            "adjective[beforenoun]"
+        ],
+        "noun": {
+            "defines": [
+                {
+                    "text": "pop",
+                    "trans_ch": "流行音乐",
+                    "trans_en": "modern popular music, usually with a strong beat, created with electrical or electronic equipment, and easy to listen to and remember",
+                    "examples": [
+                        {
+                            "ch": "流行音乐",
+                            "en": "pop music"
+                        },
+                        {
+                            "ch": "流行音乐会／歌曲",
+                            "en": "a pop concert/song"
+                        },
+                        {
+                            "ch": "你想听什么——爵士乐、古典音乐还是流行音乐？",
+                            "en": "What do you want to listen to - jazz, classical, or pop?"
+                        },
+                        {
+                            "ch": "这首歌升到了流行音乐排行榜的第32位。",
+                            "en": "The song reached No. 32 in the pop charts."
+                        },
+                        {
+                            "ch": "她想成为一名像女神卡卡那样的流行歌手／歌星。",
+                            "en": "She wants to be a pop singer/star like Lady Gaga."
+                        }
+                    ]
+                },
+                {
+                    "text": "pop",
+                    "trans_ch": "发出砰的一声",
+                    "trans_en": "a short, sharp sound like something exploding",
+                    "examples": [
+                        {
+                            "ch": "我听到砰的一声，灯就灭了。",
+                            "en": "I heard a pop and the lights went out."
+                        }
+                    ]
+                },
+                {
+                    "text": "pop",
+                    "trans_ch": "爸爸",
+                    "trans_en": "a father",
+                    "examples": [
+                        {
+                            "ch": "嘿，爸，我能帮什么忙吗？",
+                            "en": "Hey Pop, can I do anything to help?"
+                        }
+                    ]
+                },
+                {
+                    "text": "pop",
+                    "trans_ch": "（通常有果味的）汽水",
+                    "trans_en": "a sweet fizzy drink (= with bubbles), usually with a fruit flavour",
+                    "examples": [
+                        {
+                            "ch": "一瓶汽水",
+                            "en": "a bottle of pop"
+                        }
+                    ]
+                },
+                {
+                    "text": "pop",
+                    "trans_ch": "（一系列事情中的）一次，一项",
+                    "trans_en": "each particular occasion or object in a series",
+                    "examples": [
+                        {
+                            "ch": "她做系列讲座，每次报酬5000美元。",
+                            "en": "She gives lectures and gets paid $5,000 a pop."
+                        }
+                    ]
+                },
+                {
+                    "text": "pop",
+                    "trans_ch": "明亮而吸睛的颜色或物品",
+                    "trans_en": "something such as a colour that looks very bright and noticeable next to something else",
+                    "examples": [
+                        {
+                            "ch": "上一季流行的是色彩明亮抓人眼球的小件：一只松石绿色的鞋、一个祖母绿色的包或一抹猩红色的唇膏。",
+                            "en": "Last season was all about small pops of colour: a turquoise shoe, an emerald bag, or a slash of scarlet lipstick."
+                        }
+                    ]
+                }
+            ],
+            "phrases": [
+                {
+                    "text": "take a pop at sb",
+                    "trans_ch": "（尤指当众）批评（某人），指责（某人）",
+                    "trans_en": "to criticize someone, especially in public",
+                    "examples": [
+                        {
+                            "ch": "她从未料到自己的家人会当众指责她。",
+                            "en": "She never expected anyone from her own family to take a pop at her."
+                        }
+                    ]
+                }
+            ],
+            "alters": [],
+            "UK_audio": "https://dictionary.cambridge.org//media/english-chinese-simplified/uk_pron/c/cuk/cuk00/cuk00876.mp3",
+            "US_audio": "https://dictionary.cambridge.org//media/english-chinese-simplified/us_pron/p/pop/pop__/pop.mp3",
+            "text": "pop"
+        },
+        "verb": {
+            "defines": [
+                {
+                    "text": "pop",
+                    "trans_ch": "去",
+                    "trans_en": "to go to a particular place",
+                    "examples": [
+                        {
+                            "ch": "我刚去银行取了些钱。",
+                            "en": "I've just got to pop into the bank to get some money."
+                        },
+                        {
+                            "ch": "葆拉出去了一会儿。",
+                            "en": "Paula popped out for a minute."
+                        },
+                        {
+                            "ch": "你能上楼去看看爷爷怎么样了吗？",
+                            "en": "Would you pop upstairs and see if Grandad is okay?"
+                        },
+                        {
+                            "ch": "你为什么不今天下午过来看看我们呢？",
+                            "en": "Why don't you pop in/over and see us this afternoon?"
+                        }
+                    ]
+                },
+                {
+                    "text": "pop",
+                    "trans_ch": "（使）发出砰的一声；（使）爆开",
+                    "trans_en": "to (cause something to) make a short explosive sound, often by breaking something",
+                    "examples": [
+                        {
+                            "ch": "孩子们把所有的生日气球都弄爆了。",
+                            "en": "The kids were popping all the birthday balloons."
+                        },
+                        {
+                            "ch": "音乐声响起，香槟酒砰砰地打开了。",
+                            "en": "The music played and champagne corks popped."
+                        }
+                    ]
+                },
+                {
+                    "text": "pop",
+                    "trans_ch": "（耳压）变化;耳膜胀痛",
+                    "trans_en": "If your ears pop, you experience a strange noise and feeling in your ears as a result of a sudden change in air pressure.",
+                    "examples": [
+                        {
+                            "ch": "飞机降落时我的耳朵总是胀痛。",
+                            "en": "My ears always pop as the plane comes in to land."
+                        }
+                    ]
+                },
+                {
+                    "text": "pop",
+                    "trans_ch": "（尤指从封闭的空间）爆开，弹出来",
+                    "trans_en": "to move quickly and suddenly, especially from a closed space",
+                    "examples": [
+                        {
+                            "ch": "你打开盒子时，一个小丑会弹出来。",
+                            "en": "When you open the box, a clown pops out."
+                        }
+                    ]
+                },
+                {
+                    "text": "pop",
+                    "trans_ch": "迅速地拿;快速地放",
+                    "trans_en": "to put or take something quickly",
+                    "examples": [
+                        {
+                            "ch": "如果你现在把比萨饼放在炉子里，15分钟就好了。",
+                            "en": "If you pop the pizza in the oven now, it'll be ready in 15 minutes."
+                        },
+                        {
+                            "ch": "他把头探进房间／从门后探出来说：“吃午饭了！”",
+                            "en": "He popped his head into the room/around the door and said \"Lunchtime!\""
+                        },
+                        {
+                            "ch": "穿上鞋，我们走吧。",
+                            "en": "Pop your shoes on and let's go."
+                        }
+                    ]
+                },
+                {
+                    "text": "pop",
+                    "trans_ch": "迅速地打开;迅速地放开",
+                    "trans_en": "to open or release something quickly",
+                    "examples": [
+                        {
+                            "ch": "出租汽车司机说他立刻停了车并把后备箱打开。",
+                            "en": "The taxi driver said that he stopped immediately and popped the trunk."
+                        }
+                    ]
+                },
+                {
+                    "text": "pop",
+                    "trans_ch": "（因颜色鲜亮而）引人注目",
+                    "trans_en": "to be very noticeable and bright, especially when seen next to something of a different colour",
+                    "examples": [
+                        {
+                            "ch": "黑色背景上泼洒的黄色、蓝色、粉色和橙色格外醒目。",
+                            "en": "Splashes of yellow, blue, pink, and orange pop against a black background."
+                        }
+                    ]
+                }
+            ],
+            "phrases": [
+                {
+                    "text": "pop pills",
+                    "trans_ch": "经常性服药;（尤指）服用违法药品，磕药",
+                    "trans_en": "to take pills regularly, especially ones containing an illegal drug",
+                    "examples": [
+                        {
+                            "ch": "10年来的酗酒和滥用药物毁了她的健康。",
+                            "en": "A decade of heavy drinking and popping pills ruined her health."
+                        }
+                    ]
+                }
+            ],
+            "alters": [],
+            "UK_audio": "https://dictionary.cambridge.org//media/english-chinese-simplified/uk_pron/u/ukp/ukpon/ukponti020.mp3",
+            "US_audio": "https://dictionary.cambridge.org//media/english-chinese-simplified/us_pron/p/pop/pop__/pop.mp3",
+            "text": "pop"
+        },
+        "adjective[beforenoun]": {
+            "defines": [
+                {
+                    "text": "pop",
+                    "trans_ch": "流行的（许多人欣赏的且容易理解的）",
+                    "trans_en": "enjoyed by many people and easy to understand",
+                    "examples": [
+                        {
+                            "ch": "达里奥‧福是著名的意大利剧作家，和皮兰德娄齐名，只是剧作较流行通俗。",
+                            "en": "Dario Fo, the famous Italian playwright, is a pop Pirandello."
+                        },
+                        {
+                            "ch": "《沉默的羔羊》是流行电影业的代表作品。",
+                            "en": "\"Silence of the Lambs\" was pop movie-making at its best."
+                        }
+                    ]
+                }
+            ],
+            "phrases": [],
+            "alters": [],
+            "UK_audio": "https://dictionary.cambridge.org//media/english-chinese-simplified/uk_pron/u/ukp/ukpon/ukponti020.mp3",
+            "US_audio": "https://dictionary.cambridge.org//media/english-chinese-simplified/us_pron/p/pop/pop__/pop.mp3",
+            "text": "pop"
+        }
+    },
+    {
+        "id": "",
+        "name": "sing",
+        "image_url": "",
+        "genders": [
+            "verb"
+        ],
+        "verb": {
+            "defines": [
+                {
+                    "text": "sing",
+                    "trans_ch": "唱歌；演唱",
+                    "trans_en": "to make musical sounds with the voice, usually a tune with words",
+                    "examples": [
+                        {
+                            "ch": "在学校音乐会上，孩子们演唱了舒伯特的两首歌曲。",
+                            "en": "The children sang two songs by Schubert at the school concert."
+                        },
+                        {
+                            "ch": "我们很早就被鸟儿的鸣唱声唤醒。",
+                            "en": "We were woken early by the sound of the birds singing."
+                        },
+                        {
+                            "ch": "你祖母想让你给她唱首歌。",
+                            "en": "Your grandmother would like you to sing for/to her."
+                        },
+                        {
+                            "ch": "你能为我们唱首歌吗?",
+                            "en": "Will you sing us a song/sing a song to us?"
+                        },
+                        {
+                            "ch": "她每天晚上唱歌哄孩子入睡。",
+                            "en": "She sang her baby to sleep every night."
+                        },
+                        {
+                            "ch": "帕瓦罗蒂本周将在拉斯卡拉剧院扮演歌剧《波希米亚人》中的鲁道夫。",
+                            "en": "Pavarotti is singing Rodolfo (= singing the part of Rodolfo) in \"La Bohème\" at La Scala this week."
+                        },
+                        {
+                            "ch": "请你大声点儿唱。",
+                            "en": "You need to sing up (= sing louder)."
+                        }
+                    ]
+                },
+                {
+                    "text": "sing",
+                    "trans_ch": "呜呜作响，发嗡嗡声",
+                    "trans_en": "to make or be filled with a (high) ringing sound",
+                    "examples": [
+                        {
+                            "ch": "一颗子弹从士兵头顶嗖的一声飞过。",
+                            "en": "A bullet sang past the top of the soldier's head."
+                        }
+                    ]
+                }
+            ],
+            "phrases": [],
+            "alters": [],
+            "UK_audio": "https://dictionary.cambridge.org//media/english-chinese-simplified/uk_pron/u/uks/uksin/uksineq007.mp3",
+            "US_audio": "https://dictionary.cambridge.org//media/english-chinese-simplified/us_pron/s/sin/sing_/sing.mp3",
+            "text": "sing"
+        }
+    },
+    {
+        "id": "",
+        "name": "sun",
+        "image_url": "",
+        "genders": [
+            "noun[SorU]",
+            "verb"
+        ],
+        "noun[SorU]": {
+            "defines": [
+                {
+                    "text": "sun",
+                    "trans_ch": "太阳",
+                    "trans_en": "the star that provides light and heat for the earth and around which the earth moves",
+                    "examples": [
+                        {
+                            "ch": "太阳东升西落。",
+                            "en": "The sun rises in the east and sets in the west."
+                        },
+                        {
+                            "ch": "正午时分阳光最强烈。",
+                            "en": "The sun's rays are at their most powerful at midday."
+                        },
+                        {
+                            "ch": "我们想我们应该趁着阳光好的时候出去散散步。",
+                            "en": "We thought we'd go out for a walk while the sun was shining."
+                        }
+                    ]
+                },
+                {
+                    "text": "sun",
+                    "trans_ch": "太阳的光和热;阳光，日光",
+                    "trans_en": "the light or heat that the earth receives from the sun",
+                    "examples": [
+                        {
+                            "ch": "我想我今天晒太阳晒得有点多了——我觉得头痛。",
+                            "en": "I think I've had too much sun today - I have a headache."
+                        },
+                        {
+                            "ch": "我们到外面阳光下坐坐好吗?",
+                            "en": "Let's go and sit out in the sun."
+                        }
+                    ]
+                }
+            ],
+            "phrases": [],
+            "alters": [],
+            "UK_audio": "https://dictionary.cambridge.org//media/english-chinese-simplified/uk_pron/u/uks/uksom/uksomet012.mp3",
+            "US_audio": "https://dictionary.cambridge.org//media/english-chinese-simplified/us_pron/s/son/son__/son.mp3",
+            "text": "sun"
+        },
+        "verb": {
+            "defines": [],
+            "phrases": [
+                {
+                    "text": "sun yourself",
+                    "trans_ch": "（尤指为了使皮肤变黑而）晒太阳，沐日光浴",
+                    "trans_en": "to lie or sit somewhere where there is a lot of sun, especially in order to make your skin darker",
+                    "examples": [
+                        {
+                            "ch": "我坐在阳台上晒太阳。",
+                            "en": "I sat on the balcony sunning myself."
+                        }
+                    ]
+                }
+            ],
+            "alters": [],
+            "UK_audio": "https://dictionary.cambridge.org//media/english-chinese-simplified/uk_pron/u/uks/uksom/uksomet012.mp3",
+            "US_audio": "https://dictionary.cambridge.org//media/english-chinese-simplified/us_pron/s/son/son__/son.mp3",
+            "text": "sun"
+        }
+    },
+    {
+        "id": "",
+        "name": "well",
+        "image_url": "",
+        "genders": [
+            "adverb",
+            "adjective[usuallyafterverb]",
+            "exclamation",
+            "noun[C]",
+            "verb[Iusually+adv/prep]"
+        ],
+        "adverb": {
+            "defines": [
+                {
+                    "text": "well",
+                    "trans_ch": "很好地，令人满意地",
+                    "trans_en": "in a good way, to a high or satisfactory standard",
+                    "examples": [
+                        {
+                            "ch": "这部纪录片很好地展示了问题的两个方面。",
+                            "en": "The documentary presented both sides of the problem very well."
+                        },
+                        {
+                            "ch": "这场音乐会的宣传搞得很不错，但是票房却不好。",
+                            "en": "The concert was advertised well enough but ticket sales were poor."
+                        },
+                        {
+                            "ch": "剪裁合身的西服",
+                            "en": "a well-cut suit"
+                        },
+                        {
+                            "ch": "薪酬优厚的工作",
+                            "en": "a well-paid job"
+                        },
+                        {
+                            "ch": "她的观点表达得很巧妙。",
+                            "en": "Her points were well put (= expressed in a good or intelligent way)."
+                        },
+                        {
+                            "ch": "他关于有必要减少浪费的观点得到了认同。",
+                            "en": "His point about the need to reduce waste was well taken (= it was accepted as a good criticism)."
+                        },
+                        {
+                            "ch": "他们花了两个小时讨论这些计划，并且认为时间花得很值。",
+                            "en": "They took two hours to discuss the plans and considered it time well spent (= it had been a useful discussion)."
+                        },
+                        {
+                            "ch": "我无法做得像玛丽那样好。",
+                            "en": "I can't do it as well as Marie can."
+                        }
+                    ]
+                },
+                {
+                    "text": "well",
+                    "trans_ch": "非常;充分地;完全地",
+                    "trans_en": "very much, to a great degree, or completely",
+                    "examples": [
+                        {
+                            "ch": "充分揉捏面团，然后将它分成4块。",
+                            "en": "Knead the dough well, then divide it into four pieces."
+                        },
+                        {
+                            "ch": "他完全能想象出他要为自己的诺言付出多大的代价。",
+                            "en": "He could well imagine how much his promise was going to cost him."
+                        },
+                        {
+                            "ch": "我没法坐公共汽车——午夜过后就没有公共汽车了，你很清楚这一点。",
+                            "en": "I can't catch the bus - there are no buses after midnight, as you well know."
+                        },
+                        {
+                            "ch": "他钢琴弹得非常好。",
+                            "en": "He plays the piano well enough (= to a satisfactory standard)."
+                        }
+                    ]
+                },
+                {
+                    "text": "well",
+                    "trans_ch": "（用于强调某些介词）",
+                    "trans_en": "used to emphasize some prepositions",
+                    "examples": [
+                        {
+                            "ch": "结果比我们预想的要好／差得多。",
+                            "en": "The results are well above/below what we expected."
+                        },
+                        {
+                            "ch": "离悬崖边远远的。",
+                            "en": "Keep well away from the edge of the cliff."
+                        },
+                        {
+                            "ch": "它的价格远远高于100英镑。",
+                            "en": "It cost well over £100."
+                        },
+                        {
+                            "ch": "离门远点！",
+                            "en": "Stand well clear of the doors!"
+                        }
+                    ]
+                },
+                {
+                    "text": "well",
+                    "trans_ch": "（用于强调某些形容词）",
+                    "trans_en": "used to emphasize some adjectives",
+                    "examples": [
+                        {
+                            "ch": "警方非常清楚形势。",
+                            "en": "The police are well aware of the situation."
+                        },
+                        {
+                            "ch": "那家博物馆很值得参观。",
+                            "en": "The museum is well worth a visit."
+                        },
+                        {
+                            "ch": "有些机器看着更像那种廉价的塑料玩具——千万别去碰它们。",
+                            "en": "Some machines look more like cheap, plastic toys - leave these well alone."
+                        }
+                    ]
+                },
+                {
+                    "text": "well",
+                    "trans_ch": "非常",
+                    "trans_en": "very",
+                    "examples": [
+                        {
+                            "ch": "那部电影非常不错。",
+                            "en": "The film was well good."
+                        },
+                        {
+                            "ch": "小心那两个人——他们都不好惹。",
+                            "en": "Watch out for those two - they're well hard (= strong and willing to use violence)."
+                        }
+                    ]
+                },
+                {
+                    "text": "well",
+                    "trans_ch": "有理由地；理由充分地",
+                    "trans_en": "with good reason",
+                    "examples": [
+                        {
+                            "ch": "问她可能最合适。",
+                            "en": "She might well be the best person to ask."
+                        },
+                        {
+                            "ch": "我没有理由拒绝他们慷慨的提议。",
+                            "en": "I can't very well (= it would not be acceptable to) refuse their generous offer."
+                        }
+                    ]
+                }
+            ],
+            "phrases": [
+                {
+                    "text": "as well (as)",
+                    "trans_ch": "除…之外还；也；和",
+                    "trans_en": "in addition (to)",
+                    "examples": [
+                        {
+                            "ch": "邀请埃米莉——还有斯科特。",
+                            "en": "Invite Emily - and Scott as well."
+                        },
+                        {
+                            "ch": "我想去拜访安德鲁，还有马丁。",
+                            "en": "I want to visit Andrew as well as Martin."
+                        }
+                    ]
+                }
+            ],
+            "alters": [],
+            "UK_audio": "https://dictionary.cambridge.org//media/english-chinese-simplified/uk_pron/u/ukw/ukwel/ukwelde004.mp3",
+            "US_audio": "https://dictionary.cambridge.org//media/english-chinese-simplified/us_pron/w/wel/well_/well.mp3",
+            "text": "well"
+        },
+        "adjective[usuallyafterverb]": {
+            "defines": [
+                {
+                    "text": "well",
+                    "trans_ch": "健康的",
+                    "trans_en": "healthy; not ill",
+                    "examples": [
+                        {
+                            "ch": "他最近身体不太好。",
+                            "en": "He hasn't been very well lately."
+                        },
+                        {
+                            "ch": "她从学校回到家里时气色看起来真不好。",
+                            "en": "When she came home from school she really didn't look well."
+                        },
+                        {
+                            "ch": "你生病了我很难过——希望你尽快好起来。",
+                            "en": "I'm sorry you're ill - I hope you get well soon."
+                        },
+                        {
+                            "ch": "他们寄了一张祝愿早日康复的慰问卡。",
+                            "en": "They sent a get well card."
+                        }
+                    ]
+                }
+            ],
+            "phrases": [],
+            "alters": [],
+            "UK_audio": "https://dictionary.cambridge.org//media/english-chinese-simplified/uk_pron/u/ukw/ukwel/ukwelde004.mp3",
+            "US_audio": "https://dictionary.cambridge.org//media/english-chinese-simplified/us_pron/w/wel/well_/well.mp3",
+            "text": "well"
+        },
+        "exclamation": {
+            "defines": [
+                {
+                    "text": "well",
+                    "trans_ch": "（用于引出要说的话题，常用来表示惊讶、怀疑、不太同意或生气，也用来继续讲故事）啊，哎呀，哟，那么，好吧",
+                    "trans_en": "used to introduce something you are going to say, often to show surprise, doubt, slight disagreement, or anger, or to continue a story",
+                    "examples": [
+                        {
+                            "ch": "那么，我们现在该做什么？",
+                            "en": "Well, what shall we do now?"
+                        },
+                        {
+                            "ch": "那么，现在我们该怎样安排呢？",
+                            "en": "Well now/then, how are we going to arrange things?"
+                        },
+                        {
+                            "ch": "“那人是谁呀啊？”“嗯，我记不起她的名字了。”",
+                            "en": "\"Who was that?\" \"Well, I can't remember her name.\""
+                        },
+                        {
+                            "ch": "“他已经决定放弃自己的工作同她一起搬到西雅图去了。”“嗯，嗯——这就是爱情的力量。”",
+                            "en": "\"He's decided to give up his job and move to Seattle with her.\" \"Well, well - that's what love does for you.\""
+                        },
+                        {
+                            "ch": "唉，说真的，他真是太轻率了！",
+                            "en": "Well, really, that was thoughtless of him!"
+                        },
+                        {
+                            "ch": "嗯？你接下来做了什么？",
+                            "en": "Well? What did you do next?"
+                        },
+                        {
+                            "ch": "唔，那之后我们就去山里露营了。",
+                            "en": "Well, after that we went camping in the mountains."
+                        },
+                        {
+                            "ch": "哦，没关系——我可以再买一个。",
+                            "en": "Well/Oh well, it doesn't matter - I can always buy another one."
+                        },
+                        {
+                            "ch": "好吧，如果你坚持，那我下周就见他一面。",
+                            "en": "Very well, if you insist I'll meet him next week."
+                        }
+                    ]
+                }
+            ],
+            "phrases": [],
+            "alters": [],
+            "UK_audio": "https://dictionary.cambridge.org//media/english-chinese-simplified/uk_pron/u/ukw/ukwel/ukwelde004.mp3",
+            "US_audio": "https://dictionary.cambridge.org//media/english-chinese-simplified/us_pron/w/wel/well_/well.mp3",
+            "text": "well"
+        },
+        "noun[C]": {
+            "defines": [
+                {
+                    "text": "well",
+                    "trans_ch": "水井;油井;气井",
+                    "trans_en": "a deep hole in the ground from which you can get water, oil, or gas",
+                    "examples": []
+                }
+            ],
+            "phrases": [],
+            "alters": [],
+            "UK_audio": "https://dictionary.cambridge.org//media/english-chinese-simplified/uk_pron/u/ukw/ukwel/ukwelde004.mp3",
+            "US_audio": "https://dictionary.cambridge.org//media/english-chinese-simplified/us_pron/w/wel/well_/well.mp3",
+            "text": "well"
+        },
+        "verb[Iusually+adv/prep]": {
+            "defines": [
+                {
+                    "text": "well",
+                    "trans_ch": "（液体）涌出，溢出",
+                    "trans_en": "(of liquid) to appear on the surface of something or come slowly out from somewhere",
+                    "examples": [
+                        {
+                            "ch": "污水从损坏的管道中冒了出来。",
+                            "en": "Dirty water welled (up) out of the damaged pipe."
+                        },
+                        {
+                            "ch": "她读信的时候眼泪夺眶而出。",
+                            "en": "As she read the letter tears welled up in her eyes."
+                        },
+                        {
+                            "ch": "他心里感到很矛盾。",
+                            "en": "Conflicting emotions welled up in his heart."
+                        }
+                    ]
+                }
+            ],
+            "phrases": [],
+            "alters": [],
+            "UK_audio": "https://dictionary.cambridge.org//media/english-chinese-simplified/uk_pron/u/ukw/ukwel/ukwelde004.mp3",
+            "US_audio": "https://dictionary.cambridge.org//media/english-chinese-simplified/us_pron/w/wel/well_/well.mp3",
+            "text": "well"
+        }
+    }
+]

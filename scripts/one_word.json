@@ -1,0 +1,100 @@
+{
+    "id" : "",
+    "name" : "XXXX",
+    "image_url" : "XXXX",
+    "genders" : [],
+
+    "default_defines" : [
+        {
+            "text" : "",
+            "trans_ch" : "xxxxxx",
+            "trans_en" : "YYYYYYY",
+            "UK_audio" : "",
+            "US_audio" : "",
+            "examples" : [
+                {
+                    "ch" : "ZZZZZZZZZZZZZZZZZZ",
+                    "en" : "AAAAAAAAAAAAAAAAAAA"
+                }
+            ]
+        }
+    ],
+
+	"verb" : {
+		"text" : "XXXX",
+        "links" : [],
+
+        "alter_1" : "",
+        "alter_2" : "",
+        "alter_3" : "",
+        "alter_4" : "",
+        "alter_5" : "",
+        "UK_audio" : "",
+        "US_audio" : "",
+
+        "defines" : [
+            {
+                "trans_ch" : "xxxxxx",
+                "trans_en" : "YYYYYYY",
+                "examples" : [
+                    {
+                        "ch" : "ZZZZZZZZZZZZZZZZZZ",
+                        "en" : "AAAAAAAAAAAAAAAAAAA"
+                    }
+                ]
+            }
+        ],
+        "phrases" : [
+            {
+                "text" : "",
+                "trans_ch" : "xxxxxx",
+                "trans_en" : "YYYYYYY",
+                "examples" : [
+                    {
+                        "ch" : "ZZZZZZZZZZZZZZZZZZ",
+                        "en" : "AAAAAAAAAAAAAAAAAAA"
+                    }
+                ]
+            }
+        ]
+	},
+	
+	"noun" : {
+		"text" : "XXXX",
+        "links" : [],
+        "UK_audio" : "",
+        "US_audio" : "",
+
+        "alter_1" : "",
+        "alter_2" : "",
+        "alter_3" : "",
+        "alter_4" : "",
+        "alter_5" : "",
+        "defines" : [
+            {
+                "trans_ch" : "xxxxxx",
+                "trans_en" : "YYYYYYY",
+                "examples" : [
+                    {
+                        "ch" : "ZZZZZZZZZZZZZZZZZZ",
+                        "en" : "AAAAAAAAAAAAAAAAAAA"
+                    }
+                ]
+            }
+        ],
+        "phrase" : [
+            {
+                "text" : "",
+                "trans_ch" : "xxxxxx",
+                "trans_en" : "YYYYYYY",
+                "examples" : [
+                    {
+                        "ch" : "ZZZZZZZZZZZZZZZZZZ",
+                        "en" : "AAAAAAAAAAAAAAAAAAA"
+                    }
+                ]
+            }
+        ]
+	}
+    
+}

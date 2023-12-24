@@ -2,7 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:logger/logger.dart';
-import 'package:my_eng_program/data/model_category.dart';
+import 'package:my_eng_program/data/model_book.dart';
 import 'package:my_eng_program/data/net.dart';
 import 'package:provider/provider.dart';
 import 'package:http/http.dart' as http;
@@ -13,7 +13,7 @@ void main() {
 
 var logger = Logger(
   printer: PrettyPrinter(
-      methodCount: 0, // number of method calls to be displayed
+      methodCount: 1, // number of method calls to be displayed
       errorMethodCount: 8, // number of method calls if stacktrace is provided
       lineLength: 120, // width of the output
       colors: true, // Colorful log messages
@@ -59,7 +59,7 @@ class MyHomePage extends StatefulWidget {
 
 class DrawerDataNotifier extends ChangeNotifier {
   var currentIndex = 0;
-  late Future<List<Category>> futureCategories;
+  late Future<List<Book>> futureCategories;
 
   final List<DrawerItem> _items = [];
   DrawerDataNotifier() {
@@ -68,9 +68,10 @@ class DrawerDataNotifier extends ChangeNotifier {
       if (_items.isNotEmpty) {
         _items.clear();
       }
-      _items.add(DrawerItem(0, 'Header'));
+      var index = 0;
+      _items.add(DrawerItem(index, 'header', 'Header'));
       for (var cat in categories) {
-        _items.add(DrawerItem(cat.id, '${cat.title}'));
+        _items.add(DrawerItem(++index, cat.id, cat.title));
       }
       notifyListeners();
     });
@@ -99,11 +100,13 @@ class DrawerDataNotifier extends ChangeNotifier {
 
 class DrawerItem {
   int _index;
+  String _id;
   String _name;
 
-  DrawerItem(this._index, this._name);
+  DrawerItem(this._index, this._id, this._name);
 
   String get name => _name;
+  String get id => _id;
   int get index => _index;
 }
 
@@ -117,7 +120,7 @@ class _HomneDrawerState extends State<HomeDrawer> {
   Widget build(BuildContext context) {
     return Drawer(
         backgroundColor: Colors.orange,
-        child: FutureProvider<List<Category>>(
+        child: FutureProvider<List<Book>>(
           initialData: [],
           create: (context) => Service.fetchCategories(http.Client()),
           child: DrawerListView(),
@@ -125,16 +128,17 @@ class _HomneDrawerState extends State<HomeDrawer> {
   }
 }
 
+// ignore: must_be_immutable
 class DrawerListView extends StatelessWidget {
   late var drawerItems;
 
   @override
   Widget build(BuildContext context) {
-    drawerItems = context.watch<List<Category>>();
+    drawerItems = context.watch<List<Book>>();
     return ListView.builder(
       itemCount: drawerItems.length,
       itemBuilder: (context, index) {
-        // debugPrint("build ListView index = $index");
+        debugPrint("build ListView index = $index");
         var title = drawerItems[index].title;
 
         if (index == 0) {
@@ -153,9 +157,6 @@ class DrawerListView extends StatelessWidget {
               // 从组件树种找到ScaffoldMessager，并用它去show一个snackBar
               ScaffoldMessenger.of(context).showSnackBar(snackBar);
               Navigator.pop(context);
-
-              var mp3_url =
-                  "https://dictionary.blob.core.chinacloudapi.cn/media/audio/tom/79/25/79256C2B5F37973C77D41B497E12F7E2.mp3";
             },
           );
         }
