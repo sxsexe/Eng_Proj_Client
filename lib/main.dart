@@ -2,8 +2,9 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:logger/logger.dart';
-import 'package:my_eng_program/data/model_book.dart';
-import 'package:my_eng_program/data/net.dart';
+import 'package:my_eng_program/data/book.dart';
+import 'package:my_eng_program/data/word.dart';
+import 'package:my_eng_program/net/net.dart';
 import 'package:provider/provider.dart';
 import 'package:http/http.dart' as http;
 
@@ -63,7 +64,7 @@ class DrawerDataNotifier extends ChangeNotifier {
 
   final List<DrawerItem> _items = [];
   DrawerDataNotifier() {
-    futureCategories = Service.fetchCategories(http.Client());
+    futureCategories = Service.fetchBooks(http.Client());
     futureCategories.then((categories) {
       if (_items.isNotEmpty) {
         _items.clear();
@@ -122,7 +123,7 @@ class _HomneDrawerState extends State<HomeDrawer> {
         backgroundColor: Colors.orange,
         child: FutureProvider<List<Book>>(
           initialData: [],
-          create: (context) => Service.fetchCategories(http.Client()),
+          create: (context) => Service.fetchBooks(http.Client()),
           child: DrawerListView(),
         ));
   }
@@ -153,10 +154,15 @@ class DrawerListView extends StatelessWidget {
               style: TextStyle(color: Colors.white),
             ),
             onTap: () {
-              final snackBar = SnackBar(content: Text(title));
-              // 从组件树种找到ScaffoldMessager，并用它去show一个snackBar
-              ScaffoldMessenger.of(context).showSnackBar(snackBar);
-              Navigator.pop(context);
+              Future<List<Word>> words = Service.getRandomWords(1);
+
+              words.then((value) {
+                debugPrint(value[0].name);
+                // SnackBar snackBar = SnackBar(content: Text(value.get));
+                // // 从组件树种找到ScaffoldMessager，并用它去show一个snackBar
+                // ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                // Navigator.pop(context);
+              });
             },
           );
         }
