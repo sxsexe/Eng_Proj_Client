@@ -11,10 +11,9 @@ class Service {
 
   static Future<List<Word>> getRandomWords(count) async {
     final response = await http.get(Uri.parse(URL_ROOT + "get_random_words"));
+
     if (response.statusCode == 200) {
       List<Map<String, dynamic>> sss = jsonDecode(response.body).cast<Map<String, dynamic>>();
-      //   Word word = Word.fromJson(jsonDecode(response.body));
-
       List<Word> wordList = [];
       sss.forEach((element) {
         wordList.add(Word.fromJson(element));
@@ -26,8 +25,10 @@ class Service {
   }
 
   static Future<List<Book>> fetchBooks(http.Client client) async {
+    print("NET : fetchBooks Begin");
     if (s_books.isEmpty) {
       final response = await http.get(Uri.parse(URL_ROOT + "books"));
+      print("NET : fetchBooks resp.code = ${response.statusCode}");
 
       if (response.statusCode == 200) {
         List<Book> books = [Book(id: 'ID_Header', title: 'Header')];

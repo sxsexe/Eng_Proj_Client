@@ -1,27 +1,15 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
-import 'package:logger/logger.dart';
 import 'package:my_eng_program/data/book.dart';
-import 'package:my_eng_program/data/word.dart';
 import 'package:my_eng_program/net/net.dart';
-import 'package:provider/provider.dart';
 import 'package:http/http.dart' as http;
+import 'package:my_eng_program/util/logger.dart';
+
+import 'ui/drawer_item.dart';
+import 'ui/home_drawer.dart';
 
 void main() {
   runApp(const MyApp());
 }
-
-var logger = Logger(
-  printer: PrettyPrinter(
-      methodCount: 1, // number of method calls to be displayed
-      errorMethodCount: 8, // number of method calls if stacktrace is provided
-      lineLength: 120, // width of the output
-      colors: true, // Colorful log messages
-      printEmojis: true, // Print an emoji for each log message
-      printTime: true // Should each log print contain a timestamp
-      ),
-);
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
@@ -43,7 +31,11 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: Text("Go")),
-      drawer: HomeDrawer(),
+      drawer: HomeDrawer(
+        onItemClick: (book) {
+          Logger.debug("HomePage", "onItemClick book = ${book.title}");
+        },
+      ),
       body: Center(
         child: Text("xxxx"),
       ),
@@ -97,83 +89,4 @@ class DrawerDataNotifier extends ChangeNotifier {
   int getCurrentIndex() {
     return currentIndex;
   }
-}
-
-class DrawerItem {
-  int _index;
-  String _id;
-  String _name;
-
-  DrawerItem(this._index, this._id, this._name);
-
-  String get name => _name;
-  String get id => _id;
-  int get index => _index;
-}
-
-class _HomneDrawerState extends State<HomeDrawer> {
-  @override
-  void initState() {
-    super.initState();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Drawer(
-        backgroundColor: Colors.orange,
-        child: FutureProvider<List<Book>>(
-          initialData: [],
-          create: (context) => Service.fetchBooks(http.Client()),
-          child: DrawerListView(),
-        ));
-  }
-}
-
-// ignore: must_be_immutable
-class DrawerListView extends StatelessWidget {
-  late var drawerItems;
-
-  @override
-  Widget build(BuildContext context) {
-    drawerItems = context.watch<List<Book>>();
-    return ListView.builder(
-      itemCount: drawerItems.length,
-      itemBuilder: (context, index) {
-        debugPrint("build ListView index = $index");
-        var title = drawerItems[index].title;
-
-        if (index == 0) {
-          return const DrawerHeader(
-            child: Text("Header"),
-            decoration: BoxDecoration(color: Colors.blue),
-          );
-        } else {
-          return ListTile(
-            title: Text(
-              '$title',
-              style: TextStyle(color: Colors.white),
-            ),
-            onTap: () {
-              Future<List<Word>> words = Service.getRandomWords(1);
-
-              words.then((value) {
-                debugPrint(value[0].name);
-                // SnackBar snackBar = SnackBar(content: Text(value.get));
-                // // 从组件树种找到ScaffoldMessager，并用它去show一个snackBar
-                // ScaffoldMessenger.of(context).showSnackBar(snackBar);
-                // Navigator.pop(context);
-              });
-            },
-          );
-        }
-      },
-    );
-  }
-}
-
-class HomeDrawer extends StatefulWidget {
-  HomeDrawer({super.key});
-
-  @override
-  State<HomeDrawer> createState() => _HomneDrawerState();
 }
