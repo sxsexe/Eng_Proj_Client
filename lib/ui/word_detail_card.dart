@@ -5,6 +5,38 @@ class WordDetailCard extends StatelessWidget {
   final Word? word;
   WordDetailCard({super.key, required this.word});
 
+  @override
+  Widget build(BuildContext context) {
+    String? name = word!.name;
+    String nonName = name ?? "";
+    if (word!.ID == null) {
+      return Center(
+        child: CircularProgressIndicator(),
+      );
+    }
+
+    return SingleChildScrollView(
+      child: Column(
+        children: [
+          SizedBox(height: 8),
+          Container(
+            padding: EdgeInsets.fromLTRB(40, 5, 40, 5),
+            color: Colors.orange,
+            child: Text(
+              nonName,
+              style: TextStyle(fontSize: 48),
+            ),
+          ),
+          Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: _createGenderWrapperWidgetList(),
+          )
+        ],
+        mainAxisAlignment: MainAxisAlignment.start,
+      ),
+    );
+  }
+
   Row _createGenderTitle(GenderDetail detail) {
     String genderName = detail.genderName ?? "";
     String wordTxt = detail.text ?? "";
@@ -152,7 +184,7 @@ class WordDetailCard extends StatelessWidget {
         });
       }
 
-      //TODO Phrases
+      // Phrases
       if (genderDetail.phrases!.isNotEmpty) {
         genderDetail.phrases!.forEach((oneDef) {
           _allSubWidgets.add(_createOneDefineWidget(oneDef, true));
@@ -172,37 +204,5 @@ class WordDetailCard extends StatelessWidget {
     });
 
     return children;
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    String? name = word!.name;
-    String nonName = name ?? "";
-    if (word!.ID == null) {
-      return Center(
-        child: CircularProgressIndicator(),
-      );
-    }
-
-    return SingleChildScrollView(
-      child: Column(
-        children: [
-          SizedBox(height: 60),
-          Container(
-            padding: EdgeInsets.fromLTRB(40, 5, 40, 5),
-            color: Colors.orange,
-            child: Text(
-              nonName,
-              style: TextStyle(fontSize: 48),
-            ),
-          ),
-          Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: _createGenderWrapperWidgetList(),
-          )
-        ],
-        mainAxisAlignment: MainAxisAlignment.start,
-      ),
-    );
   }
 }

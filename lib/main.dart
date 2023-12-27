@@ -35,13 +35,13 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   void initState() {
     super.initState();
-    word = Word(name: 'ddd');
+    word = Word(name: '/ɡʊd/');
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text("Go")),
+      appBar: AppBar(title: Text("Gqqqo")),
       drawer: HomeDrawer(
         onBookItemClick: (book) {
           Logger.debug("HomePage", "onItemClick book = ${book.title}");
