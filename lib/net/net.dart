@@ -17,7 +17,9 @@ class Service {
       List<Map<String, dynamic>> sss = jsonDecode(utf8.decode(response.bodyBytes)).cast<Map<String, dynamic>>();
       List<Word> wordList = [];
       sss.forEach((element) {
-        wordList.add(Word.fromJson(element));
+        Word word = Word.fromJson(element);
+        // word.name = "businesswoman";
+        wordList.add(word);
       });
       return wordList;
     } else {

@@ -21,9 +21,24 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
         title: 'EnglishER',
         theme: ThemeData(
-          useMaterial3: true,
-          colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepOrange),
-        ),
+            useMaterial3: true,
+            dividerColor: Color.fromARGB(128, 247, 187, 13),
+            colorScheme: ColorScheme.fromSeed(
+                brightness: Brightness.light,
+                seedColor: Color.fromARGB(255, 176, 187, 23),
+                primary: Color.fromARGB(246, 246, 234, 221),
+                onPrimary: Colors.black,
+                primaryContainer: Colors.blue,
+                secondary: Color.fromARGB(255, 225, 241, 240),
+                onSecondary: Colors.black87,
+                secondaryContainer: Colors.blueGrey),
+            textTheme: TextTheme(
+                titleSmall: const TextStyle(fontSize: 16, fontWeight: FontWeight.normal),
+                titleMedium: const TextStyle(fontSize: 20, fontWeight: FontWeight.normal),
+                titleLarge: const TextStyle(fontSize: 32, fontWeight: FontWeight.normal),
+                displayLarge: const TextStyle(fontSize: 48, fontWeight: FontWeight.normal),
+                displayMedium: const TextStyle(fontSize: 32, fontWeight: FontWeight.normal),
+                displaySmall: const TextStyle(fontSize: 24, fontWeight: FontWeight.normal))),
         home: MyHomePage());
   }
 }
@@ -35,13 +50,17 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   void initState() {
     super.initState();
-    word = Word(name: '/ɡʊd/');
+    word = Word(name: '');
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text("Gqqqo")),
+      appBar: AppBar(
+          title: Text(
+        "Keep Moving",
+        style: Theme.of(context).textTheme.titleMedium,
+      )),
       drawer: HomeDrawer(
         onBookItemClick: (book) {
           Logger.debug("HomePage", "onItemClick book = ${book.title}");
@@ -55,7 +74,7 @@ class _MyHomePageState extends State<MyHomePage> {
               });
         },
       ),
-      body: WordDetailCard(word: word),
+      body: WordDetailCard(context: context, word: word),
     );
   }
 }

@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:my_eng_program/data/word.dart';
 
+// ignore: must_be_immutable
 class WordDetailCard extends StatelessWidget {
   final Word? word;
-  WordDetailCard({super.key, required this.word});
+
+  late BuildContext context;
+  WordDetailCard({super.key, required this.context, required this.word});
 
   @override
   Widget build(BuildContext context) {
@@ -19,14 +22,23 @@ class WordDetailCard extends StatelessWidget {
       child: Column(
         children: [
           SizedBox(height: 8),
-          Container(
-            padding: EdgeInsets.fromLTRB(40, 5, 40, 5),
-            color: Colors.orange,
-            child: Text(
-              nonName,
-              style: TextStyle(fontSize: 48),
+          if (nonName.isNotEmpty)
+            Card(
+              color: Theme.of(context).colorScheme.primary,
+              shadowColor: Color.fromARGB(255, 181, 166, 155),
+              elevation: 8,
+              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+              child: Container(
+                padding: EdgeInsets.symmetric(vertical: 2, horizontal: 32),
+                child: Text(
+                  textAlign: TextAlign.center,
+                  nonName,
+                  style: TextStyle(
+                      color: Theme.of(context).colorScheme.onPrimary,
+                      fontSize: Theme.of(context).textTheme.displayLarge!.fontSize),
+                ),
+              ),
             ),
-          ),
           Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: _createGenderWrapperWidgetList(),
@@ -45,11 +57,14 @@ class WordDetailCard extends StatelessWidget {
       children: [
         Padding(
           padding: const EdgeInsets.only(left: 8.0),
-          child: Text(wordTxt, style: TextStyle(fontSize: 30, color: Colors.black)),
+          child: Text(wordTxt,
+              style: TextStyle(
+                  color: Theme.of(context).colorScheme.onSecondary,
+                  fontSize: Theme.of(context).textTheme.titleLarge!.fontSize)),
         ),
         SizedBox(width: 6),
         Padding(
-          padding: const EdgeInsets.only(top: 12.0),
+          padding: const EdgeInsets.only(top: 8.0),
           child: Text(
             genderName,
             style: TextStyle(fontSize: 16, color: Colors.black26),
@@ -72,24 +87,31 @@ class WordDetailCard extends StatelessWidget {
         if (audioUS.isNotEmpty)
           Row(
             children: [
-              SizedBox(width: 10),
-              Text("US"),
+              SizedBox(width: 8),
+              Text(
+                "US",
+                style: TextStyle(fontStyle: FontStyle.italic),
+              ),
               Icon(
-                Icons.volume_up,
+                Icons.volume_up_rounded,
                 size: 32,
               )
             ],
           ),
         if (audioUK.isNotEmpty)
           Row(
-            children: [SizedBox(width: 20), Text("UK"), Icon(Icons.volume_up_rounded, size: 32)],
+            children: [
+              SizedBox(width: 24),
+              Text("UK", style: TextStyle(fontStyle: FontStyle.italic)),
+              Icon(Icons.volume_up_rounded, size: 32)
+            ],
           )
       ],
     );
   }
 
   Divider _createDividerLine() {
-    return Divider(height: 1, color: Colors.orange, thickness: 2);
+    return Divider(height: 1, color: Theme.of(context).dividerColor, thickness: 1);
   }
 
   Column _createOneDefineWidget(Define oneDef, bool isPhrase) {
@@ -100,59 +122,83 @@ class WordDetailCard extends StatelessWidget {
     String text = oneDef.text ?? "";
 
     if (isPhrase) {
-      _lstSubWidgets.add(Text(
-        text,
-        style: TextStyle(color: Colors.cyan, fontSize: 18),
+      _lstSubWidgets.add(SizedBox(height: 16));
+      _lstSubWidgets.add(Row(
+        children: [
+          Icon(
+            Icons.keyboard_double_arrow_right,
+            color: Colors.red,
+          ),
+          Text(
+            text,
+            style: TextStyle(color: Theme.of(context).colorScheme.onPrimary, fontSize: 18, fontWeight: FontWeight.w600),
+          ),
+        ],
       ));
     }
-    _lstSubWidgets.add(SizedBox(height: 20));
+    _lstSubWidgets.add(SizedBox(height: 12));
     _lstSubWidgets.add(_createDividerLine());
-    _lstSubWidgets.add(SizedBox(height: 20));
+    _lstSubWidgets.add(SizedBox(height: 8));
+    _lstSubWidgets.add(Row(
+      children: [
+        SizedBox(width: 8),
+        Text(
+          "释义 : ",
+          style: TextStyle(fontSize: 18, color: Colors.blueGrey),
+        ),
+      ],
+    ));
     _lstSubWidgets.add(Row(
       children: [
         if (transEN.isNotEmpty)
           Expanded(
-              child: Text(
-            transEN,
-            style: TextStyle(fontSize: 18, color: Colors.black),
+              child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 8.0),
+            child: Text(
+              transEN,
+              style: TextStyle(fontSize: 16, color: Colors.black, fontWeight: FontWeight.bold),
+            ),
           ))
       ],
     ));
-    _lstSubWidgets.add(SizedBox(height: 8));
+    // _lstSubWidgets.add(SizedBox(height: 2));
     _lstSubWidgets.add(Row(
       children: [
         if (transCH.isNotEmpty)
           Expanded(
-            child: Text(
-              transCH,
-              style: TextStyle(fontSize: 18, color: Colors.black),
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 8.0),
+              child: Text(
+                transCH,
+                style: TextStyle(fontSize: 14, color: Theme.of(context).colorScheme.onSecondary),
+              ),
             ),
           )
       ],
     ));
 
     if (oneDef.examples!.isNotEmpty) {
+      SizedBox margin = SizedBox(width: 4);
       oneDef.examples!.forEach((oneExample) {
         String ch = oneExample.ch ?? "";
         String en = oneExample.en ?? "";
-        _lstSubWidgets.add(Container(
+        _lstSubWidgets.add(Card(
           margin: const EdgeInsets.all(18.0),
-          color: Colors.grey,
+          color: Color.fromARGB(255, 206, 207, 202),
           child: Column(
             children: [
               Row(children: [
-                Icon(Icons.point_of_sale_rounded),
-                SizedBox(
-                  width: 20,
-                ),
-                Expanded(child: Text(en))
+                Icon(Icons.arrow_right),
+                margin,
+                Expanded(child: Text(en, style: TextStyle(fontSize: 16, fontStyle: FontStyle.italic)))
               ]),
+              SizedBox(
+                height: 4,
+              ),
               Row(children: [
-                Icon(Icons.point_of_sale_rounded),
-                SizedBox(
-                  width: 20,
-                ),
-                Expanded(child: Text(ch))
+                Icon(Icons.arrow_right),
+                margin,
+                Expanded(child: Text(ch, style: TextStyle(fontSize: 16, color: Colors.black)))
               ])
             ],
           ),
@@ -191,16 +237,16 @@ class WordDetailCard extends StatelessWidget {
         });
       }
 
-      Container container = Container(
-        width: double.infinity,
-        color: Colors.blue,
-        margin: EdgeInsets.all(40),
+      children.add(Card(
+        color: Theme.of(context).colorScheme.secondary,
+        shadowColor: Color.fromARGB(255, 181, 166, 155),
+        elevation: 8,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+        margin: EdgeInsets.symmetric(vertical: 16, horizontal: 24),
         child: Column(
           children: _allSubWidgets,
         ),
-      );
-
-      children.add(container);
+      ));
     });
 
     return children;
