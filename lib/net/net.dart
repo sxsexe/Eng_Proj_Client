@@ -4,16 +4,17 @@ import 'package:http/http.dart' as http;
 import 'package:my_eng_program/data/book.dart';
 import 'package:my_eng_program/data/word.dart';
 
-const URL_ROOT = "http://192.168.0.122:8889/";
+const URL_ROOT = "http://192.168.0.114:8889/";
 
 class Service {
   static List<Book> s_books = [];
 
-  static Future<List<Word>> getRandomWords(count) async {
-    final response = await http.get(Uri.parse(URL_ROOT + "get_random_words"));
+  static Future<List<Word>> getRandomWords(bookName, [count = 1]) async {
+    var url = URL_ROOT + "get_random_words?book_id=" + bookName + "&count=$count";
+    final response = await http.get(Uri.parse(url));
 
     if (response.statusCode == 200) {
-      List<Map<String, dynamic>> sss = jsonDecode(response.body).cast<Map<String, dynamic>>();
+      List<Map<String, dynamic>> sss = jsonDecode(utf8.decode(response.bodyBytes)).cast<Map<String, dynamic>>();
       List<Word> wordList = [];
       sss.forEach((element) {
         wordList.add(Word.fromJson(element));

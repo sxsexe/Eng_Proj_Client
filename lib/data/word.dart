@@ -1,12 +1,14 @@
 class Word {
   String? sId;
   String? id;
-  late String name;
+  String? name;
   String? imageUrl;
   Map<String, dynamic>? genderMaps;
   List<GenderDetail> listGenderDetails = [];
 
   Word({this.sId, this.id, required this.name, this.genderMaps});
+
+  String? get ID => sId ?? "";
 
   Word.fromJson(Map<String, dynamic> json) {
     sId = json['_id'];

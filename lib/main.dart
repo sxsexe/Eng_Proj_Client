@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:my_eng_program/data/book.dart';
+import 'package:my_eng_program/data/word.dart';
 import 'package:my_eng_program/net/net.dart';
 import 'package:http/http.dart' as http;
+import 'package:my_eng_program/ui/word_detail_card.dart';
 import 'package:my_eng_program/util/logger.dart';
 
 import 'ui/drawer_item.dart';
@@ -27,18 +29,33 @@ class MyApp extends StatelessWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
+  var loading = true;
+  Word? word;
+
+  @override
+  void initState() {
+    super.initState();
+    word = Word(name: 'ddd');
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: Text("Go")),
       drawer: HomeDrawer(
-        onItemClick: (book) {
+        onBookItemClick: (book) {
           Logger.debug("HomePage", "onItemClick book = ${book.title}");
+
+          var words = Service.getRandomWords(book.title);
+          words.then((value) => {
+                setState(() {
+                  loading = false;
+                  word = value[0];
+                })
+              });
         },
       ),
-      body: Center(
-        child: Text("xxxx"),
-      ),
+      body: WordDetailCard(word: word),
     );
   }
 }
