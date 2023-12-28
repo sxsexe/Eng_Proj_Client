@@ -4,7 +4,7 @@ import 'package:http/http.dart' as http;
 import 'package:my_eng_program/data/book.dart';
 import 'package:my_eng_program/data/word.dart';
 
-const URL_ROOT = "http://192.168.0.114:8889/";
+const URL_ROOT = "http://127.0.0.1:8889/";
 
 class Service {
   static List<Book> s_books = [];
