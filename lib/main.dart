@@ -3,7 +3,7 @@ import 'package:my_eng_program/data/book.dart';
 import 'package:my_eng_program/data/word.dart';
 import 'package:my_eng_program/net/net.dart';
 import 'package:http/http.dart' as http;
-import 'package:my_eng_program/ui/Splash.dart';
+import 'package:my_eng_program/ui/splash.dart';
 import 'package:my_eng_program/ui/main_page.dart';
 import 'package:my_eng_program/ui/word_detail_card.dart';
 import 'package:my_eng_program/util/logger.dart';
@@ -12,36 +12,35 @@ import 'ui/drawer_item.dart';
 import 'ui/home_drawer.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+  MyApp({super.key});
+
+  final theme = ThemeData(
+      useMaterial3: true,
+      dividerColor: Color.fromARGB(128, 247, 187, 13),
+      colorScheme: ColorScheme.fromSeed(
+          brightness: Brightness.light,
+          seedColor: Color.fromARGB(255, 176, 187, 23),
+          primary: Color.fromARGB(246, 246, 234, 221),
+          onPrimary: Colors.black,
+          primaryContainer: Colors.blue,
+          secondary: Color.fromARGB(255, 225, 241, 240),
+          onSecondary: Colors.black87,
+          secondaryContainer: Colors.blueGrey),
+      textTheme: TextTheme(
+          titleSmall: const TextStyle(fontSize: 16, fontWeight: FontWeight.normal),
+          titleMedium: const TextStyle(fontSize: 20, fontWeight: FontWeight.normal),
+          titleLarge: const TextStyle(fontSize: 32, fontWeight: FontWeight.normal),
+          displayLarge: const TextStyle(fontSize: 48, fontWeight: FontWeight.normal),
+          displayMedium: const TextStyle(fontSize: 32, fontWeight: FontWeight.normal),
+          displaySmall: const TextStyle(fontSize: 24, fontWeight: FontWeight.normal)));
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-        title: 'EnglishER',
-        theme: ThemeData(
-            useMaterial3: true,
-            dividerColor: Color.fromARGB(128, 247, 187, 13),
-            colorScheme: ColorScheme.fromSeed(
-                brightness: Brightness.light,
-                seedColor: Color.fromARGB(255, 176, 187, 23),
-                primary: Color.fromARGB(246, 246, 234, 221),
-                onPrimary: Colors.black,
-                primaryContainer: Colors.blue,
-                secondary: Color.fromARGB(255, 225, 241, 240),
-                onSecondary: Colors.black87,
-                secondaryContainer: Colors.blueGrey),
-            textTheme: TextTheme(
-                titleSmall: const TextStyle(fontSize: 16, fontWeight: FontWeight.normal),
-                titleMedium: const TextStyle(fontSize: 20, fontWeight: FontWeight.normal),
-                titleLarge: const TextStyle(fontSize: 32, fontWeight: FontWeight.normal),
-                displayLarge: const TextStyle(fontSize: 48, fontWeight: FontWeight.normal),
-                displayMedium: const TextStyle(fontSize: 32, fontWeight: FontWeight.normal),
-                displaySmall: const TextStyle(fontSize: 24, fontWeight: FontWeight.normal))),
-        home: Splash());
+    return MaterialApp(title: 'EnglishER', theme: theme, home: Splash());
   }
 }
 
