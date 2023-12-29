@@ -1,6 +1,7 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:my_eng_program/net/net.dart';
 import 'package:my_eng_program/util/logger.dart';
 
 class Splash extends StatefulWidget {
@@ -35,6 +36,9 @@ class _SplashState extends State<Splash> with TickerProviderStateMixin {
   @override
   void initState() {
     super.initState();
+
+    Service.login('13717542218', '');
+
     _sentIndex = Random().nextInt(_lstSents.length);
 
     _animationController =

@@ -2,13 +2,23 @@ import 'dart:convert';
 
 import 'package:http/http.dart' as http;
 import 'package:my_eng_program/data/book.dart';
+import 'package:my_eng_program/data/user.dart';
 import 'package:my_eng_program/data/word.dart';
 
 const URL_ROOT = "http://127.0.0.1:8889/";
 
 class Service {
-  static List<Book> s_books = [];
+  static Future<User> login(identifier, crendital) async {
+    var url = URL_ROOT + "login";
 
+    final response = await http.post(Uri.parse(url), body: {'identifier': identifier});
+    Map<String, dynamic> resp = jsonDecode(utf8.decode(response.bodyBytes));
+
+    User user = User.fromJson(resp['data']);
+    return user;
+  }
+
+  static List<Book> s_books = [];
   static Future<List<Word>> getRandomWords(bookName, [count = 1]) async {
     var url = URL_ROOT + "get_random_words?book_id=" + bookName + "&count=$count";
     final response = await http.get(Uri.parse(url));
