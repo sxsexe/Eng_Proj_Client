@@ -1,15 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:my_eng_program/data/book.dart';
-import 'package:my_eng_program/data/word.dart';
-import 'package:my_eng_program/net/net.dart';
+import 'package:my_eng_program/io/net.dart';
 import 'package:http/http.dart' as http;
 import 'package:my_eng_program/ui/splash.dart';
-import 'package:my_eng_program/ui/main_page.dart';
-import 'package:my_eng_program/ui/word_detail_card.dart';
-import 'package:my_eng_program/util/logger.dart';
 
 import 'ui/drawer_item.dart';
-import 'ui/home_drawer.dart';
 
 void main() {
   runApp(MyApp());

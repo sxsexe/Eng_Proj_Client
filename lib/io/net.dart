@@ -1,21 +1,29 @@
 import 'dart:convert';
 
+import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:my_eng_program/data/book.dart';
 import 'package:my_eng_program/data/user.dart';
 import 'package:my_eng_program/data/word.dart';
+import 'package:my_eng_program/util/logger.dart';
+
+import '../data/Resp.dart';
 
 const URL_ROOT = "http://127.0.0.1:8889/";
 
 class Service {
-  static Future<User> login(identifier, crendital) async {
+  static Future<Resp> login(identifier, crendital) async {
     var url = URL_ROOT + "login";
 
-    final response = await http.post(Uri.parse(url), body: {'identifier': identifier});
-    Map<String, dynamic> resp = jsonDecode(utf8.decode(response.bodyBytes));
+    Map<String, String> headers = new Map<String, String>();
+    headers['Content-Type'] = 'application/json';
+    final response = await http.post(Uri.parse(url),
+        body: jsonEncode({'identifier': identifier, 'crendital': crendital}), headers: headers);
+    Map<String, dynamic> map = jsonDecode(utf8.decode(response.bodyBytes));
+    Resp resp = Resp.fromJson(map);
+    Logger.debug("NET", resp.toJson());
 
-    User user = User.fromJson(resp['data']);
-    return user;
+    return resp;
   }
 
   static List<Book> s_books = [];

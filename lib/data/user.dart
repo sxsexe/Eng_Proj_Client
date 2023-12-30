@@ -2,8 +2,9 @@ class User {
   late String id;
   String? name;
   String? avatar;
+  // 0 游客 1 登录用户 2 VIP用户
   late int type;
-  late String creatTime;
+  late String createTime;
   String? updateTime;
   List<Auths> auths = [];
 
@@ -12,7 +13,7 @@ class User {
       this.name,
       this.avatar,
       required this.type,
-      required this.creatTime,
+      required this.createTime,
       this.updateTime,
       required this.auths});
 
@@ -21,7 +22,7 @@ class User {
     name = json['name'];
     avatar = json['avatar'];
     type = json['type'];
-    creatTime = json['creat_time'];
+    createTime = json['create_time'];
     updateTime = json['update_time'];
     json['auths'].forEach((v) {
       auths.add(new Auths.fromJson(v));
@@ -34,7 +35,7 @@ class User {
     data['name'] = this.name;
     data['avatar'] = this.avatar;
     data['type'] = this.type;
-    data['creat_time'] = this.creatTime;
+    data['create_time'] = this.createTime;
     data['update_time'] = this.updateTime;
     data['auths'] = this.auths.map((v) => v.toJson()).toList();
     return data;
@@ -58,7 +59,7 @@ class User {
 // }
 
 class Auths {
-  late int identityType;
+  late String identityType;
   late String credential;
   late String identifier;
 

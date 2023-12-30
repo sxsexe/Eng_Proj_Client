@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:my_eng_program/data/word.dart';
 
-import '../net/net.dart';
+import '../io/net.dart';
 import '../util/logger.dart';
 import 'home_drawer.dart';
 import 'word_detail_card.dart';
