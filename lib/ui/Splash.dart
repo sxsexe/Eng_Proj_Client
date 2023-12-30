@@ -19,8 +19,9 @@ class Splash extends StatefulWidget {
 
 class _SplashState extends State<Splash> with TickerProviderStateMixin {
   int _alpha = 0;
-  int _sentIndex = 0;
+  double _radis = 0;
   int _loginState = -1;
+  bool _showNavLink = false;
 
   late AnimationController _animationController;
 
@@ -65,19 +66,28 @@ class _SplashState extends State<Splash> with TickerProviderStateMixin {
       _startAnimation();
     }).catchError((e) {
       Logger.debug("Splash", "autoLogin Catch error " + e.toString());
+      setState(() {
+        _loginState = 0;
+      });
+      _startAnimation();
     });
 
     _animationController =
-        AnimationController(vsync: this, duration: Duration(milliseconds: 3000), lowerBound: 0, upperBound: 255)
+        AnimationController(vsync: this, duration: Duration(milliseconds: 1000), lowerBound: 0, upperBound: 1)
           ..addListener(() {
             setState(() {
-              _alpha = _animationController.value.toInt();
+              int value = _animationController.value.toInt();
+              _alpha = value * 255;
+              _radis = value * 60;
             });
           });
 
     _animationController.addStatusListener((status) {
       if (status == AnimationStatus.completed) {
         Logger.debug("Splash", "Animation Complete");
+        setState(() {
+          _showNavLink = true;
+        });
       }
     });
   }
@@ -92,41 +102,55 @@ class _SplashState extends State<Splash> with TickerProviderStateMixin {
     super.dispose();
   }
 
+  Widget _createHint() {
+    int index = Random().nextInt(_lstSents.length);
+
+    return Positioned(
+        bottom: 40,
+        child: Container(
+          margin: EdgeInsets.symmetric(horizontal: 30),
+          width: MediaQuery.of(context).size.width,
+          child: Padding(
+            padding: const EdgeInsets.all(18.0),
+            child: Text(_lstSents[index],
+                textAlign: TextAlign.start,
+                style: TextStyle(
+                    fontWeight: FontWeight.w300,
+                    fontSize: 16,
+                    color: Color.fromARGB(_alpha, 23, 25, 12),
+                    decoration: TextDecoration.none)),
+          ),
+        ));
+  }
+
   Stack _createLoginSuccessUI() {
     return Stack(
       alignment: Alignment.center,
       children: [
         Positioned(
-            child: CircleAvatar(backgroundImage: NetworkImage(App.getUser()!.avatar ?? ""), radius: 40), top: 160),
-        Positioned(
-          top: 260,
-          child: Material(
-            color: Color.fromARGB(255, 240, 231, 190),
-            child: InkWell(
-              child: Text(
-                "Let's have some fun ->",
-                style: TextStyle(
-                    color: Color.fromARGB(255, 78, 99, 233), decoration: TextDecoration.underline, fontSize: 24),
+            child: CircleAvatar(
+                backgroundColor: Color.fromARGB(0, 0, 0, 0),
+                backgroundImage: NetworkImage(App.getUser()!.avatar ?? ""),
+                radius: _radis),
+            top: 160),
+        if (_showNavLink)
+          Positioned(
+            top: 360,
+            child: Material(
+              color: Color.fromARGB(255, 240, 231, 190),
+              child: InkWell(
+                child: Text(
+                  "Let's have some fun ->",
+                  style: TextStyle(
+                      color: Color.fromARGB(255, 78, 99, 233), decoration: TextDecoration.underline, fontSize: 24),
+                ),
+                onTap: () {
+                  Logger.debug("Splash", "OnClick Let's have some fun");
+                },
               ),
-              onTap: () {
-                Logger.debug("Splash", "OnClick Let's have some fun");
-              },
             ),
           ),
-        ),
-        Positioned(
-            bottom: 40,
-            child: Container(
-              width: MediaQuery.of(context).size.width,
-              height: 200,
-              child: Text(_lstSents[_sentIndex],
-                  textAlign: TextAlign.start,
-                  style: TextStyle(
-                      fontWeight: FontWeight.w300,
-                      fontSize: 26,
-                      color: Color.fromARGB(_alpha, 23, 25, 12),
-                      decoration: TextDecoration.none)),
-            ))
+        _createHint()
       ],
     );
   }
@@ -138,41 +162,31 @@ class _SplashState extends State<Splash> with TickerProviderStateMixin {
         Positioned(
             child: CircleAvatar(
               backgroundColor: Colors.green,
-              radius: 40,
+              radius: _radis,
               child: Text(
                 "游",
                 style: TextStyle(fontSize: 36, color: Colors.white),
               ),
             ),
             top: 160),
-        Positioned(
-          top: 260,
-          child: Material(
-            color: Color.fromARGB(255, 240, 231, 190),
-            child: InkWell(
-              child: Text(
-                "Let's have some fun ->",
-                style: TextStyle(
-                    color: Color.fromARGB(255, 78, 99, 233), decoration: TextDecoration.underline, fontSize: 24),
+        if (_showNavLink)
+          Positioned(
+            top: 360,
+            child: Material(
+              color: Color.fromARGB(255, 240, 231, 190),
+              child: InkWell(
+                child: Text(
+                  "Let's have some fun ->",
+                  style: TextStyle(
+                      color: Color.fromARGB(255, 78, 99, 233), decoration: TextDecoration.underline, fontSize: 24),
+                ),
+                onTap: () {
+                  Logger.debug("Splash", "OnClick Let's have some fun");
+                },
               ),
-              onTap: () {
-                Logger.debug("Splash", "OnClick Let's have some fun");
-              },
             ),
           ),
-        ),
-        Positioned(
-            bottom: 40,
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 20),
-              child: Text(_lstSents[_sentIndex],
-                  textAlign: TextAlign.start,
-                  style: TextStyle(
-                      fontWeight: FontWeight.w300,
-                      fontSize: 26,
-                      color: Color.fromARGB(_alpha, 23, 25, 12),
-                      decoration: TextDecoration.none)),
-            ))
+        _createHint()
       ],
     );
   }
@@ -180,7 +194,14 @@ class _SplashState extends State<Splash> with TickerProviderStateMixin {
   Widget _createLoginIngUI() {
     return Stack(
       alignment: Alignment.center,
-      children: [Text("Loading")],
+      children: [
+        Text("Loading...",
+            style: TextStyle(
+                color: Color.fromARGB(255, 78, 99, 233),
+                fontWeight: FontWeight.normal,
+                decoration: TextDecoration.none,
+                fontSize: 24))
+      ],
     );
   }
 
