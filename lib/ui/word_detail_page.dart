@@ -6,16 +6,16 @@ import '../util/logger.dart';
 import 'home_drawer.dart';
 import 'word_detail_card.dart';
 
-class WordMainPage extends StatefulWidget {
-  WordMainPage({super.key});
+class WordDetailPage extends StatefulWidget {
+  WordDetailPage({super.key});
 
   @override
   State<StatefulWidget> createState() {
-    return _WordMainPageState();
+    return _WordDetailPageState();
   }
 }
 
-class _WordMainPageState extends State<WordMainPage> {
+class _WordDetailPageState extends State<WordDetailPage> {
   Word? word;
 //   Book? _book;
 

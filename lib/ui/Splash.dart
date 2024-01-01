@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:my_eng_program/app.dart';
 import 'package:my_eng_program/data/user.dart';
 import 'package:my_eng_program/io/net.dart';
+import 'package:my_eng_program/ui/book_gallery_page.dart';
 import 'package:my_eng_program/util/logger.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -102,6 +103,11 @@ class _SplashState extends State<Splash> with TickerProviderStateMixin {
     super.dispose();
   }
 
+  void _goToBookGalleryPage() {
+    Navigator.pop(context);
+    Navigator.push(context, MaterialPageRoute(builder: (context) => const BookGalleryPage()));
+  }
+
   Widget _createHint() {
     int index = Random().nextInt(_lstSents.length);
 
@@ -116,7 +122,7 @@ class _SplashState extends State<Splash> with TickerProviderStateMixin {
                 textAlign: TextAlign.start,
                 style: TextStyle(
                     fontWeight: FontWeight.w300,
-                    fontSize: 16,
+                    fontSize: 18,
                     color: Color.fromARGB(_alpha, 23, 25, 12),
                     decoration: TextDecoration.none)),
           ),
@@ -146,6 +152,7 @@ class _SplashState extends State<Splash> with TickerProviderStateMixin {
                 ),
                 onTap: () {
                   Logger.debug("Splash", "OnClick Let's have some fun");
+                  _goToBookGalleryPage();
                 },
               ),
             ),
@@ -165,7 +172,7 @@ class _SplashState extends State<Splash> with TickerProviderStateMixin {
               radius: _radis,
               child: Text(
                 "游",
-                style: TextStyle(fontSize: 36, color: Colors.white),
+                style: TextStyle(fontSize: 64, color: Colors.white),
               ),
             ),
             top: 160),
@@ -182,6 +189,7 @@ class _SplashState extends State<Splash> with TickerProviderStateMixin {
                 ),
                 onTap: () {
                   Logger.debug("Splash", "OnClick Let's have some fun");
+                  _goToBookGalleryPage();
                 },
               ),
             ),

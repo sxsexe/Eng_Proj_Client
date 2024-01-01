@@ -2,7 +2,7 @@ class User {
   late String id;
   String? name;
   String? avatar;
-  // 0 游客 1 登录用户 2 VIP用户
+  //1 登录用户 2 VIP用户
   late int type;
   late String createTime;
   String? updateTime;
