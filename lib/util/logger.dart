@@ -32,11 +32,13 @@ class Logger {
 
   static void debug(tag, message) {
     ansiColorDisabled = false;
+    if (message.runtimeType != String) message = message.toString;
     print(_penGreen(_getLogPreString() + " [ " + tag + " ]     " + message));
   }
 
   static void error(tag, message) {
     ansiColorDisabled = false;
+    if (message.runtimeType != String) message = message.toString;
     print(_penRed(_getLogPreString() + " [ " + tag + " ]     " + message));
   }
 }

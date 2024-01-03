@@ -1,4 +1,3 @@
-import 'dart:convert';
 import 'dart:math';
 
 import 'package:flutter/material.dart';
@@ -9,9 +8,11 @@ import 'package:my_eng_program/ui/book_gallery_page.dart';
 import 'package:my_eng_program/util/logger.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import '../data/Resp.dart';
+import '../data/server_resp.dart';
 
 class Splash extends StatefulWidget {
+  const Splash({super.key});
+
   @override
   State<StatefulWidget> createState() {
     return _SplashState();
@@ -44,14 +45,17 @@ class _SplashState extends State<Splash> with TickerProviderStateMixin {
   Future<bool> autoLogin() async {
     SharedPreferences sp = await SharedPreferences.getInstance();
     String? userIdentifier = await sp.getString("user_identifier");
+
+    bool login = false;
     if (userIdentifier != null && userIdentifier.isNotEmpty) {
       Resp resp = await Service.login(userIdentifier, "");
       App.loginState = resp.error.errorNo == 0;
       App.user = User.fromJson(resp.data['user']);
-      return App.isLoginSuccess();
-    } else {
-      return false;
+      login = App.isLoginSuccess();
     }
+
+    Service.getBookGroups(App.getUser()!.id);
+    return login;
   }
 
   @override
@@ -63,7 +67,6 @@ class _SplashState extends State<Splash> with TickerProviderStateMixin {
       setState(() {
         _loginState = value ? 1 : 0;
       });
-
       _startAnimation();
     }).catchError((e) {
       Logger.debug("Splash", "autoLogin Catch error " + e.toString());
@@ -105,7 +108,7 @@ class _SplashState extends State<Splash> with TickerProviderStateMixin {
 
   void _goToBookGalleryPage() {
     Navigator.pop(context);
-    Navigator.push(context, MaterialPageRoute(builder: (context) => const BookGalleryPage()));
+    Navigator.pushNamed(context, App.ROUTE_BOOK_GROUP, arguments: {'a': 2});
   }
 
   Widget _createHint() {

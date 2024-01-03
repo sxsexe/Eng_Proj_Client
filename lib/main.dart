@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:my_eng_program/data/book.dart';
-import 'package:my_eng_program/io/net.dart';
-import 'package:http/http.dart' as http;
+import 'package:my_eng_program/app.dart';
+import 'package:my_eng_program/ui/book_gallery_page.dart';
 import 'package:my_eng_program/ui/splash.dart';
 
-import 'ui/drawer_item.dart';
+import 'ui/word_detail_page.dart';
 
 void main() {
   runApp(MyApp());
@@ -35,47 +34,15 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(title: 'EnglishER', theme: theme, home: Splash());
-  }
-}
-
-class DrawerDataNotifier extends ChangeNotifier {
-  var currentIndex = 0;
-  late Future<List<Book>> futureCategories;
-
-  final List<DrawerItem> _items = [];
-  DrawerDataNotifier() {
-    futureCategories = Service.fetchBooks(http.Client());
-    futureCategories.then((categories) {
-      if (_items.isNotEmpty) {
-        _items.clear();
-      }
-      var index = 0;
-      _items.add(DrawerItem(index, 'header', 'Header'));
-      for (var cat in categories) {
-        _items.add(DrawerItem(++index, cat.id, cat.title));
-      }
-      notifyListeners();
-    });
-  }
-
-  int getCount() {
-    return _items.length;
-  }
-
-  DrawerItem? getItem(int index) {
-    if (index < 0 || index >= _items.length) {
-      return null;
-    }
-    return _items[index];
-  }
-
-  void onItemTapped(int index) {
-    currentIndex = index;
-    notifyListeners();
-  }
-
-  int getCurrentIndex() {
-    return currentIndex;
+    return MaterialApp(
+      title: 'EnglishER',
+      theme: theme,
+      initialRoute: App.ROUTE_SPLASH,
+      routes: {
+        App.ROUTE_SPLASH: (context) => const Splash(),
+        App.ROUTE_BOOK_GROUP: (context) => const BookGalleryPage(),
+        App.ROUTE_WORDS_DETAIL: (context) => const WordDetailPage(),
+      },
+    );
   }
 }

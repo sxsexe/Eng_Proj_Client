@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:my_eng_program/data/word.dart';
 
+import '../data/book.dart';
 import '../io/net.dart';
 import '../util/logger.dart';
-import 'home_drawer.dart';
+import 'book_group_drawer.dart';
 import 'word_detail_card.dart';
 
 class WordDetailPage extends StatefulWidget {
-  WordDetailPage({super.key});
+  const WordDetailPage({super.key});
 
   @override
   State<StatefulWidget> createState() {
@@ -16,8 +17,10 @@ class WordDetailPage extends StatefulWidget {
 }
 
 class _WordDetailPageState extends State<WordDetailPage> {
-  Word? word;
+  Word? _word;
+  late Book _book;
 //   Book? _book;
+  static const String TAG = "WordDetailPage";
 
   @override
   void initState() {
@@ -25,33 +28,50 @@ class _WordDetailPageState extends State<WordDetailPage> {
   }
 
   @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+
+    _book = ModalRoute.of(context)!.settings.arguments as Book;
+    Logger.debug(TAG, "argument book = $_book");
+    Service.getRandomWords(_book.DBName).then((words) {
+      if (words.isNotEmpty) {
+        setState(() {
+          _word = words[0];
+        });
+      }
+    });
+  }
+
+  Widget _createUI() {
+    if (_word == null) {
+      return Center(
+        child: CircularProgressIndicator(color: Colors.red),
+      );
+    } else {
+      return WordDetailCard(context: context, word: _word);
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
           title: Text(
-        "Keep Moving",
+        "${_book.name}",
         style: Theme.of(context).textTheme.titleMedium,
       )),
-      drawer: HomeDrawer(
-        onBookItemClick: (book) {
-          Logger.debug("MainPage", "onItemClick book = ${book.title}");
-          var words = Service.getRandomWords(book.title);
-          words.then((value) => {
-                setState(() {
-                  word = value[0];
-                })
-              });
-        },
-      ),
-      body: WordDetailCard(context: context, word: word),
+      body: _createUI(),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          //   var words = Service.getRandomWords(_book.title);
-          //   words.then((value) => {
-          //         setState(() {
-          //           word = value[0];
-          //         })
-          //       });
+          setState(() {
+            _word = null;
+          });
+          var words = Service.getRandomWords(_book.DBName);
+          words.then((value) => {
+                setState(() {
+                  _word = value[0];
+                })
+              });
         },
         tooltip: "Next Word",
         child: Text('Next'),

@@ -1,5 +1,6 @@
-import 'dart:convert';
-
+/**
+ * 书的类目
+ */
 class BookGroup {
   final String id;
   final String name;
@@ -11,7 +12,13 @@ class BookGroup {
     return group;
   }
 
-  String toJson() {
-    return jsonEncode(this);
+  @override
+  String toString() {
+    return "[BookGroup id = $id, name = $name]";
   }
+
+  Map<String, dynamic> toJson() => {
+        'name': name,
+        'id': id,
+      };
 }

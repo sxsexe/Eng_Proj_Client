@@ -1,7 +1,11 @@
+import 'package:flutter/material.dart';
 import 'package:my_eng_program/data/user.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class App {
+  static const String ROUTE_SPLASH = "/splash";
+  static const String ROUTE_BOOK_GROUP = "/book_group";
+  static const String ROUTE_WORDS_DETAIL = "/word_detail_page";
+
   // 是否登录成功
   static bool _loginSuccess = false;
 
@@ -9,6 +13,10 @@ class App {
 
   static set user(User user) => _user = user;
   static User? getUser() {
+    if (!_loginSuccess) {
+      User user = User.fromJson({'_id': "", 'type': 0, "create_time": "", "auths": []});
+      return user;
+    }
     return _user;
   }
 
@@ -25,5 +33,9 @@ class App {
   static isInDebugMode() {
     const bool inProduction = const bool.fromEnvironment("dart.vm.product");
     return !inProduction;
+  }
+
+  static Size getScreenSize(BuildContext context) {
+    return MediaQuery.of(context).size;
   }
 }

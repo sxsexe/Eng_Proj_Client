@@ -1,9 +1,19 @@
+############################################################################
+# 从https://dictionary.cambridge.org/  查询单词  并解析Html后生成Json结果
+############################################################################
 
+import logging
 import os
 import json
+import time
 import lxml
+import random
 from bs4 import BeautifulSoup
 import requests
+
+URL_ROOT = 'https://dictionary.cambridge.org/'
+URL_WORD_QUERY = 'dictionary/english-chinese-simplified/'
+URL_MEDIA = 'media/english-chinese-simplified/us_pron/m/mak/make_/make.mp3'
 
 
 def getKetWords():
@@ -14,90 +24,269 @@ def getKetWords():
         line  = fileHandler.readline()
         if not line:
             break
-        word = line.strip().split(' ')[0]
-        # print( i, " : ", word)
-        # i = i + 1
+        word = line.strip().split('(')[0].strip()
+        # print( i, " : (", word, ")")
+        i = i + 1
         words.append(word)
 
     return words
 
 def fetchHtml():
     words = getKetWords()
-
+    # words = ['bad', 'borrow', 'barbecue', 'bus stop', 'bus station', 'chocolate']
+    # words = ['ill', 'in', 'its', 'kg', 'km', 'pence', 'pop', 'sing', 'sun', 'well']
+    # words = ['sing']
     headers = {"User-Agent": "Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/72.0.3626.119 Safari/537.36"}
-    word = words[642] ## make    
-    url = "https://dictionary.cambridge.org/dictionary/english-chinese-simplified/"+ word
-    print("begin query, url =", url)
-    resp = requests.get(url=url, headers=headers)
-    print("qurey resp.code ", resp.status_code)
-    # print("qurey resp.body ", resp.content)
-    if(resp.status_code == 200) :
-        htmlBody = resp.content
-        parseHtml(word, htmlBody)
-    else :
-        print("FetchHTML Error")
 
-    return 
+    total = len(words)
+    success = 0
+    failed = 0
+
+    words_list = []
+    failed_list = []
+
+    print('================================ being total = ', total)
+    for word in words:
+        
+        url = URL_ROOT + URL_WORD_QUERY + word
+        resp = requests.get(url=url, headers=headers)
+        # print("qurey resp.code ", resp.status_code, " url = ", url)
+        # print("qurey resp.body ", resp.content)
+        if(resp.status_code == 200) :
+            htmlBody = resp.content
+            try:
+                jsonObj = parseHtml(word, htmlBody)
+                words_list.append(jsonObj)
+                success += 1
+                print("SUCCESS ---------------> [", word, "]")
+            except Exception as e:
+                failed += 1
+                failed_list.append(word)
+                print("ERROR ---------------------------------> [", word, '] exception =', repr(e))
+                logging.exception(e)
+        else :
+            failed += 1
+            failed_list.append(word)
+            print("FetchHTML Error, word is [", word, "] resp_code = ", resp.status_code)
+
+        time_break = random.randint(1,2)
+        time.sleep( time_break )
+
+    print('================================ end, success = ', success, " failed = ", failed)
+    if failed > 0 :
+        print('failed : ', failed_list)
+
+    return words_list
+
+
+def getGender(tag_head) :
+    _gender_name = None
+    tag_gender = tag_head.select_one(".posgram")
+    
+    if tag_gender :
+        _gender_name = tag_gender.get_text()
+    else :
+        _gender_p1 = tag_head.select_one(".dpos")
+        _gender_p2 = tag_head.select_one(".dgram")
+        if _gender_p1:
+            _gender_name = _gender_p1.get_text()
+            if _gender_p2:
+                _gender_name += _gender_p2.get_text()
+    if _gender_name :
+        return _gender_name.replace(' ', '')  
+    else:
+        return None
 
 def parseHtml(word, htmlBody):
 
     soup = BeautifulSoup(htmlBody, 'html.parser')
-    wordDetailObj = {'name' : word, 'defines' : []}
+    wordObj = {
+        'id' : '',
+        'name' : word, 
+        'image_url' : '',
+        'genders': {}
+    }
 
-    parts = soup.find_all('div', 'def-block ddef_block')
-    for div in parts:
-        # print(div)
-        for child in enumerate(div.children):
-            realTag = child[1]
-            if(realTag.name == 'div') :
-                attrs = realTag['class']
-                oneDefinition = {'type' : '', 'trnas_en' : '', 'trnas_ch' : ''}
+    #先查找词性和audio  verb  noun   adj adv......
+    tag_heads = soup.find_all('div', 'pos-header dpos-h')
 
-                if(attrs[0] == 'ddef_h') :
-                    for tag in enumerate(realTag.contents):
-                        if type(tag[1]).__name__ == 'Tag' and tag[1].name == 'div':
-                            # print(tag[1].get_text())
-                            oneDefinition['trnas_en'] = tag[1].get_text()
-  
-                if(attrs[0] == 'def-body' and attrs[1] == 'ddef_b') :
-                    for tag in enumerate(realTag.children) :
-                        if type(tag[1]).__name__ == 'Tag' and tag[1].name == 'span' :
-                            oneDefinition['trnas_ch'] = tag[1].get_text()
-                        # if(tag.name == 'div') :
-                        #     oneDefinition.examples.append
-                wordDetailObj['defines'].append(oneDefinition)
+    for tag_head in tag_heads:
 
-    print(wordDetailObj)             
-              
+        _gender_name = getGender(tag_head)
+        if _gender_name :
+            #alters 形容词的比较级 最高级  动词的过去式 过去分词
+            _gender_detail = {'defines' : [], 'phrases' : [], 'alters': []}
+            wordObj['genders'].setdefault(_gender_name, {})
             
+            tag_audios = tag_head.select("source")
+            if tag_audios :
+                UK_audio = None
+                US_audio = None
+                for tag_audio in tag_audios :
+                    str_region = tag_audio.find_parent('span').previous_sibling.get_text()
+                    if not US_audio and str_region.lower() == 'us' :
+                        US_audio = URL_ROOT + tag_audio['src']
+                    if not UK_audio and str_region.lower() == 'uk' :
+                        UK_audio = URL_ROOT + tag_audio['src']
+                _gender_detail['UK_audio'] = UK_audio
+                _gender_detail['US_audio'] = US_audio
 
-    # chinese_trans_tags = soup.find_all('span', class_='trans dtrans dtrans-se break-cj')
-    # english_trans_tags = soup.find_all('div', class_='def ddef_d db')
-    # meanings = []
-    # for meaning in chinese_trans_tags:
-    #     chinese_text = meaning.get_text()
-    #     pair= {}
-    #     pair['chinese'] = chinese_text
-    #     pair['english'] = ''
-    #     meanings.append(pair)
+            wordObj['genders'][_gender_name] = _gender_detail
+        
+    # 1 : 通过<div class="pr entry-body__el">找到sub_parts
+    # 2 : 以close为例 <div class="di-title">close</close>  该子tag中找到名字
+    # 3 : <div class="posgram dpos-g hdib lmr-5" title="A word that describes an action, condition or experience.">verb</span> 在该子tag中找到gender
+    # 4 ：<div class="def-block ddef_block "> 中找到英文释义  这里可能返回多个结果,  phrase parent：<div class="phrase-body dphrase_b">, normal parent :  <div class="sense-body dsense_b">
+    # 5 : <span class="trans dtrans dtrans-se  break-cj"> 中找到中文释义 
+    # 6 ： <div class="examp dexamp"> 找到中文例句和英文例句  
+    # 7 ： <div class="pr phrase-block dphrase-block ">   查找phrase List
+    # 8 : <span class="phrase-title dphrase-title">   phrase text
+    # 9 : <div class="def ddef_d db"> phrase的英文释义
+    # 10：<span class="trans dtrans dtrans-se  break-cj" lang="zh-Hans">    phrase的中文释义       
+    # 11：<div class="examp dexamp"> phrase的中文例句和英文例句
+        
+    tag_sub_parts = soup.find_all('div', 'pr entry-body__el')
+    for tag_root in tag_sub_parts:
+       
+        tag_names = tag_root.select('.di-title')
+        str_name = tag_names[0].get_text()
+        tag_gender = tag_root.select_one('.posgram')
+        if tag_gender == None :
+            continue
+        str_gender = tag_gender.get_text().replace(' ', '')
+        wordObj['genders'][str_gender]['text'] = str_name
+     
+        tag_defines = tag_root.select('.def-block, .ddef_block')
+        for tag_one_define in tag_defines :
+            # bad -> worse worst
+            tag_infs = tag_one_define.select('.inf, .dinf')
+            if tag_infs :
+                for tag_inf in tag_infs :
+                    str_inf = tag_inf.get_text()
+                    if str_inf not in wordObj['genders'][str_gender]['alters']:
+                        wordObj['genders'][str_gender]['alters'].append(str_inf)
 
-    # index = 0
-    # for item in english_trans_tags :
-    #     english_text = item.get_text()
-    #     meanings[index]['english'] = english_text
-    #     index += 1
-    # print(meanings)
+            tag_parent = tag_one_define.find_parent("div")
+            attrs_klass = tag_parent['class']
 
-    return
+            obj = {"text" : "", "trans_ch" : "", "trans_en" : "", "examples" : []}
 
-def outputJsonFile():
+            tag_examples = tag_one_define.select('.examp, .dexamp')
+            if tag_examples :
+                for tag_example in tag_examples :
+                    tag_ch = tag_example.select('.trans')
+                    tag_en = tag_example.select('.eg')
+
+                    if tag_ch and tag_en :
+                        example_obj = { "ch" : "", "en" : ""}
+                        example_obj['ch'] = tag_ch[0].get_text()
+                        example_obj['en'] = tag_en[0].get_text()
+                        obj['examples'].append(example_obj)
+
+
+            #中英文 词意
+            if attrs_klass[0] == 'sense-body' or attrs_klass[0] == 'runon-body' :
+                obj['text'] = str_name
+                obj['trans_en'] = tag_one_define.select('.def, .ddef_d, .db')[0].get_text()
+                obj['trans_ch'] = tag_one_define.select('.trans, .dtrans, .dtrans-se, .break-cj')[0].get_text()
+                # print(str_ch, ' - ', str_en)
+                wordObj['genders'][str_gender]['defines'].append(obj)    
+        
+            #中英文 短语
+            if attrs_klass[0] == 'phrase-body' :
+                tag_previous_sibling = tag_parent.previous_sibling
+                obj['text'] = tag_previous_sibling.select('.phrase-title, .dphrase-title')[0].get_text()
+                obj['trans_en'] = tag_one_define.select('.def, .ddef_d, .db')[0].get_text()
+                obj['trans_ch'] = tag_one_define.select('.trans, .dtrans, .dtrans-se, .break-cj')[0].get_text()
+                wordObj['genders'][str_gender]['phrases'].append(obj)    
+
+
+    #针对<div class="pr runon drunon"> 单独处理   
+    tag_runons = soup.find_all('div', 'pr runon drunon')
+    if tag_runons :
+        for tag_root in tag_runons:
+            tag_names = tag_root.select('.runon-title')
+            str_name = tag_names[0].get_text()
+            str_gender = getGender(tag_root)
+            wordObj['genders'][str_gender]['text'] = str_name
+
+            tag_defines = tag_root.select('.def-block, .ddef_block')
+            for tag_one_define in tag_defines :
+                tag_parent = tag_one_define.find_parent("div")
+                attrs_klass = tag_parent['class']
+
+                # bad -> worse worst
+                tag_infs = tag_one_define.select('.inf, .dinf')
+                if tag_infs :
+                    for tag_inf in tag_infs :
+                        str_inf = tag_inf.get_text()
+                        if str_inf not in wordObj['genders'][str_gender]['alters']:
+                            wordObj['genders'][str_gender]['alters'].append(str_inf)
+
+                obj = {"text" : "", "trans_ch" : "", "trans_en" : "", "examples" : []}
+
+                tag_examples = tag_one_define.select('.examp, .dexamp')
+                if tag_examples :
+                    for tag_example in tag_examples :
+                        tag_ch = tag_example.select('.trans')
+                        tag_en = tag_example.select('.eg')
+
+                        if tag_ch and tag_en :
+                            example_obj = { "ch" : "", "en" : ""}
+                            example_obj['ch'] = tag_ch[0].get_text()
+                            example_obj['en'] = tag_en[0].get_text()
+                            obj['examples'].append(example_obj)
+
+
+                #中英文 词意
+                if attrs_klass[0] == 'runon-body' :
+                    obj['text'] = str_name
+                    obj['trans_en'] = tag_one_define.select('.def, .ddef_d, .db')[0].get_text()
+                    obj['trans_ch'] = tag_one_define.select('.trans, .dtrans, .dtrans-se, .break-cj')[0].get_text()
+                    # print(str_ch, ' - ', str_en)
+                    wordObj['genders'][str_gender]['defines'].append(obj)    
+            
+                #中英文 短语
+                if attrs_klass[0] == 'phrase-body' :
+                    tag_previous_sibling = tag_parent.previous_sibling
+                    obj['text'] = tag_previous_sibling.select('.phrase-title, .dphrase-title')[0].get_text()
+                    obj['trans_en'] = tag_one_define.select('.def, .ddef_d, .db')[0].get_text()
+                    obj['trans_ch'] = tag_one_define.select('.trans, .dtrans, .dtrans-se, .break-cj')[0].get_text()
+                    wordObj['genders'][str_gender]['phrases'].append(obj)    
+              
+
+    return wordObj
+
+#对Set转换为List后才能Json化
+def set_to_list(obj):
+    if isinstance(obj, set):
+        return list(obj)
+    raise TypeError(f"Object of type {type(obj)} is not JSON serializable")
+
+
+def outputJsonFile(words_json):
+    dir = 'E:/FlutterWorld/projects/my_eng_program/scripts/books'
+    file_name = 'ket_words_json.json'
+    full_path = dir + os.sep + file_name
+
+    if os.path.exists(full_path) :
+        os.remove(full_path)
+    json_str = json.dumps(words_json, ensure_ascii=False, default=set_to_list) #确保中文
+    open(full_path, 'w', encoding="utf-8").write(json_str) 
     return
 
 
 def doIt():
-    
-    fetchHtml()
-    outputJsonFile()
+    try : 
+        words_list = fetchHtml()
+        if len(words_list) > 0 :
+            outputJsonFile(words_list)
+            print("Success to write json file")
+        else:
+            print("words_list is empty, no need to  write json file")
+        
+    except Exception as e:
+        print('Failed to output json file ', e)    
 
 
 if __name__ == '__main__':
