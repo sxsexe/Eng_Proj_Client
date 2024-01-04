@@ -57,6 +57,7 @@ def fetchHtml():
                         'contents' : []
                     }
                     inner_fun = True
+                    index = 0
                     if url == "https://shortstorylines.com/very-short-stories-with-morals/" or url == "https://shortstorylines.com/10-lines-short-stories-with-moral-in-english/":
                         _name = tag_child.get_text().split(".")[1].strip()
                         chapterInfoObj['name'] = _name

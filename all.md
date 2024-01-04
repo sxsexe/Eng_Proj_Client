@@ -16,3 +16,8 @@
 
 ### MongoDB 常用命令
 1.   删除某个字段    <code>db.getCollection("words_ket_1200").update({}, {$unset: {id:""}}, {multi: true})</code>
+
+
+
+### 在线查询词义 
+1.  海词 https://dict.cn/search?q=story
