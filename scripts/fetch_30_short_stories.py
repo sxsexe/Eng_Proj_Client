@@ -3,6 +3,7 @@
 ############################################################################
 
 
+from datetime import datetime
 import logging
 import os
 import json
@@ -19,21 +20,29 @@ BOOK_NAME = "30 Short Stories"
 URL_FIRST = "101-short-stories-for-learning-english-beginner-to-advanced-level-text-audio-and-video/"
 
 
+def _createNewBookObj(group_id, name, type) :
+    bookInfoObj = {
+        'type': type, #story book
+        'name': name,
+        'group_id': group_id,
+        'desc': 'Beginner Level',
+        'sub_title' : '',
+        'cover' : '',
+        'chapters' : [],
+        'contents' : [],
+        'create_time' : datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+    }
+
+    return bookInfoObj
+
+
 def fetchHtml():
  
     headers = {"User-Agent": "Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/72.0.3626.119 Safari/537.36"}
     url = URL_ROOT + URL_FIRST
     resp = requests.get(url=url, headers=headers)
 
-    bookInfoObj = {
-        'type': 1, #story book
-        'name': BOOK_NAME,
-        'group_id': '6590d5b7bf8a3ab2facf374c',
-        'desc': 'Beginner Level',
-        'sub_title' : '',
-        'avatar' : 'https://helenadailyenglish.com/wp-content/uploads/2018/10/12.Short-Stories-01-696x392.jpg?ezimgfmt=ng:webp/ngcb1',
-        'chapters' : []
-    }
+    books = []
 
     urlCacheSet = set()
     if resp.status_code == 200 :
@@ -58,26 +67,28 @@ def fetchHtml():
 
                 tag_head = tag_root_div.find("h3", class_='ftwp-heading')
                 title = tag_head.get_text().split(":")[1].strip()
-                chapterInfoObj = {
-                    'name' : title,
-                    'contents' : []
-                }
+
+                _bookObj = _createNewBookObj('6590d5b7bf8a3ab2facf374c', title, 1)
 
                 tag_audio = tag_root_div.find("source")
+                _index = 0
                 if tag_audio != None:
-                    chapterInfoObj['contents'].append({
+                    _bookObj['contents'].append({
+                        'idx' : _index,
                         'type': 1,
                         'content' : tag_audio['src']
                     })
+                    _index += 1
+
                 tag_text_next = tag_root_div.find("span", id="ezoic-pub-ad-placeholder-901")
                 tag_text = tag_text_next.previous_sibling
-                chapterInfoObj['contents'].append({
-                        'idx' : 0,
+                _bookObj['contents'].append({
+                        'idx' : _index,
                         'type': 0,
                         'content' : tag_text.get_text()
                     })
 
-                bookInfoObj['chapters'].append(chapterInfoObj)
+                books.append(_bookObj)
             else:
                 print('Error open ' + url)
             print("END    parse : " + url)
@@ -86,7 +97,7 @@ def fetchHtml():
     else :
         print('Error to Http')
 
-    return bookInfoObj            
+    return books            
   
 
 def outputJsonFile(result_json):

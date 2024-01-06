@@ -110,7 +110,7 @@ def fetchHtml():
     else :
         print('Error to Http')
 
-    return bookInfoObj            
+    return bookInfoObj
   
 
 def outputJsonFile(result_json):

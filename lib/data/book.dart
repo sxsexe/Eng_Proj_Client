@@ -7,7 +7,7 @@ class Book {
   final String name;
   // 书分类ID
   final String groupID;
-  String? avatarUrl;
+  String? coverUrl;
   String? desc;
   String? subTitle;
 
@@ -25,12 +25,12 @@ class Book {
         name: json['name'] as String,
         groupID: json['group_id'] as String,
         type: json['type'] as int);
-    book.avatarUrl = json['avatar'];
+    book.coverUrl = json['cover'];
     book.desc = json['desc'];
     book.subTitle = json['sub_title'];
     book.type = json['type'];
 
-    book.DBName = json['content_db'];
+    book.DBName = json['word_db_name'];
 
     var lstData = json['chapters'];
     if (lstData != null) {
@@ -47,7 +47,7 @@ class Book {
         "name": name,
         "group_id": groupID,
         "type": type,
-        "avatar": avatarUrl,
+        "avatar": coverUrl,
         "desc": desc,
         "sub_title": subTitle,
         "DBName": DBName

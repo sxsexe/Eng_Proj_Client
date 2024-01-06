@@ -62,7 +62,7 @@ class _BookGalleryState extends State<BookGalleryPage> {
 
   Widget _createBookItemUI(index) {
     Book _book = _lstBooks[index];
-    String avatarUrl = _book.avatarUrl ?? "";
+    String avatarUrl = _book.coverUrl ?? "";
     final double _imageW = 150;
     final double _imageH = 200;
 
@@ -76,8 +76,7 @@ class _BookGalleryState extends State<BookGalleryPage> {
           if (book.DBName != null && book.type == 0) {
             Navigator.pushNamed(context, App.ROUTE_WORDS_DETAIL, arguments: book);
           } else {
-          //TODO
-
+            //TODO
           }
         },
         child: Column(

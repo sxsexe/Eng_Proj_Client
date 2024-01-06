@@ -12,28 +12,39 @@ import lxml
 import random
 from bs4 import BeautifulSoup
 import requests
+from datetime import datetime
 
 URL_ROOT = ' https://parenting.firstcry.com/'
 
 BOOK_NAME = "22 Short Stories"
 
+
+def _createNewBookObj(group_id, name, type) :
+    bookInfoObj = {
+        'type': type, #story book
+        'name': name,
+        'group_id': group_id,
+        'desc': '',
+        'sub_title' : '',
+        'cover' : '',
+        'chapters' : [],
+        'contents' : [],
+        'create_time' : datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+    }
+
+    return bookInfoObj
+
+
 def fetchHtml():
  
     headers = {"User-Agent": "Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/72.0.3626.119 Safari/537.36"}
-
-    bookInfoObj = {
-        'type': 1, #story book
-        'name': BOOK_NAME,
-        'group_id': '6590d5b7bf8a3ab2facf374c',
-        'desc': '22 short stories for kids',
-        'sub_title' : '',
-        'avatar' : 'https://cdn.cdnparenting.com/articles/2019/12/08191636/Short-Moral-Stories-for-Kids-in-English-1-1.webp',
-        'chapters' : []
-    }
     url = URL_ROOT + "articles/top-20-short-moral-stories-for-children/"
     resp = requests.get(url=url, headers=headers)
+
+    books = []
     print("BEGIN  parse : " + url)
     if resp.status_code == 200 :
+
         soup = BeautifulSoup(resp.content, 'html5lib')
         tag_root_div = soup.find("div", class_='editorContent')
 
@@ -49,27 +60,24 @@ def fetchHtml():
                 index = 0
                 innerLoop = True
                 _name = tag_text.split('.')[1].strip()
-                chapterInfoObj = {
-                    'name' : _name,
-                    'contents' : []
-                }
-                print("chapter name " + _name)
+                _bookObj = _createNewBookObj('6590d5b7bf8a3ab2facf374c', _name, 1)
 
             if innerLoop and tag_child.name == 'h4' :
                 innerLoop = False  
-                bookInfoObj['chapters'].append(chapterInfoObj)  
+                books.append(_bookObj)
 
             if innerLoop and tag_child.name == 'p':
                 tag_img = tag_child.find('img')
                 if tag_img != None:
-                    chapterInfoObj['contents'].append({
+                    _bookObj['contents'].append({
                         'idx' : index,
                         'type' : 3,
                         'content' : tag_img['src']
                     })
                     index += 1
+                    _bookObj['cover'] = tag_img['src']
                 
-                chapterInfoObj['contents'].append({
+                _bookObj['contents'].append({
                         'idx' : index,
                         'type' : 0,
                         'content' : tag_child.get_text()
@@ -79,7 +87,7 @@ def fetchHtml():
     else :
         print("HTTP Error")
 
-    return bookInfoObj
+    return books
 
 def outputJsonFile(result_json):
     dir = 'E:/FlutterWorld/projects/my_eng_program/scripts/books'

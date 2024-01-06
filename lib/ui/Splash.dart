@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:my_eng_program/app.dart';
 import 'package:my_eng_program/data/user.dart';
 import 'package:my_eng_program/io/net.dart';
-import 'package:my_eng_program/ui/book_gallery_page.dart';
 import 'package:my_eng_program/util/logger.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:my_eng_program/data/word.dart';
+import 'package:my_eng_program/util/logger.dart';
 
 // ignore: must_be_immutable
 class WordDetailCard extends StatelessWidget {
@@ -30,7 +31,7 @@ class WordDetailCard extends StatelessWidget {
               shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
               child: Container(
                 padding: EdgeInsets.symmetric(vertical: 2, horizontal: 32),
-                child: Text(
+                child: SelectableText(
                   textAlign: TextAlign.center,
                   nonName,
                   style: TextStyle(
@@ -57,7 +58,7 @@ class WordDetailCard extends StatelessWidget {
       children: [
         Padding(
           padding: const EdgeInsets.only(left: 8.0),
-          child: Text(wordTxt,
+          child: SelectableText(wordTxt,
               style: TextStyle(
                   color: Theme.of(context).colorScheme.onSecondary,
                   fontSize: Theme.of(context).textTheme.titleLarge!.fontSize)),
@@ -65,7 +66,7 @@ class WordDetailCard extends StatelessWidget {
         SizedBox(width: 6),
         Padding(
           padding: const EdgeInsets.only(top: 8.0),
-          child: Text(
+          child: SelectableText(
             genderName,
             style: TextStyle(fontSize: 16, color: Colors.black26),
           ),
@@ -154,8 +155,20 @@ class WordDetailCard extends StatelessWidget {
           Expanded(
               child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 8.0),
-            child: Text(
+            child: SelectableText(
               transEN,
+              contextMenuBuilder: (context, state) {
+                final List<ContextMenuButtonItem> buttonItems = state.contextMenuButtonItems;
+                buttonItems.insert(
+                    0,
+                    ContextMenuButtonItem(
+                      label: 'Send email',
+                      onPressed: () => Logger.debug("tag", "message"),
+                    ));
+
+                return AdaptiveTextSelectionToolbar.buttonItems(
+                    buttonItems: buttonItems, anchors: state.contextMenuAnchors);
+              },
               style: TextStyle(fontSize: 16, color: Colors.black, fontWeight: FontWeight.bold),
             ),
           ))

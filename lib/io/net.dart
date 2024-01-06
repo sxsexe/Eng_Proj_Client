@@ -96,37 +96,37 @@ class Service {
           lstBooks.add(book);
         }
         //FIXME
-        lstBooks.add(Book.fromJson({
-          '_id': '121321323123',
-          'name': 'KET 1200高频词汇',
-          'group_id': '6590d54abf8a3ab2facf3749',
-          'type': 0,
-          'avatar': 'https://img-blog.csdnimg.cn/20210324100419204.png'.trim()
-        }));
-        lstBooks.add(Book.fromJson({
-          '_id': '658d49e6bf8a3ab2facf312',
-          'name': 'KET 1200高频词汇',
-          'group_id': '6590d54abf8a3ab2facf3749',
-          'type': 0,
-          'avatar':
-              'https://upload-images.jianshu.io/upload_images/574822-14c4f10cd4edb1df.png?imageMogr2/auto-orient/strip|imageView2/2/w/1200/format/webp'
-        }));
-        lstBooks.add(Book.fromJson({
-          '_id': '235234234234234',
-          'name': 'KET 1200高频词汇',
-          'group_id': '6590d54abf8a3ab2facf3749',
-          'type': 0,
-          'avatar':
-              'https://upload-images.jianshu.io/upload_images/13564023-350987fa42e50d8d.png?imageMogr2/auto-orient/strip|imageView2/2/w/1200/format/webp'
-        }));
-        lstBooks.add(Book.fromJson({
-          '_id': 'asd132123szsd123123',
-          'name': 'KET 1200高频词汇',
-          'group_id': '6590d54abf8a3ab2facf3749',
-          'type': 0,
-          'avatar':
-              'https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/384edd6e7f6d40ae91cd551ea9e19982~tplv-k3u1fbpfcp-zoom-in-crop-mark:1512:0:0:0.awebp'
-        }));
+        // lstBooks.add(Book.fromJson({
+        //   '_id': '121321323123',
+        //   'name': 'KET 1200高频词汇',
+        //   'group_id': '6590d54abf8a3ab2facf3749',
+        //   'type': 0,
+        //   'avatar': 'https://img-blog.csdnimg.cn/20210324100419204.png'.trim()
+        // }));
+        // lstBooks.add(Book.fromJson({
+        //   '_id': '658d49e6bf8a3ab2facf312',
+        //   'name': 'KET 1200高频词汇',
+        //   'group_id': '6590d54abf8a3ab2facf3749',
+        //   'type': 0,
+        //   'avatar':
+        //       'https://upload-images.jianshu.io/upload_images/574822-14c4f10cd4edb1df.png?imageMogr2/auto-orient/strip|imageView2/2/w/1200/format/webp'
+        // }));
+        // lstBooks.add(Book.fromJson({
+        //   '_id': '235234234234234',
+        //   'name': 'KET 1200高频词汇',
+        //   'group_id': '6590d54abf8a3ab2facf3749',
+        //   'type': 0,
+        //   'avatar':
+        //       'https://upload-images.jianshu.io/upload_images/13564023-350987fa42e50d8d.png?imageMogr2/auto-orient/strip|imageView2/2/w/1200/format/webp'
+        // }));
+        // lstBooks.add(Book.fromJson({
+        //   '_id': 'asd132123szsd123123',
+        //   'name': 'KET 1200高频词汇',
+        //   'group_id': '6590d54abf8a3ab2facf3749',
+        //   'type': 0,
+        //   'avatar':
+        //       'https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/384edd6e7f6d40ae91cd551ea9e19982~tplv-k3u1fbpfcp-zoom-in-crop-mark:1512:0:0:0.awebp'
+        // }));
 
         return lstBooks;
       } else {

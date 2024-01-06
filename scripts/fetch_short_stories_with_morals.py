@@ -12,10 +12,26 @@ import lxml
 import random
 from bs4 import BeautifulSoup
 import requests
+from datetime import datetime
 
 URL_ROOT = 'https://helenadailyenglish.com/'
 
 BOOK_NAME = "Short Stories With Morals"
+
+def _createNewBookObj(group_id, name, type) :
+    bookInfoObj = {
+        'type': type, #story book
+        'name': name,
+        'group_id': group_id,
+        'desc': '',
+        'sub_title' : '',
+        'cover' : '',
+        'chapters' : [],
+        'contents' : [],
+        'create_time' : datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+    }
+
+    return bookInfoObj
 
 
 def fetchHtml():
@@ -27,15 +43,7 @@ def fetchHtml():
         'https://shortstorylines.com/kindergarten-short-stories-in-pdf-with-pictures/'
     ]
 
-    bookInfoObj = {
-        'type': 1, #story book
-        'name': BOOK_NAME,
-        'group_id': '6590d5b7bf8a3ab2facf374c',
-        'desc': 'Very short stories for kids',
-        'sub_title' : '',
-        'avatar' : 'https://shortstorylines.com/wp-content/uploads/2020/01/Very-short-stories-with-moral-768x325.jpg',
-        'chapters' : []
-    }
+    _books = []
 
     for url in urlCacheList:
         resp = requests.get(url=url, headers=headers)
@@ -45,6 +53,7 @@ def fetchHtml():
             tag_root_div = soup.find("div", class_='entry-content')
 
             inner_fun = False
+            cover_set = False
             index = 0
             for tag_child in tag_root_div.children :
                 if tag_child.name == 'h3':
@@ -52,37 +61,36 @@ def fetchHtml():
                     if tag_child.get_text().find(".") == -1 and url == "https://shortstorylines.com/10-lines-short-stories-with-moral-in-english/":
                         continue                    
 
-                    chapterInfoObj = {
-                        'name' : '',
-                        'contents' : []
-                    }
                     inner_fun = True
                     index = 0
                     if url == "https://shortstorylines.com/very-short-stories-with-morals/" or url == "https://shortstorylines.com/10-lines-short-stories-with-moral-in-english/":
                         _name = tag_child.get_text().split(".")[1].strip()
-                        chapterInfoObj['name'] = _name
                     else :
-                        chapterInfoObj['name'] = tag_child.get_text().strip()
+                        _name = tag_child.get_text().strip()
+                    _bookObj = _createNewBookObj('6590d5b7bf8a3ab2facf374c', _name, 1)
                     continue
 
                 if inner_fun and tag_child.name == 'blockquote' :
                     inner_fun = False    
-                    bookInfoObj['chapters'].append(chapterInfoObj)
+                    cover_set = False
+                    _books.append(_bookObj)
 
                 if inner_fun :
                     if tag_child.name == 'p' or tag_child.name == 'figure':
                         tag_ts = tag_child.contents[0]
                         # print("tag_ts ", tag_ts)
                         if tag_ts.name == 'img' :
-                            chapterInfoObj['contents'].append({
+                            _bookObj['contents'].append({
                                 'idx' : index,
                                 'type': 3,
                                 'content' : tag_ts['src']
                             })
                             index += 1
+                            if cover_set == False:
+                                _bookObj['cover'] = tag_ts['src']
 
                         if tag_ts.name == 'span' :
-                            chapterInfoObj['contents'].append({
+                            _bookObj['contents'].append({
                                 'idx' : index,
                                 'type': 0,
                                 'content' : tag_ts.get_text()
@@ -90,7 +98,7 @@ def fetchHtml():
                             index += 1
 
                         if url == 'https://shortstorylines.com/kindergarten-short-stories-in-pdf-with-pictures/' and isinstance(tag_ts, str) :
-                            chapterInfoObj['contents'].append({
+                            _bookObj['contents'].append({
                                 'idx' : index,
                                 'type': 0,
                                 'content' : tag_ts
@@ -100,7 +108,7 @@ def fetchHtml():
         print("END    parse : " + url)
         time.sleep(2)
 
-    return bookInfoObj
+    return _books
 
 
 def outputJsonFile(result_json):
