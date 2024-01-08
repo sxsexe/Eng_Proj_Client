@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:my_eng_program/app.dart';
 import 'package:my_eng_program/ui/book_gallery_page.dart';
-import 'package:my_eng_program/ui/splash.dart';
+import 'package:my_eng_program/ui/register_page.dart';
+import 'package:my_eng_program/ui/splash_page.dart';
 
 import 'ui/word_detail_page.dart';
 
@@ -42,6 +43,7 @@ class MyApp extends StatelessWidget {
         App.ROUTE_SPLASH: (context) => const Splash(),
         App.ROUTE_BOOK_GROUP: (context) => const BookGalleryPage(),
         App.ROUTE_WORDS_DETAIL: (context) => const WordDetailPage(),
+        App.ROUTE_REGISTER: (context) => const RegisterPage(),
       },
     );
   }

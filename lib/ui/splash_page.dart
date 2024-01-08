@@ -1,5 +1,6 @@
 import 'dart:math';
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:my_eng_program/app.dart';
 import 'package:my_eng_program/data/user.dart';
@@ -21,6 +22,7 @@ class Splash extends StatefulWidget {
 class _SplashState extends State<Splash> with TickerProviderStateMixin {
   int _alpha = 0;
   double _radis = 0;
+  // 0 : login failed, 1 : login success, -1 : ing
   int _loginState = -1;
   bool _showNavLink = false;
 
@@ -45,13 +47,13 @@ class _SplashState extends State<Splash> with TickerProviderStateMixin {
     SharedPreferences sp = await SharedPreferences.getInstance();
     String? userIdentifier = await sp.getString("user_identifier");
 
-    bool login = false;
-    if (userIdentifier != null && userIdentifier.isNotEmpty) {
-      Resp resp = await Service.login(userIdentifier, "");
-      App.loginState = resp.error.errorNo == 0;
-      App.user = User.fromJson(resp.data['user']);
-      login = App.isLoginSuccess();
-    }
+    //FIXME
+    userIdentifier = "";
+
+    Resp resp = await Service.login(userIdentifier, "");
+    App.loginState = resp.error.errorNo == 0;
+    App.user = User.fromJson(resp.data['user']);
+    bool login = App.isLoginSuccess();
 
     Service.getBookGroups(App.getUser()!.id);
     return login;
@@ -107,7 +109,12 @@ class _SplashState extends State<Splash> with TickerProviderStateMixin {
 
   void _goToBookGalleryPage() {
     Navigator.pop(context);
-    Navigator.pushNamed(context, App.ROUTE_BOOK_GROUP, arguments: {'a': 2});
+    Navigator.pushNamed(context, App.ROUTE_BOOK_GROUP);
+  }
+
+  void _gotoRegisterPage() {
+    // Navigator.pop(context);
+    Navigator.pushNamed(context, App.ROUTE_REGISTER);
   }
 
   Widget _createHint() {
@@ -131,34 +138,54 @@ class _SplashState extends State<Splash> with TickerProviderStateMixin {
         ));
   }
 
+  Widget _createNavLink() {
+    Widget t;
+    if (_loginState == 1) {
+      t = Text(
+        "Let's have some fun ->",
+        style: TextStyle(color: Colors.black, decoration: TextDecoration.underline, fontSize: 24),
+      );
+    } else if (_loginState == 0) {
+      t = Text(
+        "直接使用",
+        style: TextStyle(color: Colors.black, decoration: TextDecoration.none, fontSize: 24),
+      );
+    } else {
+      t = SizedBox(
+        height: 0,
+      );
+    }
+
+    return Positioned(
+      top: 360,
+      child: Material(
+        color: Color.fromARGB(255, 240, 231, 190),
+        child: InkWell(
+          child: t,
+          onTap: () {
+            Logger.debug("Splash", "OnClick Let's have some fun");
+            _goToBookGalleryPage();
+          },
+        ),
+      ),
+    );
+  }
+
   Stack _createLoginSuccessUI() {
     return Stack(
       alignment: Alignment.center,
       children: [
         Positioned(
-            child: CircleAvatar(
-                backgroundColor: Color.fromARGB(0, 0, 0, 0),
-                backgroundImage: NetworkImage(App.getUser()!.avatar ?? ""),
-                radius: _radis),
-            top: 160),
-        if (_showNavLink)
-          Positioned(
-            top: 360,
-            child: Material(
-              color: Color.fromARGB(255, 240, 231, 190),
-              child: InkWell(
-                child: Text(
-                  "Let's have some fun ->",
-                  style: TextStyle(
-                      color: Color.fromARGB(255, 78, 99, 233), decoration: TextDecoration.underline, fontSize: 24),
-                ),
-                onTap: () {
-                  Logger.debug("Splash", "OnClick Let's have some fun");
-                  _goToBookGalleryPage();
-                },
+            child: Container(
+              width: 180,
+              height: 180,
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(90),
+                child: CachedNetworkImage(imageUrl: App.getUser()!.avatar ?? ""),
               ),
             ),
-          ),
+            top: 160),
+        if (_showNavLink) _createNavLink(),
         _createHint()
       ],
     );
@@ -169,33 +196,37 @@ class _SplashState extends State<Splash> with TickerProviderStateMixin {
       alignment: Alignment.center,
       children: [
         Positioned(
-            child: CircleAvatar(
-              backgroundColor: Colors.green,
-              radius: _radis,
-              child: Text(
-                "游",
-                style: TextStyle(fontSize: 64, color: Colors.white),
-              ),
+            child: Column(
+              children: [
+                CircleAvatar(
+                  backgroundColor: Colors.green,
+                  radius: _radis,
+                  child: Text(
+                    "游",
+                    style: TextStyle(fontSize: 64, color: Colors.black),
+                  ),
+                ),
+                SizedBox(
+                  height: 10,
+                ),
+                Material(
+                  child: InkWell(
+                    child: Text(
+                      "现在去注册?",
+                      style: TextStyle(color: Colors.black87, decoration: TextDecoration.underline, fontSize: 16),
+                    ),
+                    onTap: () {
+                      _gotoRegisterPage();
+                    },
+                  ),
+                )
+              ],
             ),
             top: 160),
-        if (_showNavLink)
-          Positioned(
-            top: 360,
-            child: Material(
-              color: Color.fromARGB(255, 240, 231, 190),
-              child: InkWell(
-                child: Text(
-                  "Let's have some fun ->",
-                  style: TextStyle(
-                      color: Color.fromARGB(255, 78, 99, 233), decoration: TextDecoration.underline, fontSize: 24),
-                ),
-                onTap: () {
-                  Logger.debug("Splash", "OnClick Let's have some fun");
-                  _goToBookGalleryPage();
-                },
-              ),
-            ),
-          ),
+        SizedBox(
+          height: 20,
+        ),
+        if (_showNavLink) _createNavLink(),
         _createHint()
       ],
     );
@@ -207,10 +238,7 @@ class _SplashState extends State<Splash> with TickerProviderStateMixin {
       children: [
         Text("Loading...",
             style: TextStyle(
-                color: Color.fromARGB(255, 78, 99, 233),
-                fontWeight: FontWeight.normal,
-                decoration: TextDecoration.none,
-                fontSize: 24))
+                color: Colors.black, fontWeight: FontWeight.normal, decoration: TextDecoration.none, fontSize: 24))
       ],
     );
   }

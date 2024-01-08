@@ -4,8 +4,8 @@ import 'package:my_eng_program/data/word.dart';
 import '../data/book.dart';
 import '../io/net.dart';
 import '../util/logger.dart';
-import 'book_group_drawer.dart';
-import 'word_detail_card.dart';
+import 'widgets/book_group_drawer.dart';
+import 'widgets/word_detail_card.dart';
 
 class WordDetailPage extends StatefulWidget {
   const WordDetailPage({super.key});

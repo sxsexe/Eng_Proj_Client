@@ -1,16 +1,38 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:my_eng_program/app.dart';
 import 'package:my_eng_program/util/logger.dart';
 import 'package:provider/provider.dart';
 
-import '../data/book_group.dart';
-import '../io/net.dart';
+import '../../data/book_group.dart';
+import '../../io/net.dart';
 
 // ignore: must_be_immutable
 class DrawerListView extends StatelessWidget {
   late List<BookGroup> bookGroupItems;
   DrawerListView({required this.onItemClick});
   final void Function(BookGroup bookGroup) onItemClick;
+
+  Widget _createUserHeader() {
+    String _userName = App.getUser()!.name ?? "";
+    String _userCover = App.getUser()!.avatar ?? "";
+
+    return UserAccountsDrawerHeader(
+        accountName: new Text(_userName),
+        decoration: BoxDecoration(color: Colors.black45),
+        currentAccountPicture: ClipRRect(
+          borderRadius: BorderRadius.circular(20),
+          child: CachedNetworkImage(imageUrl: _userCover),
+        ),
+        accountEmail: new Text(_userName));
+  }
+
+  Widget _createNonUserHeader() {
+    return const DrawerHeader(
+      child: Text("Learn English Everyday, Everywhere"),
+      decoration: BoxDecoration(color: Colors.blue),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -21,10 +43,11 @@ class DrawerListView extends StatelessWidget {
         var title = bookGroupItems[index].name;
 
         if (index == 0) {
-          return const DrawerHeader(
-            child: Text("Learn English Everyday, Everywhere"),
-            decoration: BoxDecoration(color: Colors.blue),
-          );
+          if (App.isLoginSuccess()) {
+            return _createUserHeader();
+          } else {
+            return _createNonUserHeader();
+          }
         } else {
           return ListTile(
             title: Text(

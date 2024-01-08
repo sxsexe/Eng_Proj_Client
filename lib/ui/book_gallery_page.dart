@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:my_eng_program/app.dart';
 import 'package:my_eng_program/data/book_group.dart';
 import 'package:my_eng_program/io/net.dart';
-import 'package:my_eng_program/ui/book_group_drawer.dart';
+import 'package:my_eng_program/ui/widgets/book_group_drawer.dart';
 import 'package:my_eng_program/util/logger.dart';
 
 import '../data/book.dart';
@@ -49,26 +49,29 @@ class _BookGalleryState extends State<BookGalleryPage> {
   }
 
   Widget _createBookGallery() {
-    return Center(
-      child: GridView.count(
-        shrinkWrap: true,
-        crossAxisCount: 2,
-        children: List.generate(_lstBooks.length, (index) {
-          return _createBookItemUI(index);
-        }),
+    return GridView(
+      padding: EdgeInsets.symmetric(horizontal: 12),
+      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+        crossAxisCount: 3,
+        // 主轴间距
+        mainAxisSpacing: 12,
+        // 次轴间距
+        crossAxisSpacing: 12,
+        // 子项宽高比率
+        childAspectRatio: 3 / 4,
       ),
+      children: List.generate(_lstBooks.length, (index) {
+        return _createBookItemUI(index);
+      }),
     );
   }
 
   Widget _createBookItemUI(index) {
     Book _book = _lstBooks[index];
     String avatarUrl = _book.coverUrl ?? "";
-    final double _imageW = 150;
-    final double _imageH = 200;
 
-    return Container(
-      color: Colors.transparent,
-      margin: EdgeInsets.all(18),
+    return Card(
+      color: Colors.grey,
       child: InkWell(
         onTap: () {
           Book book = _lstBooks[index];
@@ -81,30 +84,40 @@ class _BookGalleryState extends State<BookGalleryPage> {
         },
         child: Column(
           children: [
-            Container(
-              constraints: BoxConstraints.tight(Size(_imageW, _imageH)),
-              alignment: Alignment.center,
-              decoration: BoxDecoration(
-                  color: Colors.black12,
-                  border: Border.all(color: Color.fromARGB(255, 82, 74, 74), width: 0.5),
-                  borderRadius: BorderRadius.circular(1)),
-              child: CachedNetworkImage(
-                  imageUrl: avatarUrl,
-                  fit: BoxFit.fill,
-                  // width: _imageW,
-                  height: _imageH,
-                  placeholderFadeInDuration: Duration(milliseconds: 500),
-                  placeholder: (context, url) => CircularProgressIndicator(),
-                  errorWidget: (context, url, error) => Icon(Icons.error)),
-            ),
             Expanded(
+              //   constraints: BoxConstraints.tight(Size(_imageW, _imageH)),
+              //   padding: EdgeInsets.all(18),
+              //   alignment: Alignment.center,
+              //   decoration: BoxDecoration(
+              //       color: Colors.black12,
+              //       border: Border.all(color: Color.fromARGB(255, 82, 74, 74), width: 0.5),
+              //       borderRadius: BorderRadius.circular(1)),
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: CachedNetworkImage(
+                    imageUrl: avatarUrl,
+                    fit: BoxFit.fill,
+                    placeholderFadeInDuration: Duration(milliseconds: 200),
+                    placeholder: (context, url) => CircularProgressIndicator(),
+                    errorWidget: (context, url, error) => Icon(Icons.error)),
+              ),
+            ),
+            SizedBox(
+              height: 5,
+            ),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 8),
               child: Text(
                 _book.name,
+                maxLines: 2,
                 style: TextStyle(fontWeight: FontWeight.bold, fontSize: 14),
                 overflow: TextOverflow.ellipsis,
                 textAlign: TextAlign.center,
               ),
-            )
+            ),
+            SizedBox(
+              height: 5,
+            ),
           ],
         ),
       ),
@@ -129,7 +142,7 @@ class _BookGalleryState extends State<BookGalleryPage> {
       appBar: AppBar(
         title: Text('Choose Group'),
       ),
-      body: Center(child: _createUI()),
+      body: _createUI(),
       drawer: Drawer(child: BookGroupDrawer(onBookItemClick: this._onBookGroupItemClick)),
     );
   }

@@ -5,6 +5,7 @@ class App {
   static const String ROUTE_SPLASH = "/splash";
   static const String ROUTE_BOOK_GROUP = "/book_group";
   static const String ROUTE_WORDS_DETAIL = "/word_detail_page";
+  static const String ROUTE_REGISTER = "/register";
 
   // 是否登录成功
   static bool _loginSuccess = false;

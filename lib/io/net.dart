@@ -9,7 +9,16 @@ import 'package:my_eng_program/util/logger.dart';
 import '../data/book_group.dart';
 import '../data/server_resp.dart';
 
-const URL_ROOT = "http://127.0.0.1:8889/";
+// const URL_ROOT = "http://192.168.0.124:8889/";
+// const URL_ROOT = "http://127.0.0.1:8889/";
+
+String _getUrlRoot() {
+  if (Platform.isWindows) {
+    return "http://127.0.0.1:8889/";
+  } else {
+    return "http://192.168.0.124:8889/";
+  }
+}
 
 Map<String, String> _createHeader() {
   Map<String, String> headers = new Map<String, String>();
@@ -29,7 +38,7 @@ class Service {
 //---------------------------------USER----------------------------------
 
   static Future<Resp> login(identifier, crendital) async {
-    var url = URL_ROOT + "login";
+    var url = _getUrlRoot() + "login";
 
     final response = await http.post(Uri.parse(url),
         body: _createBodyParams({'identifier': identifier, 'crendital': crendital}), headers: _createHeader());
@@ -51,7 +60,7 @@ class Service {
   static Future<List<BookGroup>> getBookGroups(userId) async {
     Logger.debug("NET", "getBookGroups userId = $userId");
     if (_sGroups.isEmpty) {
-      final response = await http.post(Uri.parse(URL_ROOT + "book_groups"),
+      final response = await http.post(Uri.parse(_getUrlRoot() + "book_groups"),
           body: _createBodyParams({'user_id': userId}), headers: _createHeader());
 
       if (response.statusCode == 200) {
@@ -82,7 +91,7 @@ class Service {
   }
 
   static Future<List<Book>> getBooksByGroup(groupId, userId) async {
-    final response = await http.post(Uri.parse(URL_ROOT + "book_infos"),
+    final response = await http.post(Uri.parse(_getUrlRoot() + "book_infos"),
         body: _createBodyParams({'user_id': userId, "group_id": groupId}), headers: _createHeader());
 
     if (response.statusCode == 200) {
@@ -143,7 +152,7 @@ class Service {
 //---------------------------------BOOKS END----------------------------------
 
   static Future<List<Word>> getRandomWords(wordDbName, [count = 1]) async {
-    var url = URL_ROOT + "random_words?";
+    var url = _getUrlRoot() + "random_words?";
     final response = await http.post(Uri.parse(url),
         body: _createBodyParams({'word_db_nm': wordDbName, "count": count}), headers: _createHeader());
 

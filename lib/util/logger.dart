@@ -3,9 +3,6 @@ import 'package:ansicolor/ansicolor.dart';
 class Logger {
   static AnsiPen _penRed = AnsiPen()..red();
   static AnsiPen _penGreen = AnsiPen()..green();
-  static AnsiPen _penBlue = AnsiPen()..blue();
-  static AnsiPen _penCyan = AnsiPen()..cyan();
-  static AnsiPen _penGray = AnsiPen()..gray();
 
   static String _getFileLineNo() {
     // StackTrace trace = StackTrace.current;
