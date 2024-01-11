@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:my_eng_program/app.dart';
 import 'package:my_eng_program/data/book_group.dart';
 import 'package:my_eng_program/io/net.dart';
-import 'package:my_eng_program/ui/widgets/book_group_drawer.dart';
+import 'package:my_eng_program/ui/widgets/home_drawer.dart';
 import 'package:my_eng_program/util/logger.dart';
 
 import '../data/book.dart';
@@ -68,7 +68,7 @@ class _BookGalleryState extends State<BookGalleryPage> {
 
   Widget _createBookItemUI(index) {
     Book _book = _lstBooks[index];
-    String avatarUrl = _book.coverUrl ?? "";
+    String avatarUrl = _book.cover ?? "";
 
     return Card(
       color: Colors.grey,
@@ -143,7 +143,7 @@ class _BookGalleryState extends State<BookGalleryPage> {
         title: Text('Choose Group'),
       ),
       body: _createUI(),
-      drawer: Drawer(child: BookGroupDrawer(onBookItemClick: this._onBookGroupItemClick)),
+      drawer: Drawer(child: HomeDrawer()),
     );
   }
 }

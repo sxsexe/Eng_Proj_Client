@@ -1,13 +1,14 @@
 import 'dart:convert';
 
 import 'package:my_eng_program/data/chapter.dart';
+import 'package:my_eng_program/data/chapter_content.dart';
 
 class Book {
   final String id;
   final String name;
   // 书分类ID
   final String groupID;
-  String? coverUrl;
+  String? cover;
   String? desc;
   String? subTitle;
 
@@ -15,7 +16,10 @@ class Book {
   int type = -1;
 
   String? DBName;
-  List<Chapter>? chapterList = [];
+  List<Chapter> chapterList = [];
+  List<ChapterContent> contentList = [];
+
+  bool isDone = false;
 
   Book({required this.id, required this.name, required this.groupID, required this.type});
 
@@ -25,17 +29,28 @@ class Book {
         name: json['name'] as String,
         groupID: json['group_id'] as String,
         type: json['type'] as int);
-    book.coverUrl = json['cover'];
+    book.cover = json['cover'];
     book.desc = json['desc'];
     book.subTitle = json['sub_title'];
     book.type = json['type'];
 
     book.DBName = json['word_db_name'];
 
+    if (json.containsKey('is_done')) {
+      book.isDone = json['is_done'] == 1;
+    }
+
     var lstData = json['chapters'];
     if (lstData != null) {
       for (var e in lstData) {
-        book.chapterList!.add(Chapter.fromJson(e));
+        book.chapterList.add(Chapter.fromJson(e));
+      }
+    }
+
+    lstData = json['contents'];
+    if (lstData != null) {
+      for (var e in lstData) {
+        book.contentList.add(ChapterContent.fromJson(e));
       }
     }
 
@@ -47,7 +62,7 @@ class Book {
         "name": name,
         "group_id": groupID,
         "type": type,
-        "avatar": coverUrl,
+        "avatar": cover,
         "desc": desc,
         "sub_title": subTitle,
         "DBName": DBName

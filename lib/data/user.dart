@@ -2,8 +2,8 @@ class User {
   late String id;
   String? name;
   String? avatar;
-  //1 登录用户 2 VIP用户
-  late int type;
+  //0 普通用户 2 VIP用户
+  late int vipType;
   late String createTime;
   String? updateTime;
   List<Auths> auths = [];
@@ -12,7 +12,7 @@ class User {
       {required this.id,
       this.name,
       this.avatar,
-      required this.type,
+      required this.vipType,
       required this.createTime,
       this.updateTime,
       required this.auths});
@@ -21,7 +21,7 @@ class User {
     id = json['_id'];
     name = json['name'];
     avatar = json['avatar'];
-    type = json['type'];
+    vipType = json['vip_type'];
     createTime = json['create_time'];
     updateTime = json['update_time'];
     json['auths'].forEach((v) {
@@ -34,7 +34,7 @@ class User {
     data['id'] = this.id;
     data['name'] = this.name;
     data['avatar'] = this.avatar;
-    data['type'] = this.type;
+    data['vip_type'] = this.vipType;
     data['create_time'] = this.createTime;
     data['update_time'] = this.updateTime;
     data['auths'] = this.auths.map((v) => v.toJson()).toList();

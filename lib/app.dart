@@ -6,6 +6,10 @@ class App {
   static const String ROUTE_BOOK_GROUP = "/book_group";
   static const String ROUTE_WORDS_DETAIL = "/word_detail_page";
   static const String ROUTE_REGISTER = "/register";
+  static const String ROUTE_MAIN = "/main";
+
+  static const int LOGIN_TYPE_PWD = 1;
+  static const int LOGIN_TYPE_APP = 2;
 
   // 是否登录成功
   static bool _loginSuccess = false;
@@ -19,6 +23,11 @@ class App {
       return user;
     }
     return _user;
+  }
+
+  static String? getUserId() {
+    if (_user != null) return _user!.id;
+    return "";
   }
 
   static set loginState(bool success) => _loginSuccess = success;

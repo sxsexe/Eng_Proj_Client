@@ -2,9 +2,9 @@ import 'dart:convert';
 
 class Resp {
   late ErrorInfo error;
-  late Map<String, dynamic> data;
+  Map<String, dynamic>? data;
 
-  Resp({required this.error, required this.data});
+  Resp({required this.error});
 
   Resp.fromJson(Map<String, dynamic> json) {
     error = ErrorInfo.fromJson(json['error']);

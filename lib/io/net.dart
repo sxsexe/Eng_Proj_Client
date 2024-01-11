@@ -37,14 +37,27 @@ bool _checkRestSuccess(errorObj) {
 class Service {
 //---------------------------------USER----------------------------------
 
-  static Future<Resp> login(identifier, crendital) async {
+  static Future<Resp> login(identifier, credential) async {
     var url = _getUrlRoot() + "login";
 
     final response = await http.post(Uri.parse(url),
-        body: _createBodyParams({'identifier': identifier, 'crendital': crendital}), headers: _createHeader());
+        body: _createBodyParams({'identifier': identifier, 'credential': credential}), headers: _createHeader());
     Map<String, dynamic> map = jsonDecode(utf8.decode(response.bodyBytes));
     Resp resp = Resp.fromJson(map);
-    Logger.debug("NET", resp.toJson());
+    Logger.debug("NET login", resp.toJson());
+
+    return resp;
+  }
+
+  static Future<Resp> register(identifier, credential, type) async {
+    var url = _getUrlRoot() + "register";
+
+    final response = await http.post(Uri.parse(url),
+        body: _createBodyParams({'identifier': identifier, 'credential': credential, 'identity_type': type}),
+        headers: _createHeader());
+    Map<String, dynamic> map = jsonDecode(utf8.decode(response.bodyBytes));
+    Resp resp = Resp.fromJson(map);
+    Logger.debug("NET register", resp.toJson());
 
     return resp;
   }
@@ -53,10 +66,10 @@ class Service {
 
 //---------------------------------BOOKS----------------------------------
 
-  static List<BookGroup> _sGroups = [];
   /**
-   * @param userId   根据用户ID获取图书分类
+   * @param userId   根据用户ID获取图书分类  TODO  现在是返回所有
    */
+  static List<BookGroup> _sGroups = [];
   static Future<List<BookGroup>> getBookGroups(userId) async {
     Logger.debug("NET", "getBookGroups userId = $userId");
     if (_sGroups.isEmpty) {
@@ -67,7 +80,7 @@ class Service {
         var maps = jsonDecode(utf8.decode(response.bodyBytes)) as Map<String, dynamic>;
         var errorObj = maps['error'];
         if (_checkRestSuccess(errorObj)) {
-          List<BookGroup> bookGroups = [BookGroup(id: 'ID_Header', name: 'Header')];
+          List<BookGroup> bookGroups = [];
           var lstData = maps['data']['book_groups'];
           for (var group in lstData) {
             BookGroup bookGroup = BookGroup.fromJson(group);
@@ -77,7 +90,7 @@ class Service {
           _sGroups.addAll(bookGroups);
           return bookGroups;
         } else {
-          Logger.error("NET", "getBookGroups error " + errorObj);
+          Logger.error("NET getBookGroups", "getBookGroups error " + errorObj);
           throw Exception('Failed to getBookGroups');
         }
       } else {
@@ -104,39 +117,6 @@ class Service {
           Book book = Book.fromJson(item);
           lstBooks.add(book);
         }
-        //FIXME
-        // lstBooks.add(Book.fromJson({
-        //   '_id': '121321323123',
-        //   'name': 'KET 1200高频词汇',
-        //   'group_id': '6590d54abf8a3ab2facf3749',
-        //   'type': 0,
-        //   'avatar': 'https://img-blog.csdnimg.cn/20210324100419204.png'.trim()
-        // }));
-        // lstBooks.add(Book.fromJson({
-        //   '_id': '658d49e6bf8a3ab2facf312',
-        //   'name': 'KET 1200高频词汇',
-        //   'group_id': '6590d54abf8a3ab2facf3749',
-        //   'type': 0,
-        //   'avatar':
-        //       'https://upload-images.jianshu.io/upload_images/574822-14c4f10cd4edb1df.png?imageMogr2/auto-orient/strip|imageView2/2/w/1200/format/webp'
-        // }));
-        // lstBooks.add(Book.fromJson({
-        //   '_id': '235234234234234',
-        //   'name': 'KET 1200高频词汇',
-        //   'group_id': '6590d54abf8a3ab2facf3749',
-        //   'type': 0,
-        //   'avatar':
-        //       'https://upload-images.jianshu.io/upload_images/13564023-350987fa42e50d8d.png?imageMogr2/auto-orient/strip|imageView2/2/w/1200/format/webp'
-        // }));
-        // lstBooks.add(Book.fromJson({
-        //   '_id': 'asd132123szsd123123',
-        //   'name': 'KET 1200高频词汇',
-        //   'group_id': '6590d54abf8a3ab2facf3749',
-        //   'type': 0,
-        //   'avatar':
-        //       'https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/384edd6e7f6d40ae91cd551ea9e19982~tplv-k3u1fbpfcp-zoom-in-crop-mark:1512:0:0:0.awebp'
-        // }));
-
         return lstBooks;
       } else {
         Logger.error("NET", "getBooksByGroup error " + errorObj);
@@ -146,6 +126,36 @@ class Service {
       // If the server did not return a 200 OK response,
       // then throw an exception.
       throw HttpException('Failed to getBooksByGroup');
+    }
+  }
+
+/**
+ * 根据 userId和type获取书
+ * type 1 : 正在学习   2 ：学完的
+ */
+  static Future<List<Book>> getUserBooks(String userId, bool isDone) async {
+    var url = _getUrlRoot() + "get_user_books";
+    final response = await http.post(Uri.parse(url),
+        body: _createBodyParams({'user_id': userId, "is_done": isDone ? 1 : 0}), headers: _createHeader());
+
+    if (response.statusCode == 200) {
+      var maps = jsonDecode(utf8.decode(response.bodyBytes)) as Map<String, dynamic>;
+      var errorObj = maps['error'];
+      if (_checkRestSuccess(errorObj)) {
+        List<Book> lstBooks = [];
+        var lstData = maps['data']['user_books'];
+        lstData.forEach((element) {
+          Book book = Book.fromJson(element);
+          // word.name = "businesswoman";
+          lstBooks.add(book);
+        });
+        return lstBooks;
+      } else {
+        Logger.error("NET", "getRandomWords error " + errorObj);
+        throw Exception('Failed to getBookGroups');
+      }
+    } else {
+      throw Exception('Failed to getRandomWords');
     }
   }
 

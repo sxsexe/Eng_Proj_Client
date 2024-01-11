@@ -6,6 +6,7 @@ import 'package:my_eng_program/app.dart';
 import 'package:my_eng_program/data/user.dart';
 import 'package:my_eng_program/io/net.dart';
 import 'package:my_eng_program/util/logger.dart';
+import 'package:my_eng_program/util/strings.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../data/server_resp.dart';
@@ -45,17 +46,17 @@ class _SplashState extends State<Splash> with TickerProviderStateMixin {
 
   Future<bool> autoLogin() async {
     SharedPreferences sp = await SharedPreferences.getInstance();
-    String? userIdentifier = await sp.getString("user_identifier");
+    String? identifier = await sp.getString(Strings.KEY_USER_IDENTIFIER);
+    String? credential = await sp.getString(Strings.KEY_USER_CREDENTIAL);
 
     //FIXME
-    userIdentifier = "";
+    identifier = "111111";
+    credential = "2222222";
 
-    Resp resp = await Service.login(userIdentifier, "");
+    Resp resp = await Service.login(identifier, credential);
     App.loginState = resp.error.errorNo == 0;
-    App.user = User.fromJson(resp.data['user']);
+    if (resp.data != null) App.user = User.fromJson(resp.data!['user']);
     bool login = App.isLoginSuccess();
-
-    Service.getBookGroups(App.getUser()!.id);
     return login;
   }
 
@@ -63,7 +64,6 @@ class _SplashState extends State<Splash> with TickerProviderStateMixin {
   void initState() {
     super.initState();
 
-    // App.putUserIdentifierInSP("13717542218").then((value) => Logger.debug("Splash", "put 13717542218 success"));
     autoLogin().then((value) {
       setState(() {
         _loginState = value ? 1 : 0;
@@ -107,9 +107,9 @@ class _SplashState extends State<Splash> with TickerProviderStateMixin {
     super.dispose();
   }
 
-  void _goToBookGalleryPage() {
+  void _goToMainPage() {
     Navigator.pop(context);
-    Navigator.pushNamed(context, App.ROUTE_BOOK_GROUP);
+    Navigator.pushNamed(context, App.ROUTE_MAIN);
   }
 
   void _gotoRegisterPage() {
@@ -148,7 +148,7 @@ class _SplashState extends State<Splash> with TickerProviderStateMixin {
     } else if (_loginState == 0) {
       t = Text(
         "直接使用",
-        style: TextStyle(color: Colors.black, decoration: TextDecoration.none, fontSize: 24),
+        style: TextStyle(color: Colors.black, decoration: TextDecoration.none, fontSize: 28),
       );
     } else {
       t = SizedBox(
@@ -157,14 +157,14 @@ class _SplashState extends State<Splash> with TickerProviderStateMixin {
     }
 
     return Positioned(
-      top: 360,
+      top: 320,
       child: Material(
         color: Color.fromARGB(255, 240, 231, 190),
         child: InkWell(
           child: t,
           onTap: () {
             Logger.debug("Splash", "OnClick Let's have some fun");
-            _goToBookGalleryPage();
+            _goToMainPage();
           },
         ),
       ),
@@ -172,21 +172,38 @@ class _SplashState extends State<Splash> with TickerProviderStateMixin {
   }
 
   Stack _createLoginSuccessUI() {
+    String? _avatarUrl = App.getUser()!.avatar ?? "";
+    String? _name = App.getUser()!.name;
+    String C = "";
+    if (_name != null && _name.isNotEmpty) {
+      C = _name[0];
+    }
+
+    Widget _avatar;
+    if (_avatarUrl.isEmpty) {
+      _avatar = CircleAvatar(
+        backgroundColor: Colors.green,
+        radius: _radis,
+        child: Text(
+          C,
+          style: TextStyle(fontSize: 64, color: Colors.black),
+        ),
+      );
+    } else {
+      _avatar = Container(
+        width: _radis * 3,
+        height: _radis * 3,
+        child: ClipRRect(
+            borderRadius: BorderRadius.circular(_radis * 3 / 2), child: CachedNetworkImage(imageUrl: _avatarUrl)),
+      );
+    }
+
     return Stack(
       alignment: Alignment.center,
       children: [
-        Positioned(
-            child: Container(
-              width: 180,
-              height: 180,
-              child: ClipRRect(
-                borderRadius: BorderRadius.circular(90),
-                child: CachedNetworkImage(imageUrl: App.getUser()!.avatar ?? ""),
-              ),
-            ),
-            top: 160),
+        Positioned(child: _avatar, top: 160),
         if (_showNavLink) _createNavLink(),
-        _createHint()
+        _createHint(),
       ],
     );
   }
@@ -196,37 +213,27 @@ class _SplashState extends State<Splash> with TickerProviderStateMixin {
       alignment: Alignment.center,
       children: [
         Positioned(
-            child: Column(
-              children: [
-                CircleAvatar(
-                  backgroundColor: Colors.green,
-                  radius: _radis,
-                  child: Text(
-                    "游",
-                    style: TextStyle(fontSize: 64, color: Colors.black),
-                  ),
-                ),
-                SizedBox(
-                  height: 10,
-                ),
-                Material(
-                  child: InkWell(
-                    child: Text(
-                      "现在去注册?",
-                      style: TextStyle(color: Colors.black87, decoration: TextDecoration.underline, fontSize: 16),
-                    ),
-                    onTap: () {
-                      _gotoRegisterPage();
-                    },
-                  ),
-                )
-              ],
+            child: CircleAvatar(
+              backgroundColor: Colors.green,
+              radius: _radis,
+              child: Text(
+                "游",
+                style: TextStyle(fontSize: 64, color: Colors.black),
+              ),
             ),
             top: 160),
-        SizedBox(
-          height: 20,
-        ),
         if (_showNavLink) _createNavLink(),
+        Material(
+          child: InkWell(
+            child: Text(
+              "现在去注册?",
+              style: TextStyle(color: Colors.black87, decoration: TextDecoration.underline, fontSize: 16),
+            ),
+            onTap: () {
+              _gotoRegisterPage();
+            },
+          ),
+        ),
         _createHint()
       ],
     );

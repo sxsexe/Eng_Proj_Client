@@ -4,16 +4,19 @@ class ChapterContent {
   ContentType type = ContentType.C_TEXT;
 
   String content;
+  int idx = 0;
 
   ChapterContent({required this.type, required this.content});
 
   factory ChapterContent.fromJson(Map<String, dynamic> json) {
     ContentType cType = ContentType.values[json['type'] as int];
-    return ChapterContent(type: cType, content: json['content']);
+    ChapterContent obj = ChapterContent(type: cType, content: json['content']);
+    obj.idx = json['idx'];
+    return obj;
   }
 
   @override
   String toString() {
-    return "[ChapterContent type = $type, content = $content]";
+    return "[ChapterContent idx=$idx,  type = $type, content = $content]";
   }
 }
