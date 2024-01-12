@@ -29,7 +29,10 @@ class _MainPageState extends State<MainPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(_pageList[_curIndex].getTitle()),
+        title: Text(
+          _pageList[_curIndex].getTitle(),
+          style: TextStyle(fontSize: Theme.of(context).textTheme.titleMedium!.fontSize),
+        ),
       ),
       drawer: Drawer(child: HomeDrawer()),
       body: PageView(
@@ -127,7 +130,7 @@ class _PageSubState extends State<_PageSub> with AutomaticKeepAliveClientMixin, 
       return Center(
         child: CircularProgressIndicator(
           value: _controller.value,
-          color: Colors.red,
+          color: Theme.of(context).colorScheme.secondary,
         ),
       );
     } else {
@@ -135,11 +138,11 @@ class _PageSubState extends State<_PageSub> with AutomaticKeepAliveClientMixin, 
         return GridView(
           padding: EdgeInsets.symmetric(horizontal: 12),
           gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-            crossAxisCount: 3,
+            crossAxisCount: 2,
             // 主轴间距
-            mainAxisSpacing: 12,
+            mainAxisSpacing: 24,
             // 次轴间距
-            crossAxisSpacing: 12,
+            crossAxisSpacing: 24,
             // 子项宽高比率
             childAspectRatio: 3 / 4,
           ),
@@ -169,8 +172,12 @@ class _PageSubState extends State<_PageSub> with AutomaticKeepAliveClientMixin, 
 
   Widget _createBookItemUI(Book book) {
     return Card(
-      color: Colors.grey,
+        color: Theme.of(context).colorScheme.primaryContainer,
+    //   color: Colors.pink,
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.zero),
       child: InkWell(
+        borderRadius: BorderRadius.zero,
+        radius: 0,
         onTap: () {
           //   Book book = _lstBooks[index];
           //   Logger.debug("_main_page", 'on book click index = $index');
@@ -201,7 +208,8 @@ class _PageSubState extends State<_PageSub> with AutomaticKeepAliveClientMixin, 
               child: Text(
                 book.name,
                 maxLines: 2,
-                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 14),
+                style:
+                    TextStyle(fontWeight: FontWeight.w500, fontSize: 14, color: Theme.of(context).colorScheme.primary),
                 overflow: TextOverflow.ellipsis,
                 textAlign: TextAlign.center,
               ),
@@ -217,7 +225,7 @@ class _PageSubState extends State<_PageSub> with AutomaticKeepAliveClientMixin, 
 
   Widget _createBookGroupItemUI(BookGroup bookGroup) {
     return Card(
-      color: Colors.grey,
+      color: Theme.of(context).colorScheme.primaryContainer,
       child: InkWell(
         onTap: () {
           //   Book book = _lstBooks[index];

@@ -1,21 +1,26 @@
 import 'package:flutter/material.dart';
 import 'package:my_eng_program/data/user.dart';
+import 'package:my_eng_program/ui/widgets/theme_notifier.dart';
 
 class App {
   static const String ROUTE_SPLASH = "/splash";
   static const String ROUTE_BOOK_GROUP = "/book_group";
   static const String ROUTE_WORDS_DETAIL = "/word_detail_page";
+  static const String ROUTE_BOOK_CONTENT = "/book_content_page";
   static const String ROUTE_REGISTER = "/register";
   static const String ROUTE_MAIN = "/main";
 
   static const int LOGIN_TYPE_PWD = 1;
   static const int LOGIN_TYPE_APP = 2;
 
+  static bool ThemeIsDark = false;
+  static ThemeNotifier _sThemeNotifier = new ThemeNotifier();
+  static ThemeNotifier get themeNotifier => _sThemeNotifier;
+
   // 是否登录成功
   static bool _loginSuccess = false;
 
   static User? _user;
-
   static set user(User user) => _user = user;
   static User? getUser() {
     if (!_loginSuccess) {

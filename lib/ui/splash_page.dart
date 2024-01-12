@@ -21,11 +21,10 @@ class Splash extends StatefulWidget {
 }
 
 class _SplashState extends State<Splash> with TickerProviderStateMixin {
-  int _alpha = 0;
   double _radis = 0;
   // 0 : login failed, 1 : login success, -1 : ing
   int _loginState = -1;
-  bool _showNavLink = false;
+  bool _AnimStopped = false;
 
   late AnimationController _animationController;
 
@@ -50,7 +49,8 @@ class _SplashState extends State<Splash> with TickerProviderStateMixin {
     String? credential = await sp.getString(Strings.KEY_USER_CREDENTIAL);
 
     //FIXME
-    identifier = "111111";
+    // identifier = "111111";
+    identifier = "";
     credential = "2222222";
 
     Resp resp = await Service.login(identifier, credential);
@@ -64,40 +64,42 @@ class _SplashState extends State<Splash> with TickerProviderStateMixin {
   void initState() {
     super.initState();
 
-    autoLogin().then((value) {
-      setState(() {
-        _loginState = value ? 1 : 0;
-      });
-      _startAnimation();
-    }).catchError((e) {
-      Logger.debug("Splash", "autoLogin Catch error " + e.toString());
-      setState(() {
-        _loginState = 0;
-      });
-      _startAnimation();
-    });
+    Future.delayed(
+        Duration(milliseconds: 300),
+        () => autoLogin().then((value) {
+              setState(() {
+                _loginState = value ? 1 : 0;
+              });
+              _startAnimation();
+            }).catchError((e) {
+              Logger.debug("Splash", "autoLogin Catch error " + e.toString());
+              setState(() {
+                _loginState = 0;
+              });
+              _startAnimation();
+            }));
 
     _animationController =
-        AnimationController(vsync: this, duration: Duration(milliseconds: 1000), lowerBound: 0, upperBound: 1)
+        AnimationController(vsync: this, duration: Duration(milliseconds: 800), lowerBound: 0, upperBound: 1)
           ..addListener(() {
             setState(() {
               int value = _animationController.value.toInt();
-              _alpha = value * 255;
+              //   _alpha = value * 255;
               _radis = value * 60;
             });
           });
 
     _animationController.addStatusListener((status) {
       if (status == AnimationStatus.completed) {
-        Logger.debug("Splash", "Animation Complete");
         setState(() {
-          _showNavLink = true;
+          _AnimStopped = true;
         });
       }
     });
   }
 
   void _startAnimation() {
+    Logger.debug("Splash", "_startAnimation");
     _animationController.forward();
   }
 
@@ -121,35 +123,42 @@ class _SplashState extends State<Splash> with TickerProviderStateMixin {
     int index = Random().nextInt(_lstSents.length);
 
     return Positioned(
-        bottom: 40,
+        bottom: 32,
         child: Container(
           margin: EdgeInsets.symmetric(horizontal: 30),
           width: MediaQuery.of(context).size.width,
           child: Padding(
             padding: const EdgeInsets.all(18.0),
-            child: Text(_lstSents[index],
-                textAlign: TextAlign.start,
-                style: TextStyle(
-                    fontWeight: FontWeight.w300,
-                    fontSize: 18,
-                    color: Color.fromARGB(_alpha, 23, 25, 12),
-                    decoration: TextDecoration.none)),
+            child: Text(
+              _lstSents[index],
+              textAlign: TextAlign.start,
+              style: Theme.of(context)
+                  .textTheme
+                  .displaySmall!
+                  .copyWith(color: Theme.of(context).colorScheme.primary, fontWeight: FontWeight.w200),
+            ),
           ),
         ));
   }
 
   Widget _createNavLink() {
     Widget t;
+
+    var _textStyle = TextStyle(
+      color: Theme.of(context).colorScheme.primary,
+      fontWeight: FontWeight.w300,
+      decoration: TextDecoration.underline,
+      fontStyle: FontStyle.italic,
+      fontSize: 24,
+    );
+
     if (_loginState == 1) {
       t = Text(
-        "Let's have some fun ->",
-        style: TextStyle(color: Colors.black, decoration: TextDecoration.underline, fontSize: 24),
+        Strings.BTN_TEXT_GO_LOGIN,
+        style: _textStyle,
       );
     } else if (_loginState == 0) {
-      t = Text(
-        "直接使用",
-        style: TextStyle(color: Colors.black, decoration: TextDecoration.none, fontSize: 28),
-      );
+      t = Text(Strings.BTN_TEXT_GO_UNLOGIN, style: _textStyle.copyWith(fontStyle: FontStyle.normal));
     } else {
       t = SizedBox(
         height: 0,
@@ -159,7 +168,7 @@ class _SplashState extends State<Splash> with TickerProviderStateMixin {
     return Positioned(
       top: 320,
       child: Material(
-        color: Color.fromARGB(255, 240, 231, 190),
+        // color: Color.fromARGB(255, 240, 231, 190),
         child: InkWell(
           child: t,
           onTap: () {
@@ -182,11 +191,11 @@ class _SplashState extends State<Splash> with TickerProviderStateMixin {
     Widget _avatar;
     if (_avatarUrl.isEmpty) {
       _avatar = CircleAvatar(
-        backgroundColor: Colors.green,
+        backgroundColor: Theme.of(context).colorScheme.primaryContainer,
         radius: _radis,
         child: Text(
           C,
-          style: TextStyle(fontSize: 64, color: Colors.black),
+          style: TextStyle(fontSize: 64, color: Theme.of(context).colorScheme.primary),
         ),
       );
     } else {
@@ -202,8 +211,8 @@ class _SplashState extends State<Splash> with TickerProviderStateMixin {
       alignment: Alignment.center,
       children: [
         Positioned(child: _avatar, top: 160),
-        if (_showNavLink) _createNavLink(),
-        _createHint(),
+        if (_AnimStopped) _createNavLink(),
+        if (_AnimStopped) _createHint(),
       ],
     );
   }
@@ -214,27 +223,29 @@ class _SplashState extends State<Splash> with TickerProviderStateMixin {
       children: [
         Positioned(
             child: CircleAvatar(
-              backgroundColor: Colors.green,
+              backgroundColor: Theme.of(context).colorScheme.primaryContainer,
               radius: _radis,
               child: Text(
-                "游",
-                style: TextStyle(fontSize: 64, color: Colors.black),
+                Strings.STR_YOU,
+                style: TextStyle(fontSize: 64, color: Theme.of(context).colorScheme.primary),
               ),
             ),
             top: 160),
-        if (_showNavLink) _createNavLink(),
-        Material(
-          child: InkWell(
-            child: Text(
-              "现在去注册?",
-              style: TextStyle(color: Colors.black87, decoration: TextDecoration.underline, fontSize: 16),
+        if (_AnimStopped) _createNavLink(),
+        if (_AnimStopped)
+          Material(
+            child: InkWell(
+              child: Text(
+                Strings.STR_ASK_TO_REGISTER,
+                style: TextStyle(
+                    color: Theme.of(context).colorScheme.secondary, decoration: TextDecoration.underline, fontSize: 16),
+              ),
+              onTap: () {
+                _gotoRegisterPage();
+              },
             ),
-            onTap: () {
-              _gotoRegisterPage();
-            },
           ),
-        ),
-        _createHint()
+        if (_AnimStopped) _createHint()
       ],
     );
   }
@@ -243,16 +254,23 @@ class _SplashState extends State<Splash> with TickerProviderStateMixin {
     return Stack(
       alignment: Alignment.center,
       children: [
-        Text("Loading...",
-            style: TextStyle(
-                color: Colors.black, fontWeight: FontWeight.normal, decoration: TextDecoration.none, fontSize: 24))
+        Text(
+          "Loading...",
+          style: TextStyle(
+            color: Theme.of(context).colorScheme.primary,
+            fontWeight: FontWeight.normal,
+            decoration: TextDecoration.none,
+            fontSize: 24,
+          ),
+        )
       ],
     );
   }
 
   @override
   Widget build(BuildContext context) {
-    Widget widget = Container();
+    Widget widget;
+    Logger.debug("Splash", "build _loginState = $_loginState");
     if (_loginState == -1) {
       widget = _createLoginIngUI();
     } else if (_loginState == 1) {
@@ -261,7 +279,12 @@ class _SplashState extends State<Splash> with TickerProviderStateMixin {
       widget = _createLoginFailedUI();
     }
 
-    return Container(
-        width: double.infinity, height: double.infinity, color: Color.fromARGB(255, 240, 231, 190), child: widget);
+    return Material(
+      child: Container(
+        child: widget,
+        color: Theme.of(context).colorScheme.background,
+        //   color: Colors.red,
+      ),
+    );
   }
 }

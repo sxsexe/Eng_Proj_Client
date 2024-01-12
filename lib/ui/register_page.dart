@@ -32,7 +32,7 @@ class _RegisterState extends State<RegisterPage> with TickerProviderStateMixin {
   _buildHeader() {
     return Container(
       width: double.infinity,
-      height: 250,
+      height: 180,
       decoration: BoxDecoration(
         gradient: LinearGradient(colors: [Color.fromARGB(255, 133, 234, 33), Colors.orange]),
       ),
@@ -43,6 +43,7 @@ class _RegisterState extends State<RegisterPage> with TickerProviderStateMixin {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 40),
       child: TextFormField(
+        style: Theme.of(context).textTheme.displayMedium,
         onSaved: (newValue) {
           _name = newValue!;
           Logger.debug("Register", " onSaved name = $newValue");
@@ -61,7 +62,7 @@ class _RegisterState extends State<RegisterPage> with TickerProviderStateMixin {
         },
         decoration: InputDecoration(
           labelText: "用户名",
-          labelStyle: TextStyle(color: Colors.black, fontSize: 24),
+          labelStyle: Theme.of(context).textTheme.displaySmall,
         ),
       ),
     );
@@ -71,6 +72,7 @@ class _RegisterState extends State<RegisterPage> with TickerProviderStateMixin {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 40),
       child: TextFormField(
+        style: Theme.of(context).textTheme.displayMedium,
         onSaved: (newValue) {
           _pwd = newValue!;
           Logger.debug("Register", " onSaved psw = $newValue");
@@ -91,12 +93,16 @@ class _RegisterState extends State<RegisterPage> with TickerProviderStateMixin {
         },
         decoration: InputDecoration(
             labelText: "密码",
-            labelStyle: TextStyle(color: Colors.black, fontSize: 24),
+            labelStyle: Theme.of(context).textTheme.displaySmall,
             suffixIcon: IconButton(
                 onPressed: () {
                   setState(() {
                     _isObscure = !_isObscure;
-                    _eyeColor = _isObscure ? Colors.grey : Colors.black;
+                    _eyeColor = _isObscure
+                        ? Colors.grey
+                        : App.ThemeIsDark
+                            ? Colors.white
+                            : Colors.black;
                   });
                 },
                 icon: Icon(
@@ -108,9 +114,14 @@ class _RegisterState extends State<RegisterPage> with TickerProviderStateMixin {
   }
 
   _buildRegisterBtn() {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 160),
+    return Container(
+      width: 180,
+      height: 56,
+      //   constraints: BoxConstraints(maxWidth: 120),
       child: ElevatedButton(
+        style: ElevatedButton.styleFrom(
+          backgroundColor: Theme.of(context).colorScheme.primaryContainer,
+        ),
         onPressed: () async {
           if (!_btnEnable) {
             return;
@@ -175,7 +186,7 @@ class _RegisterState extends State<RegisterPage> with TickerProviderStateMixin {
         },
         child: Text(
           "注册",
-          style: TextStyle(color: Colors.black, fontSize: 32),
+          style: Theme.of(context).textTheme.displaySmall,
         ),
       ),
     );
@@ -186,8 +197,8 @@ class _RegisterState extends State<RegisterPage> with TickerProviderStateMixin {
       semanticsLabel: 'Linear progress indicator',
       minHeight: _ProgressHeight,
       value: _controller.value,
-      color: Colors.purple,
-      backgroundColor: Colors.grey,
+      color: Theme.of(context).colorScheme.primary,
+      backgroundColor: Theme.of(context).colorScheme.primaryContainer,
     );
   }
 
@@ -215,11 +226,14 @@ class _RegisterState extends State<RegisterPage> with TickerProviderStateMixin {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Register"),
+        title: Text(
+          "Register",
+          style: Theme.of(context).textTheme.titleMedium,
+        ),
       ),
       body: Form(
           key: _FormKey,
-          child: ListView(
+          child: Column(
             children: [
               _buildHeader(),
               _buildProgressIndicator(),

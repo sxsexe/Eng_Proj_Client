@@ -151,7 +151,7 @@ class Service {
         });
         return lstBooks;
       } else {
-        Logger.error("NET", "getRandomWords error " + errorObj);
+        Logger.error("NET", "getRandomWords error " + errorObj.toString());
         throw Exception('Failed to getBookGroups');
       }
     } else {
