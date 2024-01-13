@@ -90,8 +90,8 @@ class _PageSubState extends State<_PageSub> with AutomaticKeepAliveClientMixin, 
     _controller.repeat(reverse: false);
 
     String? userId = App.getUserId();
-    if (userId != null) {
-      if (widget.type == PAGE_TYPE_ING) {
+    if (widget.type == PAGE_TYPE_ING || widget.type == PAGE_TYPE_DONE) {
+      if (userId != null) {
         Service.getUserBooks(userId, false).then((books) {
           Logger.debug("_PageSubState", books.toString());
           setState(() {
@@ -99,23 +99,26 @@ class _PageSubState extends State<_PageSub> with AutomaticKeepAliveClientMixin, 
             _lstBooks = books;
           });
         });
-      } else if (widget.type == PAGE_TYPE_DONE) {
-        Service.getUserBooks(userId, true).then((books) {
-          Logger.debug("_PageSubState", books.toString());
+      } else {
+        //TODO load from DB
+        Future.delayed(Duration(seconds: 2)).then((value) {
           setState(() {
             _animRunning = false;
-            _lstBooks = books;
-          });
-        });
-      } else if (widget.type == PAGE_TYPE_ALL) {
-        Service.getBookGroups(userId).then((bookGroups) {
-          Logger.debug("_PageSubState", bookGroups.toString());
-          setState(() {
-            _animRunning = false;
-            _lstBookGroups = bookGroups;
+            _lstBooks = [];
           });
         });
       }
+    }
+
+    if (widget.type == PAGE_TYPE_ALL) {
+      if (userId == null) userId = "";
+      Service.getBookGroups(userId).then((bookGroups) {
+        Logger.debug("_PageSubState", bookGroups.toString());
+        setState(() {
+          _animRunning = false;
+          _lstBookGroups = bookGroups;
+        });
+      });
     }
   }
 
@@ -172,8 +175,8 @@ class _PageSubState extends State<_PageSub> with AutomaticKeepAliveClientMixin, 
 
   Widget _createBookItemUI(Book book) {
     return Card(
-        color: Theme.of(context).colorScheme.primaryContainer,
-    //   color: Colors.pink,
+      color: Theme.of(context).colorScheme.primaryContainer,
+      //   color: Colors.pink,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.zero),
       child: InkWell(
         borderRadius: BorderRadius.zero,

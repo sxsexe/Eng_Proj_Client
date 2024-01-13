@@ -32,7 +32,7 @@ class App {
 
   static String? getUserId() {
     if (_user != null) return _user!.id;
-    return "";
+    return null;
   }
 
   static set loginState(bool success) => _loginSuccess = success;
