@@ -2,6 +2,7 @@ import 'dart:math';
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:just_audio/just_audio.dart';
 import 'package:my_eng_program/app.dart';
 import 'package:my_eng_program/data/user.dart';
 import 'package:my_eng_program/io/net.dart';
@@ -114,9 +115,20 @@ class _SplashState extends State<Splash> with TickerProviderStateMixin {
     Navigator.pushNamed(context, App.ROUTE_MAIN);
   }
 
-  void _gotoRegisterPage() {
+  void _gotoRegisterPage() async {
     // Navigator.pop(context);
     Navigator.pushNamed(context, App.ROUTE_REGISTER);
+
+    // final player = AudioPlayer();
+    // final duration =
+    //     await player.setUrl("https://helenadailyenglish.com/English Story for Beginner/10. Today's Mail.mp3");
+    // // player.play(); // 播放（不等待结束）
+    // await player.play(); // 播放（等待结束）
+    // await player.pause();                           // 暂停（保持准备播放）
+    // await player.seek(Duration(seconds: 10));        // 跳到第 10 秒的位置
+    // await player.setSpeed(2.0);                     // 2倍加速播放
+    // await player.setVolume(0.5);                    // 音量降半
+    // await player.stop();
   }
 
   Widget _createHint() {
@@ -270,7 +282,7 @@ class _SplashState extends State<Splash> with TickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
     Widget widget;
-    Logger.debug("Splash", "build _loginState = $_loginState");
+    // Logger.debug("Splash", "build _loginState = $_loginState");
     if (_loginState == -1) {
       widget = _createLoginIngUI();
     } else if (_loginState == 1) {
