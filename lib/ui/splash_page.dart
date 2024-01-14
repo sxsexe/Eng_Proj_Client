@@ -50,8 +50,8 @@ class _SplashState extends State<Splash> with TickerProviderStateMixin {
     String? credential = await sp.getString(Strings.KEY_USER_CREDENTIAL);
 
     //FIXME
-    // identifier = "111111";
-    identifier = "";
+    identifier = "111111";
+    // identifier = "";
     credential = "2222222";
 
     Resp resp = await Service.login(identifier, credential);

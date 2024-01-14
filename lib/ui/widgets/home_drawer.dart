@@ -53,7 +53,7 @@ class _DrawListState extends State<StatefulWidget> {
           SizedBox(height: 8),
           _avater,
           Padding(
-            padding: EdgeInsets.only(top: 20),
+            padding: EdgeInsets.only(top: 5),
             child: Text(
               "$_name",
               style: Theme.of(context).textTheme.titleSmall!.copyWith(color: Theme.of(context).colorScheme.primary),
@@ -79,7 +79,7 @@ class _DrawListState extends State<StatefulWidget> {
             ),
           ),
           Padding(
-            padding: EdgeInsets.only(top: 20),
+            padding: EdgeInsets.only(top: 5),
             child: Material(
               child: InkWell(
                 child: Text(
