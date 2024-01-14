@@ -93,7 +93,9 @@ class _MyAppState extends State<StatefulWidget> {
 
   @override
   Widget build(BuildContext context) {
-    Logger.debug("Splash", "_lightTheme.colorScheme.background = " + _lightTheme.colorScheme.background.toString());
+    // Logger.debug("Splash", "_lightTheme.colorScheme.background = " + _lightTheme.colorScheme.background.toString());
+
+    Logger.debug("main app", "build currentThemeMode " + _curThemeMode.toString());
 
     return MaterialApp(
       title: 'EnglishER',

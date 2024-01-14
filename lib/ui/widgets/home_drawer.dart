@@ -50,10 +50,10 @@ class _DrawListState extends State<StatefulWidget> {
       padding: EdgeInsets.all(0),
       child: Column(
         children: [
-          SizedBox(height: 8),
+          SizedBox(height: 20),
           _avater,
           Padding(
-            padding: EdgeInsets.only(top: 20),
+            padding: EdgeInsets.only(top: 6),
             child: Text(
               "$_name",
               style: Theme.of(context).textTheme.titleSmall!.copyWith(color: Theme.of(context).colorScheme.primary),
@@ -79,13 +79,15 @@ class _DrawListState extends State<StatefulWidget> {
             ),
           ),
           Padding(
-            padding: EdgeInsets.only(top: 20),
+            padding: EdgeInsets.only(top: 6),
             child: Material(
               child: InkWell(
                 child: Text(
                   Strings.STR_ASK_TO_REGISTER,
-                  style:
-                      Theme.of(context).textTheme.displaySmall!.copyWith(color: Theme.of(context).colorScheme.primary),
+                  style: Theme.of(context).textTheme.titleSmall!.copyWith(
+                        color: Theme.of(context).colorScheme.secondary,
+                        decoration: TextDecoration.underline,
+                      ),
                 ),
                 onTap: () {
                   //   _gotoRegisterPage();
