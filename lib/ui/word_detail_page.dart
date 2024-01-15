@@ -30,8 +30,11 @@ class _WordDetailPageState extends State<WordDetailPage> {
   void didChangeDependencies() {
     super.didChangeDependencies();
 
-    _book = ModalRoute.of(context)!.settings.arguments as Book;
+    final Map<String, dynamic> args = ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>;
+    // Logger.debug(TAG, "argument args = $args");
+    _book = Book.fromJson(args);
     Logger.debug(TAG, "argument book = $_book");
+    // String dbName = args['word_db_name'];
     Service.getRandomWords(_book.DBName).then((words) {
       if (words.isNotEmpty) {
         setState(() {

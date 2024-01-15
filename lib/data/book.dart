@@ -34,7 +34,9 @@ class Book {
     book.subTitle = json['sub_title'];
     book.type = json['type'];
 
-    book.DBName = json['word_db_name'];
+    if (json.containsKey('word_db_name')) {
+      book.DBName = json['word_db_name'];
+    }
 
     if (json.containsKey('is_done')) {
       book.isDone = json['is_done'] == 1;
@@ -62,10 +64,10 @@ class Book {
         "name": name,
         "group_id": groupID,
         "type": type,
-        "avatar": cover,
+        "cover": cover,
         "desc": desc,
         "sub_title": subTitle,
-        "DBName": DBName
+        "word_db_name": DBName
       };
 
   @override

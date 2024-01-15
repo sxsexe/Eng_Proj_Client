@@ -1,5 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:my_eng_program/app.dart';
 import 'package:my_eng_program/data/book.dart';
 
 class BookGalleryView extends StatefulWidget {
@@ -15,49 +16,58 @@ class BookGalleryView extends StatefulWidget {
 
 class _BookListState extends State<BookGalleryView> {
   Widget _createBookItemUI(Book book) {
-    return Flex(
-      direction: Axis.vertical,
-      children: [
-        SizedBox(height: 8),
-        Expanded(
-          flex: 3,
-          child: Container(
-            child: CachedNetworkImage(
-                imageUrl: book.cover ?? "",
-                fit: BoxFit.fill,
-                progressIndicatorBuilder: (context, url, downloadProgress) => Center(
-                      child: CircularProgressIndicator(
-                        value: downloadProgress.progress,
-                        color: Theme.of(context).colorScheme.secondary,
-                      ),
-                    ),
-                errorWidget: (context, url, error) => Icon(Icons.error)),
-          ),
-        ),
-        Expanded(
-            flex: 1,
-            child: Container(
-              color: Theme.of(context).colorScheme.primaryContainer,
-              width: double.infinity,
-              child: Row(
-                children: [
-                  SizedBox(width: 8),
-                  Expanded(
-                    child: Text(
-                      book.name,
-                      overflow: TextOverflow.ellipsis,
-                      maxLines: 2,
-                      style: Theme.of(context).textTheme.titleSmall!.copyWith(
-                            color: Theme.of(context).colorScheme.primary,
-                            height: 1.0,
+    return Material(
+      color: Theme.of(context).colorScheme.primaryContainer,
+      child: InkWell(
+        onTap: () {
+          if (book.type == 0) {
+            Navigator.pushNamed(context, App.ROUTE_WORDS_DETAIL, arguments: book.toJson());
+          }
+        },
+        child: Flex(
+          direction: Axis.vertical,
+          children: [
+            SizedBox(height: 8),
+            Expanded(
+              flex: 3,
+              child: Container(
+                child: CachedNetworkImage(
+                    imageUrl: book.cover ?? "",
+                    fit: BoxFit.fill,
+                    progressIndicatorBuilder: (context, url, downloadProgress) => Center(
+                          child: CircularProgressIndicator(
+                            value: downloadProgress.progress,
+                            color: Theme.of(context).colorScheme.secondary,
                           ),
-                    ),
-                  ),
-                  SizedBox(width: 8),
-                ],
+                        ),
+                    errorWidget: (context, url, error) => Icon(Icons.error)),
               ),
-            ))
-      ],
+            ),
+            Expanded(
+                flex: 1,
+                child: Container(
+                  width: double.infinity,
+                  child: Row(
+                    children: [
+                      SizedBox(width: 8),
+                      Expanded(
+                        child: Text(
+                          book.name,
+                          overflow: TextOverflow.ellipsis,
+                          maxLines: 2,
+                          style: Theme.of(context).textTheme.titleSmall!.copyWith(
+                                color: Theme.of(context).colorScheme.primary,
+                                height: 1.0,
+                              ),
+                        ),
+                      ),
+                      SizedBox(width: 8),
+                    ],
+                  ),
+                ))
+          ],
+        ),
+      ),
     );
   }
 

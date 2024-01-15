@@ -175,7 +175,7 @@ class _PageSubState extends State<_PageSub> with AutomaticKeepAliveClientMixin, 
       color: Theme.of(context).colorScheme.primaryContainer,
       child: InkWell(
         onTap: () {
-          Navigator.pushNamed(context, "/book_gallery_page",
+          Navigator.pushNamed(context, App.ROUTE_BOOK_GALLERY_PAGE,
               arguments: {"title": bookGroup.name, "book_group_id": bookGroup.id});
         },
         child: Flex(
