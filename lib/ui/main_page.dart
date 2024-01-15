@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:my_eng_program/app.dart';
 import 'package:my_eng_program/data/book.dart';
 import 'package:my_eng_program/io/net.dart';
-import 'package:my_eng_program/ui/widgets/book_list.dart';
+import 'package:my_eng_program/ui/widgets/book_gallery_view.dart';
 import 'package:my_eng_program/util/logger.dart';
 import 'package:my_eng_program/util/strings.dart';
 
@@ -28,25 +28,22 @@ class _MainPageState extends State<MainPage> {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      scrollBehavior: AppScrollBehavior(),
-      home: Scaffold(
-        appBar: AppBar(
-          title: Text(
-            _pageList[_curIndex].getTitle(),
-            style: TextStyle(fontSize: Theme.of(context).textTheme.titleMedium!.fontSize),
-          ),
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(
+          _pageList[_curIndex].getTitle(),
+          style: TextStyle(fontSize: Theme.of(context).textTheme.titleMedium!.fontSize),
         ),
-        drawer: Drawer(child: HomeDrawer()),
-        body: PageView(
-          children: [..._pageList],
-          onPageChanged: (index) {
-            Logger.debug(TAG, "onPageChanged $index");
-            setState(() {
-              _curIndex = index;
-            });
-          },
-        ),
+      ),
+      drawer: Drawer(child: HomeDrawer()),
+      body: PageView(
+        children: [..._pageList],
+        onPageChanged: (index) {
+          Logger.debug(TAG, "onPageChanged $index");
+          setState(() {
+            _curIndex = index;
+          });
+        },
       ),
     );
   }
@@ -152,13 +149,13 @@ class _PageSubState extends State<_PageSub> with AutomaticKeepAliveClientMixin, 
           );
         } else {
           return GridView(
-            padding: EdgeInsets.symmetric(horizontal: 12),
+            padding: EdgeInsets.symmetric(horizontal: 48, vertical: 12),
             gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
               crossAxisCount: 2,
               // 主轴间距
-              mainAxisSpacing: 24,
+              mainAxisSpacing: 48,
               // 次轴间距
-              crossAxisSpacing: 24,
+              crossAxisSpacing: 48,
               // 子项宽高比率
               childAspectRatio: 3 / 4,
             ),
@@ -168,22 +165,26 @@ class _PageSubState extends State<_PageSub> with AutomaticKeepAliveClientMixin, 
           );
         }
       } else {
-        return BookListView(listBooks: _lstBooks);
+        return BookGalleryView(listBooks: _lstBooks);
       }
     }
   }
 
   Widget _createBookGroupItemUI(BookGroup bookGroup) {
     return Material(
+      color: Theme.of(context).colorScheme.primaryContainer,
       child: InkWell(
-        onTap: () {},
+        onTap: () {
+          Navigator.pushNamed(context, "/book_gallery_page",
+              arguments: {"title": bookGroup.name, "book_group_id": bookGroup.id});
+        },
         child: Flex(
           direction: Axis.vertical,
           children: [
-            SizedBox(height: 8),
             Expanded(
               flex: 3,
               child: Container(
+                padding: EdgeInsets.all(12),
                 child: CachedNetworkImage(
                     imageUrl: bookGroup.cover,
                     fit: BoxFit.fill,
@@ -199,7 +200,6 @@ class _PageSubState extends State<_PageSub> with AutomaticKeepAliveClientMixin, 
             Expanded(
                 flex: 1,
                 child: Container(
-                  color: Theme.of(context).colorScheme.primaryContainer,
                   width: double.infinity,
                   child: Row(
                     children: [

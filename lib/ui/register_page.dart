@@ -149,6 +149,7 @@ class _RegisterState extends State<RegisterPage> with TickerProviderStateMixin {
                   spUtil.setInt(Strings.KEY_USER_LOGIN_TYPE, App.LOGIN_TYPE_PWD).then((value) => null);
 
                   Service.login(_name, _pwd).then((resp) {
+                    //FIXME
                     App.loginState = resp.error.errorNo == 0;
                     App.user = User.fromJson(resp.data!['user']);
 
@@ -160,7 +161,7 @@ class _RegisterState extends State<RegisterPage> with TickerProviderStateMixin {
                     _controller.value = 0;
 
                     Navigator.pop(context);
-                    Navigator.pushNamed(context, App.ROUTE_BOOK_GROUP);
+                    Navigator.pushNamed(context, App.ROUTE_MAIN);
                   });
                 });
               } else {

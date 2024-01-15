@@ -97,11 +97,13 @@ class _MyAppState extends State<StatefulWidget> {
 
     return MaterialApp(
       title: 'EnglishER',
+      scrollBehavior: AppScrollBehavior(),
       // theme: ThemeData.dark(useMaterial3: true),
-      initialRoute: App.ROUTE_SPLASH,
+      initialRoute: "/",
       routes: {
+        "/": (context) => const Splash(),
         App.ROUTE_SPLASH: (context) => const Splash(),
-        App.ROUTE_BOOK_GROUP: (context) => const BookGalleryPage(),
+        App.ROUTE_BOOK_GALLERY_PAGE: (context) => BookGalleryPage(),
         App.ROUTE_WORDS_DETAIL: (context) => const WordDetailPage(),
         App.ROUTE_BOOK_CONTENT: (context) => const BookContentPage(),
         App.ROUTE_REGISTER: (context) => const RegisterPage(),

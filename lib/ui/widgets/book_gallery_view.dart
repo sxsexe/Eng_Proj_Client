@@ -2,10 +2,10 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:my_eng_program/data/book.dart';
 
-class BookListView extends StatefulWidget {
+class BookGalleryView extends StatefulWidget {
   final List<Book> listBooks;
   final String? title;
-  const BookListView({super.key, required this.listBooks, this.title = null});
+  const BookGalleryView({super.key, required this.listBooks, this.title = null});
 
   String? get appBarTitle => title;
 
@@ -13,7 +13,7 @@ class BookListView extends StatefulWidget {
   State<StatefulWidget> createState() => _BookListState();
 }
 
-class _BookListState extends State<BookListView> {
+class _BookListState extends State<BookGalleryView> {
   Widget _createBookItemUI(Book book) {
     return Flex(
       direction: Axis.vertical,
@@ -68,13 +68,13 @@ class _BookListState extends State<BookListView> {
       );
     } else {
       return GridView(
-        padding: EdgeInsets.symmetric(horizontal: 12),
+        padding: EdgeInsets.symmetric(horizontal: 36),
         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
           crossAxisCount: 3,
           // 主轴间距
-          mainAxisSpacing: 12,
+          mainAxisSpacing: 24,
           // 次轴间距
-          crossAxisSpacing: 12,
+          crossAxisSpacing: 24,
           // 子项宽高比率
           childAspectRatio: 3 / 4,
         ),

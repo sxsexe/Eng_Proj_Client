@@ -88,7 +88,6 @@ class _DrawListState extends State<StatefulWidget> {
                       Theme.of(context).textTheme.displaySmall!.copyWith(color: Theme.of(context).colorScheme.primary),
                 ),
                 onTap: () {
-                  //   _gotoRegisterPage();
                   Navigator.pushNamed(context, App.ROUTE_REGISTER);
                 },
               ),
