@@ -1,18 +1,16 @@
 class Word {
-  String? sId;
-  String? id;
-  String? name;
+  late String sID;
+  late String name;
   String? imageUrl;
   Map<String, dynamic>? genderMaps;
   List<GenderDetail> listGenderDetails = [];
 
-  Word({this.sId, this.id, required this.name, this.genderMaps});
+  Word({required this.sID, required this.name, this.genderMaps});
 
-  String? get ID => sId ?? "";
+  String? get ID => sID;
 
   Word.fromJson(Map<String, dynamic> json) {
-    sId = json['_id'];
-    id = json['id'];
+    sID = json['_id'];
     name = json['name'];
     imageUrl = json['image_url'];
     genderMaps = json['genders'];

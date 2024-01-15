@@ -53,6 +53,7 @@ class _MyAppState extends State<StatefulWidget> {
         secondary: Color.fromARGB(255, 247, 120, 77),
         // 二级Widget的背景色
         secondaryContainer: Color.fromARGB(255, 174, 157, 133),
+        
       ),
       useMaterial3: true,
       textTheme: _defaultTextTheme,
@@ -83,7 +84,7 @@ class _MyAppState extends State<StatefulWidget> {
     displayLarge: const TextStyle(fontSize: 48, fontWeight: FontWeight.normal),
     displayMedium: const TextStyle(fontSize: 32, fontWeight: FontWeight.normal),
     displaySmall: const TextStyle(fontSize: 24, fontWeight: FontWeight.normal),
-    bodySmall: const TextStyle(fontSize: 24, fontWeight: FontWeight.normal),
+    bodySmall: const TextStyle(fontSize: 14, fontWeight: FontWeight.normal),
     bodyMedium: const TextStyle(fontSize: 32, fontWeight: FontWeight.normal),
     bodyLarge: const TextStyle(fontSize: 48, fontWeight: FontWeight.normal),
     labelSmall: const TextStyle(fontSize: 16, fontWeight: FontWeight.normal),

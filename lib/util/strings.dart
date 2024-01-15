@@ -18,7 +18,9 @@ class Strings {
   static const String LABEL_PAGE_TITLE_LEARNING = "正在学习";
   static const String LABEL_PAGE_TITLE_ALL = "全部书目";
   static const String LABEL_PAGE_TITLE_DONE = "已经学完";
+  static const String LABEL_WORD_DEFINE = "释义 : ";
 
   static const String BTN_TEXT_GO_UNLOGIN = "直接使用";
   static const String BTN_TEXT_GO_LOGIN = "Click Here To Learn";
+  static const String BTN_NEXT = "下一个";
 }
