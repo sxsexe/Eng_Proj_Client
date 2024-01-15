@@ -100,7 +100,6 @@ class _SplashState extends State<Splash> with TickerProviderStateMixin {
   }
 
   void _startAnimation() {
-    Logger.debug("Splash", "_startAnimation");
     _animationController.forward();
   }
 

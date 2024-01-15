@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 import 'package:my_eng_program/data/user.dart';
 import 'package:my_eng_program/ui/widgets/theme_notifier.dart';
@@ -53,4 +55,14 @@ class App {
   static Size getScreenSize(BuildContext context) {
     return MediaQuery.of(context).size;
   }
+}
+
+class AppScrollBehavior extends MaterialScrollBehavior {
+
+
+    @override
+    Set<PointerDeviceKind> get dragDevices => {
+        PointerDeviceKind.touch,
+        PointerDeviceKind.mouse,
+      };
 }

@@ -18,7 +18,7 @@ class _BookListState extends State<BookListView> {
     return Flex(
       direction: Axis.vertical,
       children: [
-        SizedBox(height: 10),
+        SizedBox(height: 8),
         Expanded(
           flex: 3,
           child: Container(
@@ -41,9 +41,7 @@ class _BookListState extends State<BookListView> {
               width: double.infinity,
               child: Row(
                 children: [
-                  SizedBox(
-                    width: 12,
-                  ),
+                  SizedBox(width: 8),
                   Expanded(
                     child: Text(
                       book.name,
@@ -55,9 +53,7 @@ class _BookListState extends State<BookListView> {
                           ),
                     ),
                   ),
-                  SizedBox(
-                    width: 12,
-                  ),
+                  SizedBox(width: 8),
                 ],
               ),
             ))
@@ -92,16 +88,9 @@ class _BookListState extends State<BookListView> {
   @override
   Widget build(BuildContext context) {
     if (widget.appBarTitle != null) {
-      return Scaffold(
-        appBar: AppBar(
-          title: Text(widget.appBarTitle!),
-        ),
-        body: _createBodyUI(),
-      );
+      return Scaffold(appBar: AppBar(title: Text(widget.appBarTitle!)), body: _createBodyUI());
     } else {
-      return Scaffold(
-        body: _createBodyUI(),
-      );
+      return Scaffold(body: _createBodyUI());
     }
   }
 }

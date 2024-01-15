@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:my_eng_program/app.dart';
 import 'package:my_eng_program/data/book.dart';
 import 'package:my_eng_program/io/net.dart';
+import 'package:my_eng_program/ui/widgets/book_list.dart';
 import 'package:my_eng_program/util/logger.dart';
 import 'package:my_eng_program/util/strings.dart';
 
@@ -27,22 +28,25 @@ class _MainPageState extends State<MainPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(
-          _pageList[_curIndex].getTitle(),
-          style: TextStyle(fontSize: Theme.of(context).textTheme.titleMedium!.fontSize),
+    return MaterialApp(
+      scrollBehavior: AppScrollBehavior(),
+      home: Scaffold(
+        appBar: AppBar(
+          title: Text(
+            _pageList[_curIndex].getTitle(),
+            style: TextStyle(fontSize: Theme.of(context).textTheme.titleMedium!.fontSize),
+          ),
         ),
-      ),
-      drawer: Drawer(child: HomeDrawer()),
-      body: PageView(
-        children: [..._pageList],
-        onPageChanged: (index) {
-          Logger.debug(TAG, "onPageChanged $index");
-          setState(() {
-            _curIndex = index;
-          });
-        },
+        drawer: Drawer(child: HomeDrawer()),
+        body: PageView(
+          children: [..._pageList],
+          onPageChanged: (index) {
+            Logger.debug(TAG, "onPageChanged $index");
+            setState(() {
+              _curIndex = index;
+            });
+          },
+        ),
       ),
     );
   }
@@ -78,6 +82,7 @@ class _PageSubState extends State<_PageSub> with AutomaticKeepAliveClientMixin, 
 
   @override
   void initState() {
+    super.initState();
     _controller = AnimationController(
       lowerBound: 0.0,
       upperBound: 1,
@@ -86,15 +91,16 @@ class _PageSubState extends State<_PageSub> with AutomaticKeepAliveClientMixin, 
     )..addListener(() {
         setState(() {});
       });
-    super.initState();
     _controller.repeat(reverse: false);
 
     String? userId = App.getUserId();
     if (widget.type == PAGE_TYPE_ING || widget.type == PAGE_TYPE_DONE) {
       if (userId != null) {
-        Service.getUserBooks(userId, false).then((books) {
+        bool isDone = widget.type == PAGE_TYPE_DONE;
+        Service.getUserBooks(userId, isDone).then((books) {
           Logger.debug("_PageSubState", books.toString());
           setState(() {
+            _controller.stop(canceled: true);
             _animRunning = false;
             _lstBooks = books;
           });
@@ -103,6 +109,7 @@ class _PageSubState extends State<_PageSub> with AutomaticKeepAliveClientMixin, 
         //TODO load from DB
         Future.delayed(Duration(seconds: 2)).then((value) {
           setState(() {
+            _controller.stop(canceled: true);
             _animRunning = false;
             _lstBooks = [];
           });
@@ -115,6 +122,7 @@ class _PageSubState extends State<_PageSub> with AutomaticKeepAliveClientMixin, 
       Service.getBookGroups(userId).then((bookGroups) {
         Logger.debug("_PageSubState", bookGroups.toString());
         setState(() {
+          _controller.stop(canceled: true);
           _animRunning = false;
           _lstBookGroups = bookGroups;
         });
@@ -138,136 +146,79 @@ class _PageSubState extends State<_PageSub> with AutomaticKeepAliveClientMixin, 
       );
     } else {
       if (widget.type == PAGE_TYPE_ALL) {
-        return GridView(
-          padding: EdgeInsets.symmetric(horizontal: 12),
-          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-            crossAxisCount: 2,
-            // 主轴间距
-            mainAxisSpacing: 24,
-            // 次轴间距
-            crossAxisSpacing: 24,
-            // 子项宽高比率
-            childAspectRatio: 3 / 4,
-          ),
-          children: List.generate(_lstBookGroups.length, (index) {
-            return _createBookGroupItemUI(_lstBookGroups[index]);
-          }),
-        );
+        if (_lstBookGroups.isEmpty) {
+          return Center(
+            child: Text("Empty"),
+          );
+        } else {
+          return GridView(
+            padding: EdgeInsets.symmetric(horizontal: 12),
+            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+              crossAxisCount: 2,
+              // 主轴间距
+              mainAxisSpacing: 24,
+              // 次轴间距
+              crossAxisSpacing: 24,
+              // 子项宽高比率
+              childAspectRatio: 3 / 4,
+            ),
+            children: List.generate(_lstBookGroups.length, (index) {
+              return _createBookGroupItemUI(_lstBookGroups[index]);
+            }),
+          );
+        }
       } else {
-        return GridView(
-          padding: EdgeInsets.symmetric(horizontal: 12),
-          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-            crossAxisCount: 3,
-            // 主轴间距
-            mainAxisSpacing: 12,
-            // 次轴间距
-            crossAxisSpacing: 12,
-            // 子项宽高比率
-            childAspectRatio: 3 / 4,
-          ),
-          children: List.generate(_lstBooks.length, (index) {
-            return _createBookItemUI(_lstBooks[index]);
-          }),
-        );
+        return BookListView(listBooks: _lstBooks);
       }
     }
   }
 
-  Widget _createBookItemUI(Book book) {
-    return Card(
-      color: Theme.of(context).colorScheme.primaryContainer,
-      //   color: Colors.pink,
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.zero),
-      child: InkWell(
-        borderRadius: BorderRadius.zero,
-        radius: 0,
-        onTap: () {
-          //   Book book = _lstBooks[index];
-          //   Logger.debug("_main_page", 'on book click index = $index');
-          //   if (book.DBName != null && book.type == 0) {
-          //     Navigator.pushNamed(context, App.ROUTE_WORDS_DETAIL, arguments: book);
-          //   } else {
-          //     //TODO
-          //   }
-        },
-        child: Column(
-          children: [
-            Expanded(
-              child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: CachedNetworkImage(
-                    imageUrl: book.cover ?? "",
-                    fit: BoxFit.fill,
-                    placeholderFadeInDuration: Duration(milliseconds: 200),
-                    placeholder: (context, url) => CircularProgressIndicator(),
-                    errorWidget: (context, url, error) => Icon(Icons.error)),
-              ),
-            ),
-            SizedBox(
-              height: 5,
-            ),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 8),
-              child: Text(
-                book.name,
-                maxLines: 2,
-                style:
-                    TextStyle(fontWeight: FontWeight.w500, fontSize: 14, color: Theme.of(context).colorScheme.primary),
-                overflow: TextOverflow.ellipsis,
-                textAlign: TextAlign.center,
-              ),
-            ),
-            SizedBox(
-              height: 5,
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-
   Widget _createBookGroupItemUI(BookGroup bookGroup) {
-    return Card(
-      color: Theme.of(context).colorScheme.primaryContainer,
+    return Material(
       child: InkWell(
-        onTap: () {
-          //   Book book = _lstBooks[index];
-          //   Logger.debug("_main_page", 'on book click index = $index');
-          //   if (book.DBName != null && book.type == 0) {
-          //     Navigator.pushNamed(context, App.ROUTE_WORDS_DETAIL, arguments: book);
-          //   } else {
-          //     //TODO
-          //   }
-        },
-        child: Column(
+        onTap: () {},
+        child: Flex(
+          direction: Axis.vertical,
           children: [
+            SizedBox(height: 8),
             Expanded(
-              child: Padding(
-                padding: const EdgeInsets.all(8.0),
+              flex: 3,
+              child: Container(
                 child: CachedNetworkImage(
                     imageUrl: bookGroup.cover,
                     fit: BoxFit.fill,
-                    placeholderFadeInDuration: Duration(milliseconds: 200),
-                    placeholder: (context, url) => CircularProgressIndicator(),
+                    progressIndicatorBuilder: (context, url, downloadProgress) => Center(
+                          child: CircularProgressIndicator(
+                            value: downloadProgress.progress,
+                            color: Theme.of(context).colorScheme.secondary,
+                          ),
+                        ),
                     errorWidget: (context, url, error) => Icon(Icons.error)),
               ),
             ),
-            SizedBox(
-              height: 5,
-            ),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 8),
-              child: Text(
-                bookGroup.name,
-                maxLines: 2,
-                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 14),
-                overflow: TextOverflow.ellipsis,
-                textAlign: TextAlign.center,
-              ),
-            ),
-            SizedBox(
-              height: 5,
-            ),
+            Expanded(
+                flex: 1,
+                child: Container(
+                  color: Theme.of(context).colorScheme.primaryContainer,
+                  width: double.infinity,
+                  child: Row(
+                    children: [
+                      SizedBox(width: 8),
+                      Expanded(
+                        child: Text(
+                          bookGroup.name,
+                          overflow: TextOverflow.ellipsis,
+                          maxLines: 2,
+                          style: Theme.of(context).textTheme.titleSmall!.copyWith(
+                                color: Theme.of(context).colorScheme.primary,
+                                height: 1.0,
+                              ),
+                        ),
+                      ),
+                      SizedBox(width: 8),
+                    ],
+                  ),
+                ))
           ],
         ),
       ),
