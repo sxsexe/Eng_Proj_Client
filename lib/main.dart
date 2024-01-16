@@ -48,16 +48,28 @@ class _MyAppState extends State<StatefulWidget> {
         // 一级Widget的背景色
         primaryContainer: Color.fromARGB(255, 174, 214, 241),
         // 页面和大的Container背景色
-        background: Color.fromARGB(255, 221, 202, 162),
+        background: Color.fromARGB(255, 243, 224, 181),
         // Subtitle 文本颜色
-        secondary: Color.fromARGB(255, 247, 120, 77),
+        secondary: Color.fromARGB(255, 58, 79, 243),
         // 二级Widget的背景色
         secondaryContainer: Color.fromARGB(255, 174, 157, 133),
-        
+        // 三级Widget的背景色
+        tertiaryContainer: Color.fromARGB(255, 203, 240, 166),
       ),
+      elevatedButtonTheme: ElevatedButtonThemeData(
+        style: ElevatedButton.styleFrom(
+            backgroundColor: Color.fromARGB(255, 116, 192, 230),
+            foregroundColor: Colors.orangeAccent,
+            shadowColor: Colors.orange,
+            surfaceTintColor: Colors.red,
+            shape: const RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(4)))),
+      ),
+
+      indicatorColor: Color.fromARGB(255, 4, 73, 141),
       useMaterial3: true,
       textTheme: _defaultTextTheme,
       brightness: Brightness.light);
+
   static final ThemeData _darkTheme = ThemeData(
       colorScheme: ColorScheme.fromSeed(
         brightness: Brightness.dark,
@@ -72,7 +84,18 @@ class _MyAppState extends State<StatefulWidget> {
         secondary: Color.fromARGB(255, 244, 240, 240),
         // 二级Widget的背景色
         secondaryContainer: Color.fromARGB(255, 222, 190, 5),
+        // 三级Widget的背景色
+        tertiaryContainer: Colors.blueGrey,
       ),
+      elevatedButtonTheme: ElevatedButtonThemeData(
+        style: ElevatedButton.styleFrom(
+            backgroundColor: Color.fromARGB(255, 2, 47, 42),
+            foregroundColor: Colors.orangeAccent,
+            shadowColor: Colors.orange,
+            surfaceTintColor: Colors.red,
+            shape: const RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(4)))),
+      ),
+      indicatorColor: Color.fromARGB(255, 22, 237, 3),
       useMaterial3: true,
       textTheme: _defaultTextTheme,
       brightness: Brightness.dark);

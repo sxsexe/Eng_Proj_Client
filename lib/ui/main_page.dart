@@ -30,6 +30,7 @@ class _MainPageState extends State<MainPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: Theme.of(context).colorScheme.background,
         title: Text(
           _pageList[_curIndex].getTitle(),
           style: TextStyle(fontSize: Theme.of(context).textTheme.titleMedium!.fontSize),

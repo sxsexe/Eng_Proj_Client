@@ -68,7 +68,7 @@ class _BookGalleryState extends State<BookGalleryPage> with TickerProviderStateM
       _body = Center(
         child: CircularProgressIndicator(
           value: _controller.value,
-          color: Theme.of(context).colorScheme.secondary,
+          color: Theme.of(context).colorScheme.primary,
         ),
       );
     } else {
@@ -77,7 +77,11 @@ class _BookGalleryState extends State<BookGalleryPage> with TickerProviderStateM
 
     return Scaffold(
       appBar: AppBar(
-        title: Text(title, style: Theme.of(context).textTheme.titleMedium,),
+        backgroundColor: Theme.of(context).colorScheme.background,
+        title: Text(
+          title,
+          style: Theme.of(context).textTheme.titleMedium,
+        ),
       ),
       body: _body,
     );

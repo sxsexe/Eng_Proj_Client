@@ -22,11 +22,54 @@ class _WordDetailState extends State<WordDetailCard> {
 
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: _createGenderWrapperWidgetList(),
-      ),
+    return Column(
+      children: [
+        Expanded(
+            child: SingleChildScrollView(
+                child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: _createGenderWrapperWidgetList(),
+        ))),
+        _createOpButtons(),
+      ],
+    );
+  }
+
+  Widget _createOpButtons() {
+    var btnTxtStyle = Theme.of(context).textTheme.displaySmall!.copyWith(
+          fontSize: 14,
+          fontWeight: FontWeight.w500,
+          color: Theme.of(context).colorScheme.primary,
+        );
+    return Container(
+      color: Theme.of(context).colorScheme.tertiaryContainer,
+      height: 80,
+      child: Row(mainAxisAlignment: MainAxisAlignment.spaceAround, children: [
+        ElevatedButton(
+          onPressed: () {},
+          style: Theme.of(context).elevatedButtonTheme.style,
+          child: Container(
+            child: Text("不记得了", style: btnTxtStyle),
+            padding: EdgeInsets.symmetric(vertical: 12),
+          ),
+        ),
+        ElevatedButton(
+          onPressed: () {},
+          style: Theme.of(context).elevatedButtonTheme.style,
+          child: Container(
+            child: Text("模模糊糊", style: btnTxtStyle),
+            padding: EdgeInsets.symmetric(vertical: 12),
+          ),
+        ),
+        ElevatedButton(
+          onPressed: () {},
+          style: Theme.of(context).elevatedButtonTheme.style,
+          child: Container(
+            child: Text("So Easy", style: btnTxtStyle),
+            padding: EdgeInsets.symmetric(vertical: 12),
+          ),
+        ),
+      ]),
     );
   }
 
@@ -82,10 +125,8 @@ class _WordDetailState extends State<WordDetailCard> {
               children: [
                 SizedBox(width: 8),
                 Text("US",
-                    style: Theme.of(context)
-                        .textTheme
-                        .labelSmall!
-                        .copyWith(color: Theme.of(context).colorScheme.secondary)),
+                    style:
+                        Theme.of(context).textTheme.labelSmall!.copyWith(color: Theme.of(context).colorScheme.primary)),
                 Icon(Icons.volume_up_rounded, size: iconSize)
               ],
             ),
@@ -105,10 +146,8 @@ class _WordDetailState extends State<WordDetailCard> {
               children: [
                 SizedBox(width: 24),
                 Text("UK",
-                    style: Theme.of(context)
-                        .textTheme
-                        .labelSmall!
-                        .copyWith(color: Theme.of(context).colorScheme.secondary)),
+                    style:
+                        Theme.of(context).textTheme.labelSmall!.copyWith(color: Theme.of(context).colorScheme.primary)),
                 Icon(Icons.volume_up_rounded, size: iconSize)
               ],
             ),
@@ -136,13 +175,13 @@ class _WordDetailState extends State<WordDetailCard> {
         children: [
           Icon(
             Icons.keyboard_double_arrow_right,
-            color: Theme.of(context).colorScheme.secondaryContainer,
+            color: Theme.of(context).colorScheme.secondary,
           ),
           SizedBox(width: 10),
           SelectableText(
             text,
             style: TextStyle(
-              color: Theme.of(context).colorScheme.secondaryContainer,
+              color: Theme.of(context).indicatorColor,
               fontSize: 20,
               fontStyle: FontStyle.italic,
               fontWeight: FontWeight.w600,
@@ -185,8 +224,8 @@ class _WordDetailState extends State<WordDetailCard> {
                       buttonItems: buttonItems, anchors: state.contextMenuAnchors);
                 },
                 style: Theme.of(context).textTheme.titleSmall!.copyWith(
-                    color: Theme.of(context).colorScheme.secondary,
-                    fontSize: 14,
+                    color: Theme.of(context).colorScheme.primary,
+                    fontSize: 16,
                     fontWeight: FontWeight.w500,
                     fontStyle: FontStyle.italic),
               ),
@@ -207,8 +246,8 @@ class _WordDetailState extends State<WordDetailCard> {
                 child: Text(
                   transCH,
                   style: Theme.of(context).textTheme.titleSmall!.copyWith(
-                        color: Theme.of(context).colorScheme.secondary,
-                        fontSize: 14,
+                        color: Theme.of(context).colorScheme.primary,
+                        fontSize: 18,
                         fontWeight: FontWeight.w400,
                       ),
                 ),
@@ -248,7 +287,7 @@ class _WordDetailState extends State<WordDetailCard> {
                 Expanded(
                     child: Text(ch,
                         style: Theme.of(context).textTheme.bodySmall!.copyWith(
-                              color: Theme.of(context).colorScheme.secondary,
+                              color: Theme.of(context).colorScheme.primary,
                               fontSize: 16,
                             )))
               ]),
