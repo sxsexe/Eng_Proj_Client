@@ -1,7 +1,7 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:my_eng_program/app.dart';
+import 'package:just_audio/just_audio.dart';
 import 'package:my_eng_program/data/chapter_content.dart';
 import 'package:my_eng_program/util/logger.dart';
 
@@ -126,20 +126,33 @@ class _BookContentState extends State<BookContentPage> {
     return Container(
       width: double.infinity,
       padding: EdgeInsets.all(18),
-      child: Center(
+      child: Center( 
         child: CachedNetworkImage(imageUrl: imageUrl),
       ),
     );
   }
 
-  Widget _createAudioUI(String imageUrl) {
-    return Container(
-      width: double.infinity,
-      height: 50,
-      padding: EdgeInsets.all(18),
-      color: Colors.red,
-      child: Center(
-        child: Icon(Icons.speaker),
+  Future<void> play(String audioUrl) async {
+    final player = AudioPlayer();
+    // player.setSourceUrl(audioUrl);
+    await player.setUrl(audioUrl);
+    await player.play();
+  }
+
+  Widget _createAudioUI(String audioUrl) {
+    return InkWell(
+      onTap: () {
+        Logger.debug("BookContent", "Audio Play " + audioUrl);
+        play(audioUrl).then((value) => Logger.debug("BookContent", "play callback"));
+      },
+      child: Container(
+        width: double.infinity,
+        height: 50,
+        padding: EdgeInsets.all(18),
+        color: Colors.red,
+        child: Center(
+          child: Icon(Icons.speaker),
+        ),
       ),
     );
   }

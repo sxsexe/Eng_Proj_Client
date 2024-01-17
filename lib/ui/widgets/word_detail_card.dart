@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:my_eng_program/app.dart';
 import 'package:my_eng_program/data/word.dart';
 import 'package:my_eng_program/io/net.dart';
-import 'package:my_eng_program/util/audio_player.dart';
 import 'package:my_eng_program/util/logger.dart';
 import 'package:my_eng_program/util/strings.dart';
 
@@ -127,9 +126,9 @@ class _WordDetailState extends State<WordDetailCard> {
               //FIXME
               Logger.debug("WordDetailCard", "audioUS=$audioUS");
               if (Platform.isAndroid || Platform.isIOS) {
-                AudioPlayerUtil.getInstance()
-                    .play(audioUS)
-                    .then((value) => Logger.debug("WordDetail", "play mp3 value=$value"));
+                // AudioPlayerUtil.getInstance()
+                //     .play(audioUS)
+                //     .then((value) => Logger.debug("WordDetail", "play mp3 value=$value"));
               }
             },
             child: Row(
@@ -148,9 +147,9 @@ class _WordDetailState extends State<WordDetailCard> {
               //FIXME
               Logger.debug("WordDetailCard", "audioUK=$audioUK");
               if (Platform.isAndroid || Platform.isIOS) {
-                AudioPlayerUtil.getInstance()
-                    .play(audioUS)
-                    .then((value) => Logger.debug("WordDetail", "play mp3 value=$value"));
+                // AudioPlayerUtil.getInstance()
+                //     .play(audioUS)
+                //     .then((value) => Logger.debug("WordDetail", "play mp3 value=$value"));
               }
             },
             child: Row(
