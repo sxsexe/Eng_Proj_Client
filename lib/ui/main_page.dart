@@ -154,9 +154,9 @@ class _PageSubState extends State<_PageSub> with AutomaticKeepAliveClientMixin, 
             gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
               crossAxisCount: 2,
               // 主轴间距
-              mainAxisSpacing: 48,
+              mainAxisSpacing: 36,
               // 次轴间距
-              crossAxisSpacing: 48,
+              crossAxisSpacing: 36,
               // 子项宽高比率
               childAspectRatio: 3 / 4,
             ),

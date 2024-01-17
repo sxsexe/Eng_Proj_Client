@@ -1,5 +1,6 @@
 import 'package:my_eng_program/app.dart';
 import 'package:flutter/material.dart';
+import 'package:my_eng_program/ui/book_chapters_page.dart';
 import 'package:my_eng_program/util/logger.dart';
 
 import 'ui/book_content_page.dart';
@@ -54,7 +55,7 @@ class _MyAppState extends State<StatefulWidget> {
         // 二级Widget的背景色
         secondaryContainer: Color.fromARGB(255, 174, 157, 133),
         // 三级Widget的背景色
-        tertiaryContainer: Color.fromARGB(255, 203, 240, 166),
+        tertiaryContainer: Color.fromARGB(255, 208, 189, 132),
       ),
       elevatedButtonTheme: ElevatedButtonThemeData(
         style: ElevatedButton.styleFrom(
@@ -64,7 +65,6 @@ class _MyAppState extends State<StatefulWidget> {
             surfaceTintColor: Colors.red,
             shape: const RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(4)))),
       ),
-
       indicatorColor: Color.fromARGB(255, 4, 73, 141),
       useMaterial3: true,
       textTheme: _defaultTextTheme,
@@ -128,6 +128,7 @@ class _MyAppState extends State<StatefulWidget> {
         "/": (context) => const Splash(),
         App.ROUTE_SPLASH: (context) => const Splash(),
         App.ROUTE_BOOK_GALLERY_PAGE: (context) => BookGalleryPage(),
+        App.ROUTE_CHAPTERS_LIST_PAGE: (context) => BookChaptersPage(),
         App.ROUTE_WORDS_DETAIL: (context) => const WordDetailPage(),
         App.ROUTE_BOOK_CONTENT: (context) => const BookContentPage(),
         App.ROUTE_REGISTER: (context) => const RegisterPage(),

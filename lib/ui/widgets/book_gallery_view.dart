@@ -20,8 +20,20 @@ class _BookListState extends State<BookGalleryView> {
       color: Theme.of(context).colorScheme.primaryContainer,
       child: InkWell(
         onTap: () {
-          if (book.type == 0) {
+          if (book.bookType == BookType.T_WORD) {
             Navigator.pushNamed(context, App.ROUTE_WORDS_DETAIL, arguments: book.toJson());
+          }
+          if (book.bookType == BookType.T_STORY) {
+            var args = {
+              "book_id": book.id,
+              "book_type": book.type,
+              "title": book.name,
+              "contents": book.contentList,
+            };
+            Navigator.pushNamed(context, App.ROUTE_BOOK_CONTENT, arguments: args);
+          }
+          if (book.bookType == BookType.T_DIALOG) {
+            Navigator.pushNamed(context, App.ROUTE_CHAPTERS_LIST_PAGE, arguments: book.toJson());
           }
         },
         child: Flex(
@@ -55,10 +67,10 @@ class _BookListState extends State<BookGalleryView> {
                           book.name,
                           overflow: TextOverflow.ellipsis,
                           maxLines: 2,
-                          style: Theme.of(context).textTheme.titleSmall!.copyWith(
-                                color: Theme.of(context).colorScheme.primary,
-                                height: 1.0,
-                              ),
+                          style: Theme.of(context)
+                              .textTheme
+                              .titleSmall!
+                              .copyWith(color: Theme.of(context).colorScheme.primary, height: 1.0, fontSize: 14),
                         ),
                       ),
                       SizedBox(width: 8),
@@ -78,11 +90,11 @@ class _BookListState extends State<BookGalleryView> {
       );
     } else {
       return GridView(
-        padding: EdgeInsets.symmetric(horizontal: 36),
+        padding: EdgeInsets.symmetric(horizontal: 24),
         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
           crossAxisCount: 3,
           // 主轴间距
-          mainAxisSpacing: 24,
+          mainAxisSpacing: 12,
           // 次轴间距
           crossAxisSpacing: 24,
           // 子项宽高比率

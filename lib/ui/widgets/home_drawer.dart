@@ -1,6 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:my_eng_program/app.dart';
+import 'package:my_eng_program/io/net.dart';
 import 'package:my_eng_program/util/logger.dart';
 import 'package:my_eng_program/util/sp_util.dart';
 import 'package:my_eng_program/util/strings.dart';
@@ -14,10 +15,20 @@ class _DrawListState extends State<StatefulWidget> {
   final double _avatarRadius = 48;
 
   bool _themeDark = App.ThemeIsDark;
+  int _unknownWordsCount = 0;
 
   @override
   void initState() {
     super.initState();
+
+    Logger.debug("Drawer", "initState");
+    if (App.isLoginSuccess()) {
+      Service.getUnknownWordsCount(App.getUserId()!).then((value) {
+        setState(() {
+          _unknownWordsCount = value;
+        });
+      });
+    }
   }
 
   Widget _createUserHeader(BuildContext context) {
@@ -100,13 +111,32 @@ class _DrawListState extends State<StatefulWidget> {
 
   @override
   Widget build(BuildContext context) {
+    String labelUnknownWords = "";
+    if (_unknownWordsCount > 0) {
+      labelUnknownWords += "  (" + _unknownWordsCount.toString() + ")";
+    }
+
     List<Widget> _items = [
       ListTile(
         leading: Icon(Icons.book_online_outlined),
-        title: Text(
-          Strings.LABEL_WORDS_NOTE,
-          style: Theme.of(context).textTheme.labelMedium!.copyWith(color: Theme.of(context).colorScheme.primary),
+        title: Row(
+          children: [
+            Text(
+              Strings.LABEL_WORDS_NOTE,
+              style: Theme.of(context).textTheme.labelMedium!.copyWith(color: Theme.of(context).colorScheme.primary),
+            ),
+            if (_unknownWordsCount > 0)
+              Text(
+                labelUnknownWords,
+                style: Theme.of(context).textTheme.labelSmall!.copyWith(color: Theme.of(context).colorScheme.primary),
+              ),
+          ],
         ),
+
+        // title: Text(
+        //   labelUnknownWords,
+        //   style: Theme.of(context).textTheme.labelMedium!.copyWith(color: Theme.of(context).colorScheme.primary),
+        // ),
         onTap: () {
           Logger.debug("Drawer", "onClick LABEL_WORDS_NOTE");
         },

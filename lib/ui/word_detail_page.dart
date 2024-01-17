@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:just_audio/just_audio.dart';
 import 'package:my_eng_program/data/word.dart';
-import 'package:my_eng_program/util/strings.dart';
 
 import '../data/book.dart';
 import '../io/net.dart';

@@ -161,8 +161,10 @@ class Service {
 
 //---------------------------------BOOKS END----------------------------------
 
+//---------------------------------WORDS----------------------------------
+
   static Future<List<Word>> getRandomWords(wordDbName, [count = 1]) async {
-    var url = _getUrlRoot() + "random_words?";
+    var url = _getUrlRoot() + "random_words";
     final response = await http.post(Uri.parse(url),
         body: _createBodyParams({'word_db_nm': wordDbName, "count": count}), headers: _createHeader());
 
@@ -186,4 +188,56 @@ class Service {
       throw Exception('Failed to getRandomWords');
     }
   }
+
+  static Future<int> getUnknownWordsCount(userId, [maxScore = 80]) async {
+    var url = _getUrlRoot() + "count_user_word";
+    final response = await http.post(Uri.parse(url),
+        body: _createBodyParams({'user_id': userId, "max_score": maxScore}), headers: _createHeader());
+
+    if (response.statusCode == 200) {
+      var maps = jsonDecode(utf8.decode(response.bodyBytes)) as Map<String, dynamic>;
+      var errorObj = maps['error'];
+      if (_checkRestSuccess(errorObj)) {
+        int count = maps['data']['count'] as int;
+        return count;
+      } else {
+        Logger.error("NET", "getUnknownWordsCount error " + errorObj);
+        throw Exception('Failed to getUnknownWordsCount');
+      }
+    } else {
+      throw Exception('Failed to getUnknownWordsCount');
+    }
+  }
+
+  /**
+     * 增加生词
+     * @param(score) 10 : 完全忘记   50 ：模模糊糊    80 ： So Easy
+     */
+  static Future<bool> upsertUserWord(userId, wordId, wordName, score, wordDBName) async {
+    var url = _getUrlRoot() + "upsert_user_word";
+    final response = await http.post(Uri.parse(url),
+        body: _createBodyParams({
+          'user_id': userId,
+          "word_id": wordId,
+          "score": score,
+          "word_name" : wordName,
+          "word_db": wordDBName,
+        }),
+        headers: _createHeader());
+
+    if (response.statusCode == 200) {
+      var maps = jsonDecode(utf8.decode(response.bodyBytes)) as Map<String, dynamic>;
+      var errorObj = maps['error'];
+      if (_checkRestSuccess(errorObj)) {
+        return true;
+      } else {
+        Logger.error("NET", "upsertUserWord error " + errorObj);
+        throw Exception('Failed to upsertUserWord');
+      }
+    } else {
+      throw Exception('Failed to upsertUserWord');
+    }
+  }
+
+//---------------------------------WORDS END----------------------------------
 }

@@ -17,7 +17,7 @@ class Chapter {
   }
 
   Map<String, dynamic> toJson() {
-    return {"name": name, 'content': contentList};
+    return {"name": name, 'contents': contentList};
   }
 
   @override

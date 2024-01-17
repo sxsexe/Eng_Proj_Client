@@ -15,6 +15,10 @@ class ChapterContent {
     return obj;
   }
 
+   Map<String, dynamic> toJson() {
+    return {"idx": idx, 'type': type, "content": content};
+  }
+
   @override
   String toString() {
     return "[ChapterContent idx=$idx,  type = $type, content = $content]";

@@ -1,7 +1,9 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:my_eng_program/app.dart';
 import 'package:my_eng_program/data/word.dart';
+import 'package:my_eng_program/io/net.dart';
 import 'package:my_eng_program/util/audio_player.dart';
 import 'package:my_eng_program/util/logger.dart';
 import 'package:my_eng_program/util/strings.dart';
@@ -15,6 +17,10 @@ class WordDetailCard extends StatefulWidget {
 }
 
 class _WordDetailState extends State<WordDetailCard> {
+  final int SCORE_1 = 10;
+  final int SCORE_2 = 50;
+  final int SCORE_3 = 80;
+
   @override
   void initState() {
     super.initState();
@@ -35,6 +41,11 @@ class _WordDetailState extends State<WordDetailCard> {
     );
   }
 
+  void _upsertUserWord(score) {
+    Service.upsertUserWord(App.getUserId()!, widget.word.ID, widget.word.name, score, widget.word.dbName)
+        .then((value) {});
+  }
+
   Widget _createOpButtons() {
     var btnTxtStyle = Theme.of(context).textTheme.displaySmall!.copyWith(
           fontSize: 14,
@@ -46,7 +57,7 @@ class _WordDetailState extends State<WordDetailCard> {
       height: 80,
       child: Row(mainAxisAlignment: MainAxisAlignment.spaceAround, children: [
         ElevatedButton(
-          onPressed: () {},
+          onPressed: () => _upsertUserWord(SCORE_1),
           style: Theme.of(context).elevatedButtonTheme.style,
           child: Container(
             child: Text("不记得了", style: btnTxtStyle),
@@ -54,7 +65,7 @@ class _WordDetailState extends State<WordDetailCard> {
           ),
         ),
         ElevatedButton(
-          onPressed: () {},
+          onPressed: () => _upsertUserWord(SCORE_2),
           style: Theme.of(context).elevatedButtonTheme.style,
           child: Container(
             child: Text("模模糊糊", style: btnTxtStyle),
@@ -62,7 +73,7 @@ class _WordDetailState extends State<WordDetailCard> {
           ),
         ),
         ElevatedButton(
-          onPressed: () {},
+          onPressed: () => _upsertUserWord(SCORE_3),
           style: Theme.of(context).elevatedButtonTheme.style,
           child: Container(
             child: Text("So Easy", style: btnTxtStyle),
