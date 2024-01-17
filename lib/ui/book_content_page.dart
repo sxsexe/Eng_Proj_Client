@@ -50,6 +50,13 @@ class _BookContentState extends State<BookContentPage> {
   }
 
   _createDialogParagraph(String content, int index) {
+    FontWeight _weigth;
+    if (index % 2 == 0) {
+      _weigth = FontWeight.w600;
+    } else {
+      _weigth = FontWeight.normal;
+    }
+
     return Row(
       mainAxisAlignment: MainAxisAlignment.start,
       crossAxisAlignment: CrossAxisAlignment.center,
@@ -66,9 +73,10 @@ class _BookContentState extends State<BookContentPage> {
         Expanded(
           child: SelectableText(
             content,
-            style: Theme.of(context).textTheme.displaySmall!.copyWith(
-                  color: Theme.of(context).colorScheme.primary,
-                ),
+            style: Theme.of(context)
+                .textTheme
+                .displaySmall!
+                .copyWith(color: Theme.of(context).colorScheme.primary, fontWeight: _weigth),
           ),
         )
       ],
