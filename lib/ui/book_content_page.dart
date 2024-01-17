@@ -3,6 +3,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:my_eng_program/app.dart';
 import 'package:my_eng_program/data/chapter_content.dart';
+import 'package:my_eng_program/util/logger.dart';
 
 import '../data/book.dart';
 
@@ -51,11 +52,15 @@ class _BookContentState extends State<BookContentPage> {
 
   _createDialogParagraph(String content, int index) {
     FontWeight _weigth;
+    FontStyle _fontStyle;
     if (index % 2 == 0) {
-      _weigth = FontWeight.w600;
+      _weigth = FontWeight.bold;
+      _fontStyle = FontStyle.normal;
     } else {
-      _weigth = FontWeight.normal;
+      _weigth = FontWeight.w100;
+      _fontStyle = FontStyle.italic;
     }
+    // Logger.debug("BookContent", "index=$index, _weight=$_weigth");
 
     return Row(
       mainAxisAlignment: MainAxisAlignment.start,
@@ -73,10 +78,11 @@ class _BookContentState extends State<BookContentPage> {
         Expanded(
           child: SelectableText(
             content,
-            style: Theme.of(context)
-                .textTheme
-                .displaySmall!
-                .copyWith(color: Theme.of(context).colorScheme.primary, fontWeight: _weigth),
+            style: Theme.of(context).textTheme.displaySmall!.copyWith(
+                  color: Theme.of(context).colorScheme.primary,
+                  fontWeight: _weigth,
+                  fontStyle: _fontStyle,
+                ),
           ),
         )
       ],
@@ -87,9 +93,10 @@ class _BookContentState extends State<BookContentPage> {
     return Expanded(
       child: SelectableText(
         "    " + content,
-        style: Theme.of(context).textTheme.displaySmall!.copyWith(
-              color: Theme.of(context).colorScheme.primary,
-            ),
+        style: Theme.of(context)
+            .textTheme
+            .displaySmall!
+            .copyWith(color: Theme.of(context).colorScheme.primary, height: 1.5),
       ),
     );
   }
