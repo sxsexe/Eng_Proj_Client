@@ -90,14 +90,12 @@ class _BookContentState extends State<BookContentPage> {
   }
 
   Widget _createStoryParagraph(String content, int index) {
-    return Expanded(
-      child: SelectableText(
-        "    " + content,
-        style: Theme.of(context)
-            .textTheme
-            .displaySmall!
-            .copyWith(color: Theme.of(context).colorScheme.primary, height: 1.5),
-      ),
+    return SelectableText(
+      "    " + content,
+      style: Theme.of(context).textTheme.displaySmall!.copyWith(
+            color: Theme.of(context).colorScheme.primary,
+            height: 1.5,
+          ),
     );
   }
 
@@ -126,12 +124,13 @@ class _BookContentState extends State<BookContentPage> {
     return Container(
       width: double.infinity,
       padding: EdgeInsets.all(18),
-      child: Center( 
+      child: Center(
         child: CachedNetworkImage(imageUrl: imageUrl),
       ),
     );
   }
 
+//FIXME
   Future<void> play(String audioUrl) async {
     final player = AudioPlayer();
     // player.setSourceUrl(audioUrl);
@@ -184,6 +183,31 @@ class _BookContentState extends State<BookContentPage> {
     return Scaffold(
       appBar: AppBar(
         title: Text(""),
+        actions: [
+          new IconButton(
+            icon: new Icon(
+              Icons.favorite,
+              color: Colors.red,
+            ),
+            tooltip: '收藏',
+            onPressed: () {},
+          ),
+          //   new PopupMenuButton<String>(
+          //     itemBuilder: (BuildContext context) => <PopupMenuItem<String>>[
+          //       new PopupMenuItem<String>(value: 'value01', child: new Text('Item One')),
+          //       new PopupMenuItem<String>(value: 'value02', child: new Text('Item Two')),
+          //     ],
+          //     onSelected: (String action) {
+          //       // 点击选项的时候
+          //       switch (action) {
+          //         case 'value01':
+          //           break;
+          //         case 'value02':
+          //           break;
+          //       }
+          //     },
+          //   ),
+        ],
       ),
       body: SingleChildScrollView(
         child: Container(
