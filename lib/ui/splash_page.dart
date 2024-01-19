@@ -4,12 +4,20 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:my_eng_program/app.dart';
 import 'package:my_eng_program/data/user.dart';
+import 'package:my_eng_program/io/Api.dart';
 import 'package:my_eng_program/io/net.dart';
 import 'package:my_eng_program/util/logger.dart';
 import 'package:my_eng_program/util/strings.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../data/server_resp.dart';
+
+enum LoginState {
+  UNREGISTER,
+  LOGINING,
+  LOGIN_OK,
+  LOGIN_FAILED,
+}
 
 class Splash extends StatefulWidget {
   const Splash({super.key});
@@ -22,80 +30,81 @@ class Splash extends StatefulWidget {
 
 class _SplashState extends State<Splash> with TickerProviderStateMixin {
   double _radis = 0;
-  // 0 : login failed, 1 : login success, -1 : ing
-  int _loginState = -1;
+  // 0 : login failed, 1 : login success, -1 :
   bool _AnimStopped = false;
+  LoginState _curState = LoginState.LOGINING;
+  String? _errorInfo;
+
+  static const String TAG = "SplashPage";
+
+  String _sentenceToday = "";
 
   late AnimationController _animationController;
 
-  List<String> _lstSents = [
-    "Knowlegde can change your fate and English can accomplish your future",
-    "Keep on going, never give up",
-    "Learn And Live",
-    "Take learning as a habit",
-    "Only hard work, can taste the fruits of victory",
-    "Doubt is the key to knowledge",
-    "Sharp tools make good work",
-    "The best hearts are always the bravest",
-    "Suffering is the most powerful teacher of life",
-    "All rivers run into the sea",
-    "Do one thing at a time, and do well",
-    "The only thing we have to fear is fear itself"
-  ];
-
-  Future<bool> autoLogin() async {
+  Future<void> autoLogin() async {
     SharedPreferences sp = await SharedPreferences.getInstance();
     String? identifier = await sp.getString(Strings.KEY_USER_IDENTIFIER);
     String? credential = await sp.getString(Strings.KEY_USER_CREDENTIAL);
 
-    //FIXME
-    identifier = "111111";
-    // identifier = "";
-    credential = "2222222";
+    if (identifier == null || identifier.trim().isEmpty) {
+      setState(() {
+        _curState = LoginState.UNREGISTER;
+      });
+    } else {
+      _animationController =
+          AnimationController(vsync: this, duration: Duration(milliseconds: 500), lowerBound: 0, upperBound: 1)
+            ..addListener(() {
+              setState(() {
+                _radis = _animationController.value.toInt() * 60;
+              });
+            });
+      _animationController.addStatusListener((status) {
+        if (status == AnimationStatus.completed) {
+          Logger.debug(TAG, "AnimationStatus.completed");
+          setState(() {
+            _AnimStopped = true;
+          });
+        }
+      });
 
-    Resp resp = await Service.login(identifier, credential);
-    App.loginState = resp.error.errorNo == 0;
-    if (resp.data != null) App.user = User.fromJson(resp.data!['user']);
-    bool login = App.isLoginSuccess();
-    return login;
+      setState(() {
+        _curState = LoginState.LOGINING;
+      });
+
+      Api.getSentenceToday().then((resp) {
+        setState(() {
+          _sentenceToday = resp.data['rs']['en'];
+        });
+      }).catchError((e) {
+        Logger.error(TAG, "getSentenceToday error=$e");
+      });
+      //FIXME
+      //   identifier = "";
+      Api.login(identifier, credential).then((resp) {
+        if (resp.isSuccess()) {
+          App.user = User.fromJson(resp.data["user"]);
+          App.loginState = true;
+          setState(() {
+            _curState = LoginState.LOGIN_OK;
+          });
+          _startAnimation();
+        } else {
+          throw resp.error;
+        }
+      }).catchError((err) {
+        App.loginState = false;
+        setState(() {
+          _errorInfo = Strings.ERROR_MSG_LOGIN_FAILED;
+          _curState = LoginState.LOGIN_FAILED;
+        });
+      });
+    }
   }
 
   @override
   void initState() {
     super.initState();
-
-    Future.delayed(
-        Duration(milliseconds: 300),
-        () => autoLogin().then((value) {
-              setState(() {
-                _loginState = value ? 1 : 0;
-              });
-              _startAnimation();
-            }).catchError((e) {
-              Logger.debug("Splash", "autoLogin Catch error " + e.toString());
-              setState(() {
-                _loginState = 0;
-              });
-              _startAnimation();
-            }));
-
-    _animationController =
-        AnimationController(vsync: this, duration: Duration(milliseconds: 800), lowerBound: 0, upperBound: 1)
-          ..addListener(() {
-            setState(() {
-              int value = _animationController.value.toInt();
-              //   _alpha = value * 255;
-              _radis = value * 60;
-            });
-          });
-
-    _animationController.addStatusListener((status) {
-      if (status == AnimationStatus.completed) {
-        setState(() {
-          _AnimStopped = true;
-        });
-      }
-    });
+    autoLogin();
   }
 
   void _startAnimation() {
@@ -130,8 +139,6 @@ class _SplashState extends State<Splash> with TickerProviderStateMixin {
   }
 
   Widget _createHint() {
-    int index = Random().nextInt(_lstSents.length);
-
     return Positioned(
         bottom: 32,
         child: Container(
@@ -140,20 +147,19 @@ class _SplashState extends State<Splash> with TickerProviderStateMixin {
           child: Padding(
             padding: const EdgeInsets.all(18.0),
             child: Text(
-              _lstSents[index],
+              _sentenceToday,
               textAlign: TextAlign.start,
-              style: Theme.of(context)
-                  .textTheme
-                  .displaySmall!
-                  .copyWith(color: Theme.of(context).colorScheme.primary, fontWeight: FontWeight.w200),
+              style: Theme.of(context).textTheme.displaySmall!.copyWith(
+                    fontSize: 18,
+                    color: Theme.of(context).colorScheme.primary,
+                    fontWeight: FontWeight.w200,
+                  ),
             ),
           ),
         ));
   }
 
   Widget _createNavLink() {
-    Widget t;
-
     var _textStyle = TextStyle(
       color: Theme.of(context).colorScheme.primary,
       fontWeight: FontWeight.w300,
@@ -162,18 +168,10 @@ class _SplashState extends State<Splash> with TickerProviderStateMixin {
       fontSize: 24,
     );
 
-    if (_loginState == 1) {
-      t = Text(
-        Strings.BTN_TEXT_GO_LOGIN,
-        style: _textStyle,
-      );
-    } else if (_loginState == 0) {
-      t = Text(Strings.BTN_TEXT_GO_UNLOGIN, style: _textStyle.copyWith(fontStyle: FontStyle.normal));
-    } else {
-      t = SizedBox(
-        height: 0,
-      );
-    }
+    Widget t = Text(
+      Strings.BTN_TEXT_GO_LOGIN,
+      style: _textStyle,
+    );
 
     return Positioned(
       top: 320,
@@ -182,7 +180,7 @@ class _SplashState extends State<Splash> with TickerProviderStateMixin {
         child: InkWell(
           child: t,
           onTap: () {
-            Logger.debug("Splash", "OnClick Let's have some fun");
+            Logger.debug(TAG, "OnClick Let's have some fun");
             _goToMainPage();
           },
         ),
@@ -227,36 +225,44 @@ class _SplashState extends State<Splash> with TickerProviderStateMixin {
     );
   }
 
-  Stack _createLoginFailedUI() {
-    return Stack(
-      alignment: Alignment.center,
-      children: [
-        Positioned(
-            child: CircleAvatar(
-              backgroundColor: Theme.of(context).colorScheme.primaryContainer,
-              radius: _radis,
-              child: Text(
-                Strings.STR_YOU,
-                style: TextStyle(fontSize: 64, color: Theme.of(context).colorScheme.primary),
-              ),
+  Widget _createLoginFailedUI() {
+    Logger.debug(TAG, "_createLoginFailedUI");
+
+    return Container(
+      width: double.infinity,
+      height: double.infinity,
+      child: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text(
+              _errorInfo!,
+              style: Theme.of(context).textTheme.displayMedium!.copyWith(
+                    color: Theme.of(context).colorScheme.error,
+                    fontSize: 20,
+                  ),
             ),
-            top: 160),
-        if (_AnimStopped) _createNavLink(),
-        if (_AnimStopped)
-          Material(
-            child: InkWell(
-              child: Text(
-                Strings.STR_ASK_TO_REGISTER,
-                style: TextStyle(
-                    color: Theme.of(context).colorScheme.secondary, decoration: TextDecoration.underline, fontSize: 16),
+            SizedBox(height: 20),
+            ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Theme.of(context).colorScheme.primaryContainer,
               ),
-              onTap: () {
-                _gotoRegisterPage();
+              onPressed: () {
+                setState(() {
+                  _curState = LoginState.LOGINING;
+                });
+                Future.delayed(Duration(seconds: 2), () {
+                  autoLogin();
+                });
               },
-            ),
-          ),
-        if (_AnimStopped) _createHint()
-      ],
+              child: Text(
+                "点击重试",
+                style: Theme.of(context).textTheme.labelSmall,
+              ),
+            )
+          ],
+        ),
+      ),
     );
   }
 
@@ -265,35 +271,57 @@ class _SplashState extends State<Splash> with TickerProviderStateMixin {
       alignment: Alignment.center,
       children: [
         Text(
-          "Loading...",
+          Strings.STR_LOGINING,
           style: TextStyle(
             color: Theme.of(context).colorScheme.primary,
             fontWeight: FontWeight.normal,
             decoration: TextDecoration.none,
-            fontSize: 24,
+            fontSize: 18,
           ),
         )
       ],
     );
   }
 
+  Widget _createRegisterLinkUI() {
+    // return Center();
+    return Center(
+      child: Material(
+        child: InkWell(
+          child: Text(
+            Strings.STR_ASK_TO_REGISTER,
+            style: TextStyle(
+              color: Theme.of(context).colorScheme.secondary,
+              decoration: TextDecoration.underline,
+              fontSize: 20,
+            ),
+          ),
+          onTap: () {
+            _gotoRegisterPage();
+          },
+        ),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
-    Widget widget;
+    Widget widget = SizedBox();
     // Logger.debug("Splash", "build _loginState = $_loginState");
-    if (_loginState == -1) {
+    if (LoginState.LOGINING == _curState) {
       widget = _createLoginIngUI();
-    } else if (_loginState == 1) {
+    } else if (LoginState.LOGIN_OK == _curState) {
       widget = _createLoginSuccessUI();
-    } else {
+    } else if (LoginState.LOGIN_FAILED == _curState) {
       widget = _createLoginFailedUI();
+    } else if (LoginState.UNREGISTER == _curState) {
+      widget = _createRegisterLinkUI();
     }
 
     return Material(
       child: Container(
         child: widget,
         color: Theme.of(context).colorScheme.background,
-        //   color: Colors.red,
       ),
     );
   }

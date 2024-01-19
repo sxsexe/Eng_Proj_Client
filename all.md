@@ -11,6 +11,7 @@
 8.    dialogue  https://helenadailyenglish.com/basic-english-conversation-100-daily-topics
 9.    advanced dialogue https://basicenglishspeaking.com/daily-english-conversation-topics/
 10.   easy conversions https://www.eslfast.com/easydialogs/
+11.   每日一句 https://dict.eudic.net/home/dailysentence
 
 
 

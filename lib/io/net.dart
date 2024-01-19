@@ -14,9 +14,9 @@ import '../data/server_resp.dart';
 
 String _getUrlRoot() {
   if (Platform.isWindows) {
-    return "http://127.0.0.1:8889/";
+    return "http://127.0.0.1:80/";
   } else {
-    return "http://192.168.0.124:8889/";
+    return "http://192.168.0.124:80/";
   }
 }
 
@@ -35,29 +35,32 @@ bool _checkRestSuccess(errorObj) {
 }
 
 class Service {
+  static const String TAG = "NET-Service";
+
 //---------------------------------USER----------------------------------
 
   static Future<Resp> login(identifier, credential) async {
     var url = _getUrlRoot() + "login";
+    var _params = _createBodyParams({'identifier': identifier, 'credential': credential});
+    Logger.debug(TAG, "login REQ _params " + _params.toString());
 
-    final response = await http.post(Uri.parse(url),
-        body: _createBodyParams({'identifier': identifier, 'credential': credential}), headers: _createHeader());
+    final response = await http.post(Uri.parse(url), body: _params, headers: _createHeader());
     Map<String, dynamic> map = jsonDecode(utf8.decode(response.bodyBytes));
     Resp resp = Resp.fromJson(map);
-    Logger.debug("NET login", resp.toJson());
+    Logger.debug(TAG, "login RESP = " + resp.toJson());
 
     return resp;
   }
 
   static Future<Resp> register(identifier, credential, type) async {
     var url = _getUrlRoot() + "register";
+    var _params = _createBodyParams({'identifier': identifier, 'credential': credential, 'identity_type': type});
+    Logger.debug(TAG, "REQ register _params " + _params.toString());
 
-    final response = await http.post(Uri.parse(url),
-        body: _createBodyParams({'identifier': identifier, 'credential': credential, 'identity_type': type}),
-        headers: _createHeader());
+    final response = await http.post(Uri.parse(url), body: _params, headers: _createHeader());
     Map<String, dynamic> map = jsonDecode(utf8.decode(response.bodyBytes));
     Resp resp = Resp.fromJson(map);
-    Logger.debug("NET register", resp.toJson());
+    Logger.debug(TAG, resp.toJson());
 
     return resp;
   }
@@ -220,7 +223,7 @@ class Service {
           'user_id': userId,
           "word_id": wordId,
           "score": score,
-          "word_name" : wordName,
+          "word_name": wordName,
           "word_db": wordDBName,
         }),
         headers: _createHeader());
@@ -236,6 +239,32 @@ class Service {
       }
     } else {
       throw Exception('Failed to upsertUserWord');
+    }
+  }
+
+//---------------------------------WORDS END----------------------------------
+
+//---------------------------------WORDS----------------------------------
+
+  static Future<String> getSentenceToday() async {
+    var url = _getUrlRoot() + "get_sentence_a_day";
+    Logger.debug(TAG, "getSentenceToday REQ");
+    final response = await http.get(Uri.parse(url), headers: _createHeader());
+
+    if (response.statusCode == 200) {
+      var maps = jsonDecode(utf8.decode(response.bodyBytes)) as Map<String, dynamic>;
+      Resp resp = Resp.fromJson(maps);
+      Logger.debug(TAG, "getSentenceToday RESP = " + resp.toJson());
+
+      if (_checkRestSuccess(maps['error'])) {
+        var rsMap = resp.data['rs'] as Map<String, dynamic>;
+        return rsMap['en'];
+      } else {
+        Logger.error(TAG, "getSentenceToday error " + resp.error.toString());
+        throw Exception('Failed to getSentenceToday');
+      }
+    } else {
+      throw Exception('Failed to getSentenceToday');
     }
   }
 
