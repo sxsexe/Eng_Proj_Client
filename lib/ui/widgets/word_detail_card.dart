@@ -3,7 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:my_eng_program/app.dart';
 import 'package:my_eng_program/data/word.dart';
-import 'package:my_eng_program/io/net.dart';
+import 'package:my_eng_program/io/Api.dart';
 import 'package:my_eng_program/util/logger.dart';
 import 'package:my_eng_program/util/strings.dart';
 
@@ -41,8 +41,7 @@ class _WordDetailState extends State<WordDetailCard> {
   }
 
   void _upsertUserWord(score) {
-    Service.upsertUserWord(App.getUserId()!, widget.word.ID, widget.word.name, score, widget.word.dbName)
-        .then((value) {});
+    Api.upsertUserWord(App.getUserId()!, widget.word.ID, widget.word.name, score, widget.word.dbName);
   }
 
   Widget _createOpButtons() {

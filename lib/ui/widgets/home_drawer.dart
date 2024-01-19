@@ -1,7 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:my_eng_program/app.dart';
-import 'package:my_eng_program/io/net.dart';
+import 'package:my_eng_program/io/Api.dart';
 import 'package:my_eng_program/util/logger.dart';
 import 'package:my_eng_program/util/sp_util.dart';
 import 'package:my_eng_program/util/strings.dart';
@@ -21,9 +21,8 @@ class _DrawListState extends State<StatefulWidget> {
   void initState() {
     super.initState();
 
-    Logger.debug("Drawer", "initState");
     if (App.isLoginSuccess()) {
-      Service.getUnknownWordsCount(App.getUserId()!).then((value) {
+      Api.getUnknownWordsCount(App.getUserId()!).then((value) {
         setState(() {
           _unknownWordsCount = value;
         });

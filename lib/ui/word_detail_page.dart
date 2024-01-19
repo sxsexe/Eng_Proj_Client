@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:my_eng_program/data/word.dart';
+import 'package:my_eng_program/io/Api.dart';
 
 import '../data/book.dart';
-import '../io/net.dart';
 import '../util/logger.dart';
 import 'widgets/word_detail_card.dart';
 
@@ -31,8 +31,7 @@ class _WordDetailPageState extends State<WordDetailPage> {
     // Logger.debug(TAG, "argument args = $args");
     _book = Book.fromJson(args);
     Logger.debug(TAG, "argument book = $_book");
-    // String dbName = args['word_db_name'];
-    Service.getRandomWords(_book.DBName).then((words) {
+    Api.getRandomWords(_book.DBName).then((words) {
       if (words.isNotEmpty) {
         setState(() {
           _word = words[0];

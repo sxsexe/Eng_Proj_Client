@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:my_eng_program/app.dart';
-import 'package:my_eng_program/data/server_resp.dart';
-import 'package:my_eng_program/io/net.dart';
+import 'package:my_eng_program/io/Api.dart';
 import 'package:my_eng_program/util/sp_util.dart';
 import 'package:my_eng_program/util/strings.dart';
 
@@ -24,9 +23,9 @@ class _RegisterState extends State<RegisterPage> with TickerProviderStateMixin {
 
   bool _btnEnable = true;
   double _ProgressHeight = 1;
+  static const TAG = "RegisterPage";
 
   final GlobalKey<FormState> _FormKey = GlobalKey<FormState>();
-
   late AnimationController _controller;
 
   _buildHeader() {
@@ -46,7 +45,7 @@ class _RegisterState extends State<RegisterPage> with TickerProviderStateMixin {
         style: Theme.of(context).textTheme.displayMedium,
         onSaved: (newValue) {
           _name = newValue!;
-          Logger.debug("Register", " onSaved name = $newValue");
+          Logger.debug(TAG, " onSaved name = $newValue");
         },
         validator: (value) {
           if (value == null || value.trim().isEmpty) {
@@ -75,7 +74,7 @@ class _RegisterState extends State<RegisterPage> with TickerProviderStateMixin {
         style: Theme.of(context).textTheme.displayMedium,
         onSaved: (newValue) {
           _pwd = newValue!;
-          Logger.debug("Register", " onSaved psw = $newValue");
+          Logger.debug(TAG, " onSaved psw = $newValue");
         },
         obscureText: _isObscure,
         validator: (value) {
@@ -134,12 +133,11 @@ class _RegisterState extends State<RegisterPage> with TickerProviderStateMixin {
 
           if (_FormKey.currentState!.validate()) {
             _FormKey.currentState!.save();
-            Logger.debug("Register Button ", "onPressed name=$_name, pwd=$_pwd");
+            Logger.debug(TAG, "onPressed name=$_name, pwd=$_pwd");
 
-            Service.register(_name, _pwd, App.LOGIN_TYPE_PWD).then((value) {
-              Resp resp = value;
+            Api.register(_name, _pwd, App.LOGIN_TYPE_PWD).then((resp) {
               if (resp.isSuccess()) {
-                Logger.debug("Register", "Register Success");
+                Logger.debug(TAG, "Register Success");
                 final snackBar = SnackBar(content: Text(Strings.STR_REGISTER_OK));
                 ScaffoldMessenger.of(context).showSnackBar(snackBar);
 
@@ -148,29 +146,37 @@ class _RegisterState extends State<RegisterPage> with TickerProviderStateMixin {
                   spUtil.setString(Strings.KEY_USER_CREDENTIAL, _pwd).then((value) => null);
                   spUtil.setInt(Strings.KEY_USER_LOGIN_TYPE, App.LOGIN_TYPE_PWD).then((value) => null);
 
-                  Service.login(_name, _pwd).then((resp) {
-                    //FIXME
-                    App.loginState = resp.error.errorNo == 0;
-                    App.user = User.fromJson(resp.data!['user']);
+                  Api.login(_name, _pwd).then((resp) {
+                    if (resp.isSuccess()) {
+                      App.loginState = true;
+                      App.user = User.fromJson(resp.data['user']);
 
+                      setState(() {
+                        _ProgressHeight = 1;
+                      });
+                      _controller.stop(canceled: true);
+                      _controller.value = 0;
+
+                      Navigator.pop(context);
+                      Navigator.pushNamed(context, App.ROUTE_MAIN);
+                    } else {
+                      _btnEnable = !_btnEnable;
+                      throw resp.error;
+                    }
+                  }).catchError((err) {
+                    App.loginState = false;
                     _btnEnable = !_btnEnable;
-                    setState(() {
-                      _ProgressHeight = 1;
-                    });
-                    _controller.stop(canceled: true);
-                    _controller.value = 0;
-
-                    Navigator.pop(context);
-                    Navigator.pushNamed(context, App.ROUTE_MAIN);
+                    final snackBar = SnackBar(content: Text(Strings.ERROR_MSG_LOGIN_FAILED));
+                    ScaffoldMessenger.of(context).showSnackBar(snackBar);
                   });
                 });
               } else {
                 if (resp.error.errorNo == 1001) {
-                  Logger.debug("Register", "Register Failed, User Exist");
+                  Logger.debug(TAG, "Register Failed, User Exist");
                   final snackBar = SnackBar(content: Text(Strings.STR_USER_EXIST));
                   ScaffoldMessenger.of(context).showSnackBar(snackBar);
                 } else {
-                  Logger.debug("Register", "Register Failed, Server Error");
+                  Logger.debug(TAG, "Register Failed, Server Error");
                   final snackBar = SnackBar(content: Text(Strings.STR_REGISTER_FAILED));
                   ScaffoldMessenger.of(context).showSnackBar(snackBar);
                 }

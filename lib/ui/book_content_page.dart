@@ -16,6 +16,7 @@ class BookContentPage extends StatefulWidget {
 
 class _BookContentState extends State<BookContentPage> {
   String _title = "";
+  // ignore: unused_field
   String _bookID = "";
   BookType _bookType = BookType.T_DIALOG;
   List<ChapterContent> _contentList = [];

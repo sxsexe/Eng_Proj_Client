@@ -1,16 +1,11 @@
-import 'dart:math';
-
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:my_eng_program/app.dart';
 import 'package:my_eng_program/data/user.dart';
 import 'package:my_eng_program/io/Api.dart';
-import 'package:my_eng_program/io/net.dart';
 import 'package:my_eng_program/util/logger.dart';
 import 'package:my_eng_program/util/strings.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
-import '../data/server_resp.dart';
 
 enum LoginState {
   UNREGISTER,
@@ -71,12 +66,10 @@ class _SplashState extends State<Splash> with TickerProviderStateMixin {
         _curState = LoginState.LOGINING;
       });
 
-      Api.getSentenceToday().then((resp) {
+      Api.getSentenceToday().then((value) {
         setState(() {
-          _sentenceToday = resp.data['rs']['en'];
+          _sentenceToday = value ?? "";
         });
-      }).catchError((e) {
-        Logger.error(TAG, "getSentenceToday error=$e");
       });
       //FIXME
       //   identifier = "";

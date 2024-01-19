@@ -2,7 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:my_eng_program/app.dart';
 import 'package:my_eng_program/data/book.dart';
-import 'package:my_eng_program/io/net.dart';
+import 'package:my_eng_program/io/Api.dart';
 import 'package:my_eng_program/ui/widgets/book_gallery_view.dart';
 import 'package:my_eng_program/util/logger.dart';
 import 'package:my_eng_program/util/strings.dart';
@@ -95,8 +95,7 @@ class _PageSubState extends State<_PageSub> with AutomaticKeepAliveClientMixin, 
     if (widget.type == PAGE_TYPE_ING || widget.type == PAGE_TYPE_DONE) {
       if (userId != null) {
         bool isDone = widget.type == PAGE_TYPE_DONE;
-        Service.getUserBooks(userId, isDone).then((books) {
-          Logger.debug("_PageSubState", books.toString());
+        Api.getUserBooks(userId, isDone).then((books) {
           setState(() {
             _controller.stop(canceled: true);
             _animRunning = false;
@@ -117,8 +116,7 @@ class _PageSubState extends State<_PageSub> with AutomaticKeepAliveClientMixin, 
 
     if (widget.type == PAGE_TYPE_ALL) {
       if (userId == null) userId = "";
-      Service.getBookGroups(userId).then((bookGroups) {
-        Logger.debug("_PageSubState", bookGroups.toString());
+      Api.getBookGroups(userId).then((bookGroups) {
         setState(() {
           _controller.stop(canceled: true);
           _animRunning = false;

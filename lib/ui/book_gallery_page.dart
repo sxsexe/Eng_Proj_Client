@@ -2,7 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:my_eng_program/app.dart';
-import 'package:my_eng_program/io/net.dart';
+import 'package:my_eng_program/io/Api.dart';
 import 'package:my_eng_program/util/logger.dart';
 
 import '../data/book.dart';
@@ -51,7 +51,7 @@ class _BookGalleryState extends State<BookGalleryPage> with TickerProviderStateM
     title = args['title'];
     bookGroupId = args['book_group_id'];
 
-    Service.getBooksByGroup(bookGroupId, App.getUserId()).then((_books) {
+    Api.getBooksByGroup(bookGroupId, App.getUserId()).then((_books) {
       setState(() {
         _controller.stop(canceled: true);
         listBooks = _books;
