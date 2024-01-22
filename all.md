@@ -22,3 +22,7 @@
 
 ### 在线查询词义 
 1.  海词 https://dict.cn/search?q=story
+2.  
+
+###  Android模拟器命令
+1.   D:\codespace\sdks\android-sdk\emulator> ./emulator -avd Pixel_6_API_30

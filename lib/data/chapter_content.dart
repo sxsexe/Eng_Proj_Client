@@ -15,7 +15,10 @@ class ChapterContent {
     return obj;
   }
 
-   Map<String, dynamic> toJson() {
+  static List<ChapterContent> listFromJson(list) =>
+      List<ChapterContent>.from(list.map((e) => ChapterContent.fromJson(e)));
+
+  Map<String, dynamic> toJson() {
     return {"idx": idx, 'type': type, "content": content};
   }
 

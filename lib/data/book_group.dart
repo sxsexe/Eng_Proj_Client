@@ -14,6 +14,8 @@ class BookGroup {
     return group;
   }
 
+  static List<BookGroup> listFromJson(list) => List<BookGroup>.from(list.map((e) => BookGroup.fromJson(e)));
+
   @override
   String toString() {
     return "[BookGroup id = $id, name = $name, cover = $cover]";

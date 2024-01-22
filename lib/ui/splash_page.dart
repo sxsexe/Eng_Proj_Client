@@ -41,6 +41,10 @@ class _SplashState extends State<Splash> with TickerProviderStateMixin {
     String? identifier = await sp.getString(Strings.KEY_USER_IDENTIFIER);
     String? credential = await sp.getString(Strings.KEY_USER_CREDENTIAL);
 
+    //FIXME
+    identifier = "111111";
+    credential = "2222222";
+
     if (identifier == null || identifier.trim().isEmpty) {
       setState(() {
         _curState = LoginState.UNREGISTER;
@@ -71,8 +75,7 @@ class _SplashState extends State<Splash> with TickerProviderStateMixin {
           _sentenceToday = value ?? "";
         });
       });
-      //FIXME
-      //   identifier = "";
+
       Api.login(identifier, credential).then((resp) {
         if (resp.isSuccess()) {
           App.user = User.fromJson(resp.data["user"]);

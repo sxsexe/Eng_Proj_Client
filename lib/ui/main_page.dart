@@ -18,6 +18,10 @@ class MainPage extends StatefulWidget {
 
 class _MainPageState extends State<MainPage> {
   static const String TAG = "MainPageState";
+  @override
+  void initState() {
+    super.initState();
+  }
 
   int _curIndex = 0;
   List<_PageSub> _pageList = [
@@ -94,8 +98,8 @@ class _PageSubState extends State<_PageSub> with AutomaticKeepAliveClientMixin, 
     String? userId = App.getUserId();
     if (widget.type == PAGE_TYPE_ING || widget.type == PAGE_TYPE_DONE) {
       if (userId != null) {
-        bool isDone = widget.type == PAGE_TYPE_DONE;
-        Api.getUserBooks(userId, isDone).then((books) {
+        BooKLearnState learnState = widget.type == PAGE_TYPE_DONE ? BooKLearnState.T_DONE : BooKLearnState.T_ING;
+        Api.getUserBooks(userId, learnState).then((books) {
           setState(() {
             _controller.stop(canceled: true);
             _animRunning = false;

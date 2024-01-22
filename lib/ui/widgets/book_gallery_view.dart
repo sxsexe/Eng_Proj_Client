@@ -28,6 +28,7 @@ class _BookListState extends State<BookGalleryView> {
               "book_id": book.id,
               "book_type": book.type,
               "title": book.name,
+              "learn_state": book.learnState,
               "contents": book.contentList,
             };
             Navigator.pushNamed(context, App.ROUTE_BOOK_CONTENT, arguments: args);

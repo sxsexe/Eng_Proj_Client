@@ -1,85 +1,30 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:my_eng_program/app.dart';
 import 'package:my_eng_program/data/word.dart';
-import 'package:my_eng_program/io/Api.dart';
 import 'package:my_eng_program/util/logger.dart';
 import 'package:my_eng_program/util/strings.dart';
 
 class WordDetailCard extends StatefulWidget {
-  final Word word;
+  late Word word;
   WordDetailCard({super.key, required this.word});
 
   @override
-  State<StatefulWidget> createState() => _WordDetailState();
+  State<StatefulWidget> createState() {
+    return _WordDetailState();
+  }
 }
 
 class _WordDetailState extends State<WordDetailCard> {
-  final int SCORE_1 = 10;
-  final int SCORE_2 = 50;
-  final int SCORE_3 = 80;
-
-  @override
-  void initState() {
-    super.initState();
-  }
+  GlobalKey<_WordDetailState> wordKey = GlobalKey();
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Expanded(
-            child: SingleChildScrollView(
-                child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: _createGenderWrapperWidgetList(),
-        ))),
-        _createOpButtons(),
-      ],
-    );
-  }
-
-  void _upsertUserWord(score) {
-    Api.upsertUserWord(App.getUserId()!, widget.word.ID, widget.word.name, score, widget.word.dbName);
-  }
-
-  Widget _createOpButtons() {
-    var btnTxtStyle = Theme.of(context).textTheme.displaySmall!.copyWith(
-          fontSize: 14,
-          fontWeight: FontWeight.w500,
-          color: Theme.of(context).colorScheme.primary,
-        );
-    return Container(
-      color: Theme.of(context).colorScheme.tertiaryContainer,
-      height: 80,
-      child: Row(mainAxisAlignment: MainAxisAlignment.spaceAround, children: [
-        ElevatedButton(
-          onPressed: () => _upsertUserWord(SCORE_1),
-          style: Theme.of(context).elevatedButtonTheme.style,
-          child: Container(
-            child: Text("不记得了", style: btnTxtStyle),
-            padding: EdgeInsets.symmetric(vertical: 12),
-          ),
-        ),
-        ElevatedButton(
-          onPressed: () => _upsertUserWord(SCORE_2),
-          style: Theme.of(context).elevatedButtonTheme.style,
-          child: Container(
-            child: Text("模模糊糊", style: btnTxtStyle),
-            padding: EdgeInsets.symmetric(vertical: 12),
-          ),
-        ),
-        ElevatedButton(
-          onPressed: () => _upsertUserWord(SCORE_3),
-          style: Theme.of(context).elevatedButtonTheme.style,
-          child: Container(
-            child: Text("So Easy", style: btnTxtStyle),
-            padding: EdgeInsets.symmetric(vertical: 12),
-          ),
-        ),
-      ]),
-    );
+    return SingleChildScrollView(
+        child: Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: _createGenderWrapperWidgetList(),
+    ));
   }
 
   Row _createGenderTitle(GenderDetail detail) {

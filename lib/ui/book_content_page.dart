@@ -1,8 +1,11 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:common_utils/common_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:just_audio/just_audio.dart';
+import 'package:my_eng_program/app.dart';
 import 'package:my_eng_program/data/chapter_content.dart';
+import 'package:my_eng_program/io/Api.dart';
 import 'package:my_eng_program/util/logger.dart';
 
 import '../data/book.dart';
@@ -18,20 +21,21 @@ class _BookContentState extends State<BookContentPage> {
   String _title = "";
   // ignore: unused_field
   String _bookID = "";
+  late BooKLearnState _learnState;
   BookType _bookType = BookType.T_DIALOG;
   List<ChapterContent> _contentList = [];
+
+  static const String TAG = "BookContent";
 
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
     Map<String, dynamic> args = ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>;
-
-    setState(() {
-      _contentList = args['contents'];
-      _title = args['title'];
-      _bookID = args['book_id'];
-      _bookType = BookType.values[args['book_type']];
-    });
+    _contentList = args['contents'];
+    _title = args['title'];
+    _bookID = args['book_id'];
+    _learnState = args['learn_state'];
+    _bookType = BookType.values[args['book_type']];
   }
 
   Widget _createTitleUI(String title) {
@@ -122,11 +126,17 @@ class _BookContentState extends State<BookContentPage> {
   }
 
   Widget _createImageUI(String imageUrl) {
+    Logger.error(TAG, "_createImage url=" + imageUrl);
     return Container(
       width: double.infinity,
       padding: EdgeInsets.all(18),
       child: Center(
-        child: CachedNetworkImage(imageUrl: imageUrl),
+        child: CachedNetworkImage(
+          imageUrl: imageUrl,
+          errorListener: (error) {
+            Logger.error(TAG, "_createImage error=$error");
+          },
+        ),
       ),
     );
   }
@@ -142,7 +152,7 @@ class _BookContentState extends State<BookContentPage> {
   Widget _createAudioUI(String audioUrl) {
     return InkWell(
       onTap: () {
-        Logger.debug("BookContent", "Audio Play " + audioUrl);
+        Logger.debug(TAG, "Audio Play " + audioUrl);
         play(audioUrl).then((value) => Logger.debug("BookContent", "play callback"));
       },
       child: Container(
@@ -176,6 +186,56 @@ class _BookContentState extends State<BookContentPage> {
 
     _widgets.add(SizedBox(height: 24));
 
+    if (_learnState == BooKLearnState.T_ING) {
+      _widgets.add(Container(
+          width: 180,
+          height: 56,
+          child: ElevatedButton(
+            onPressed: () {
+              var now = DateUtil.formatDate(DateTime.now(), format: DateFormats.full);
+              Api.updateUserBookStatus(
+                  App.getUserId()!, _bookID, BooKLearnState.T_DONE.index, _bookType.index, now, now);
+            },
+            child: Text(
+              "完成学习",
+              style: Theme.of(context).textTheme.displaySmall,
+            ),
+          )));
+      _widgets.add(SizedBox(height: 24));
+    }
+
+    return _widgets;
+  }
+
+  List<Widget> _createActions() {
+    List<Widget> _widgets = [];
+    if (_learnState == BooKLearnState.T_DONE) {
+      _widgets.add(new TextButton(
+        child: Text(
+          "重新学习",
+          style: Theme.of(context).textTheme.titleSmall!.copyWith(
+                color: Theme.of(context).colorScheme.secondary,
+              ),
+        ),
+        onPressed: () {
+          var now = DateUtil.formatDate(DateTime.now(), format: DateFormats.full);
+          Api.updateUserBookStatus(App.getUserId()!, _bookID, BooKLearnState.T_ING.index, _bookType.index, now, now);
+        },
+      ));
+    } else if (_learnState == BooKLearnState.T_NOT_START) {
+      _widgets.add(new TextButton(
+        child: Text(
+          "加入学习",
+          style: Theme.of(context).textTheme.titleSmall!.copyWith(
+                color: Theme.of(context).colorScheme.secondary,
+              ),
+        ),
+        onPressed: () {
+          var now = DateUtil.formatDate(DateTime.now(), format: DateFormats.full);
+          Api.updateUserBookStatus(App.getUserId()!, _bookID, BooKLearnState.T_ING.index, _bookType.index, now, now);
+        },
+      ));
+    }
     return _widgets;
   }
 
@@ -185,14 +245,7 @@ class _BookContentState extends State<BookContentPage> {
       appBar: AppBar(
         title: Text(""),
         actions: [
-          new IconButton(
-            icon: new Icon(
-              Icons.favorite,
-              color: Colors.red,
-            ),
-            tooltip: '收藏',
-            onPressed: () {},
-          ),
+          ..._createActions()
           //   new PopupMenuButton<String>(
           //     itemBuilder: (BuildContext context) => <PopupMenuItem<String>>[
           //       new PopupMenuItem<String>(value: 'value01', child: new Text('Item One')),

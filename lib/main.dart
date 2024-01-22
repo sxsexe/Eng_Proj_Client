@@ -1,6 +1,5 @@
 import 'package:my_eng_program/app.dart';
 import 'package:flutter/material.dart';
-import 'package:my_eng_program/io/Api.dart';
 import 'package:my_eng_program/ui/book_chapters_page.dart';
 import 'package:my_eng_program/util/logger.dart';
 
@@ -14,11 +13,6 @@ import 'util/sp_util.dart';
 import 'util/strings.dart';
 
 void main() {
-  Logger.debug("Main", "main");
-//   Service.getSentenceToday().then((value) {
-//     Logger.debug("getSentenceToday", "value = $value");
-//   });
-
   runApp(MyApp());
 }
 

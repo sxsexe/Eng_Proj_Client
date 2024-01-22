@@ -1,8 +1,12 @@
+import 'package:common_utils/common_utils.dart';
 import 'package:my_eng_program/data/book.dart';
 import 'package:my_eng_program/data/book_group.dart';
 import 'package:my_eng_program/data/server_resp.dart';
 import 'package:my_eng_program/data/word.dart';
 import 'package:my_eng_program/io/Http.dart';
+import 'package:my_eng_program/util/cache_manager.dart';
+import 'package:my_eng_program/util/logger.dart';
+import 'package:my_eng_program/util/strings.dart';
 
 class Api {
   static const PATH_LOGIN = "login";
@@ -22,65 +26,93 @@ class Api {
   }
 
   static Future<String?> getSentenceToday() async {
-    var resp = await Http().get("get_sentence_a_day");
-    if (resp.isSuccess()) {
-      return resp.data['rs']['en'];
+    var today = DateUtil.formatDate(DateTime.now(), format: DateFormats.y_mo_d);
+    String? sentence = await RamCacheManager.getInstance().getSenetence(today);
+    if (StringUtil.isStringEmpty(sentence)) {
+      var resp = await Http().get("get_sentence_a_day");
+      if (resp.isSuccess()) {
+        try {
+          sentence = resp.data['rs']['en'];
+          RamCacheManager.getInstance().addSenetence(today, sentence!);
+        } catch (e) {}
+      }
     }
-    return null;
+
+    return sentence;
   }
 
   static Future<List<BookGroup>> getBookGroups(userId) async {
-    var resp = await Http().post("book_groups", data: {'user_id': userId});
-    var lstData = resp.data['book_groups'];
-    List<BookGroup> bookGroups = [];
-    for (var group in lstData) {
-      BookGroup bookGroup = BookGroup.fromJson(group);
-      bookGroups.add(bookGroup);
+    List<BookGroup> bookGroups = await RamCacheManager.getInstance().BookGroupsCache;
+    if (bookGroups.isEmpty) {
+      var resp = await Http().post("book_groups", data: {'user_id': userId});
+      bookGroups = BookGroup.listFromJson(resp.data['book_groups']);
+      RamCacheManager.getInstance().BookGroupsCache = bookGroups;
     }
+
     return bookGroups;
   }
 
   static Future<List<Book>> getBooksByGroup(groupId, userId) async {
-    var resp = await Http().post("book_infos", data: {'user_id': userId, "group_id": groupId});
-    List<Book> lstBooks = [];
-    if (resp.isSuccess()) {
-      var lstData = resp.data['book_infos'];
-      for (var item in lstData) {
-        Book book = Book.fromJson(item);
-        lstBooks.add(book);
+    List<Book> lstBooks = await RamCacheManager.getInstance().getBooksByGroup(groupId);
+    if (lstBooks.isEmpty) {
+      var resp = await Http().post("book_infos_by_group", data: {'user_id': userId, "group_id": groupId});
+      if (resp.isSuccess()) {
+        lstBooks = Book.listFromJson(resp.data['book_infos']);
+        RamCacheManager.getInstance().addBooksByGroup(groupId, lstBooks);
       }
     }
-
     return lstBooks;
   }
 
-  static Future<List<Book>> getUserBooks(String userId, bool isDone) async {
-    var resp = await Http().post("get_user_books", data: {'user_id': userId, "is_done": isDone ? 1 : 0});
+  static Future<bool> updateUserBookStatus(
+      String userId, String bookId, int leartState, int? bookType, String? createTime, String? lastTime) async {
+    var resp = await Http().post(
+      "learn_a_book",
+      data: {
+        'user_id': userId,
+        'book_id': bookId,
+        "book_type": bookType,
+        "learn_state": leartState,
+        "create_time": createTime,
+        "last_time": lastTime,
+      },
+    );
 
-    List<Book> lstBooks = [];
+    bool rs = false;
     if (resp.isSuccess()) {
-      var lstData = resp.data['user_books'];
-      for (var item in lstData) {
-        Book book = Book.fromJson(item);
-        lstBooks.add(book);
-      }
+      rs = true;
     }
 
-    return lstBooks;
+    return rs;
   }
 
-  static Future<List<Word>> getRandomWords(wordDbName, [count = 1]) async {
-    var resp = await Http().post("random_words", data: {'word_db_nm': wordDbName, "count": count});
-    List<Word> lstWords = [];
-    if (resp.isSuccess()) {
-      var lstData = resp.data['words'];
-      for (var item in lstData) {
-        Word word = Word.fromJson(item);
-        lstWords.add(word);
+  static Future<List<Book>> getUserBooks(String userId, BooKLearnState learnState) async {
+    List<Book> lstResult = [];
+    List<Book> lstAllBooks = await RamCacheManager.getInstance().UserBooks;
+    if (lstAllBooks.isEmpty) {
+      var resp = await Http().post("get_user_books", data: {'user_id': userId});
+      if (resp.isSuccess()) {
+        lstAllBooks = Book.listFromJson(resp.data['user_books']);
+        RamCacheManager.getInstance().UserBooks = lstAllBooks;
+      }
+    }
+    lstResult = await RamCacheManager.getInstance().getUserBooksByLearnState(learnState);
+
+    return lstResult;
+  }
+
+  static Future<Word?> getRandomWord(wordDbName, [count = RamCacheManager.WORDS_CACHE_COUNT]) async {
+    Word? word = await RamCacheManager.getInstance().getNextWord();
+    if (word == null) {
+      var resp = await Http().  post("random_words", data: {'word_db_nm': wordDbName, "count": count});
+      if (resp.isSuccess()) {
+        List<Word> lstWords = Word.listFromJson(resp.data['words']);
+        RamCacheManager.getInstance().Words = lstWords;
+        word = RamCacheManager.getInstance().getNextWord();
       }
     }
 
-    return lstWords;
+    return word;
   }
 
 /**

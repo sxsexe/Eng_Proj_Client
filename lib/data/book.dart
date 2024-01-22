@@ -5,6 +5,8 @@ import 'package:my_eng_program/data/chapter_content.dart';
 
 enum BookType { T_WORD, T_STORY, T_DIALOG }
 
+enum BooKLearnState { T_NOT_START, T_ING, T_DONE }
+
 class Book {
   final String id;
   final String name;
@@ -22,9 +24,11 @@ class Book {
   List<Chapter> chapterList = [];
   List<ChapterContent> contentList = [];
 
-  bool isDone = false;
+  BooKLearnState learnState = BooKLearnState.T_NOT_START;
 
   Book({required this.id, required this.name, required this.groupID, required this.type});
+
+  static List<Book> listFromJson(list) => List<Book>.from(list.map((e) => Book.fromJson(e)));
 
   factory Book.fromJson(Map<String, dynamic> json) {
     Book book = Book(
@@ -42,8 +46,8 @@ class Book {
       book.DBName = json['word_db_name'];
     }
 
-    if (json.containsKey('is_done')) {
-      book.isDone = json['is_done'] == 1;
+    if (json.containsKey('learn_state')) {
+      book.learnState = BooKLearnState.values[json['learn_state']];
     }
 
     var lstData = json['chapters'];

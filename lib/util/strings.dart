@@ -28,3 +28,11 @@ class Strings {
 
   static const String ERROR_MSG_LOGIN_FAILED = "登录失败,请稍后重试";
 }
+
+class StringUtil {
+  static bool isStringEmpty(String? str) {
+    if (str == null || str.trim().isEmpty) return true;
+
+    return false;
+  }
+}

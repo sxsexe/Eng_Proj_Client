@@ -11,6 +11,8 @@ class Word {
 
   String? get ID => sID;
 
+  static List<Word> listFromJson(list) => List<Word>.from(list.map((e) => Word.fromJson(e)));
+
   Word.fromJson(Map<String, dynamic> json) {
     sID = json['_id'];
     name = json['name'];
