@@ -2,13 +2,17 @@ import 'dart:convert';
 
 class Resp {
   late ErrorInfo error;
-  Map<String, dynamic>? data;
+  late Map<String, dynamic> data;
 
   Resp({required this.error});
 
   Resp.fromJson(Map<String, dynamic> json) {
     error = ErrorInfo.fromJson(json['error']);
-    data = json['data'];
+    if (json.containsKey("data") && json['data'] != null) {
+      data = json['data'];
+    } else {
+      data = new Map<String, dynamic>();
+    }
   }
 
   String toJson() {
@@ -23,9 +27,13 @@ class Resp {
   }
 }
 
-class ErrorInfo {
+class ErrorInfo implements Exception {
   late int errorNo;
   late String errorMsg;
+
+  static ErrorInfo PARSE_ERROR() => ErrorInfo(errorNo: 2001, errorMsg: "Parse Error");
+  static ErrorInfo HTTP_ERROR() => ErrorInfo(errorNo: 2002, errorMsg: "Http Error");
+  static ErrorInfo CUSTOME_ERROR(no, msg) => ErrorInfo(errorNo: no, errorMsg: msg);
 
   ErrorInfo({required this.errorNo, required this.errorMsg});
 
@@ -39,5 +47,10 @@ class ErrorInfo {
     data['errorNo'] = errorNo;
     data['errorMsg'] = errorMsg;
     return data;
+  }
+
+  @override
+  String toString() {
+    return "[errorNo=$errorNo, errorMsg=$errorMsg]";
   }
 }

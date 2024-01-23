@@ -2,13 +2,15 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:my_eng_program/app.dart';
 import 'package:my_eng_program/data/book.dart';
-import 'package:my_eng_program/io/net.dart';
-import 'package:my_eng_program/ui/widgets/book_list.dart';
+import 'package:my_eng_program/io/Api.dart';
+import 'package:my_eng_program/ui/widgets/book_gallery_view.dart';
+import 'package:my_eng_program/util/event_bus.dart';
+
 import 'package:my_eng_program/util/logger.dart';
 import 'package:my_eng_program/util/strings.dart';
 
 import '../data/book_group.dart';
-import 'widgets/home_drawer.dart';
+
 
 class MainPage extends StatefulWidget {
   const MainPage({super.key});
@@ -18,6 +20,10 @@ class MainPage extends StatefulWidget {
 
 class _MainPageState extends State<MainPage> {
   static const String TAG = "MainPageState";
+  @override
+  void initState() {
+    super.initState();
+  }
 
   int _curIndex = 0;
   List<_PageSub> _pageList = [
@@ -28,24 +34,13 @@ class _MainPageState extends State<MainPage> {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      scrollBehavior: AppScrollBehavior(),
-      home: Scaffold(
-        appBar: AppBar(
-          title: Text(
-            _pageList[_curIndex].getTitle(),
-            style: TextStyle(fontSize: Theme.of(context).textTheme.titleMedium!.fontSize),
-          ),
-        ),
-        drawer: Drawer(child: HomeDrawer()),
-        body: PageView(
-          children: [..._pageList],
-          onPageChanged: (index) {
-            Logger.debug(TAG, "onPageChanged $index");
-            setState(() {
-              _curIndex = index;
-            });
-          },
+    return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Theme.of(context).colorScheme.background,
+        title: Text(
+          _pageList[_curIndex].getTitle(),
+          style: TextStyle(fontSize: Theme.of(context).textTheme.titleMedium!.fontSize),
+
         ),
       ),
     );
@@ -95,16 +90,12 @@ class _PageSubState extends State<_PageSub> with AutomaticKeepAliveClientMixin, 
 
     String? userId = App.getUserId();
     if (widget.type == PAGE_TYPE_ING || widget.type == PAGE_TYPE_DONE) {
+      eventBus.on<BookStateEvent>().listen((bookId) {
+        Logger.debug("MainPage", "on Event $bookId");
+        _getUserBooksAsync();
+      });
       if (userId != null) {
-        bool isDone = widget.type == PAGE_TYPE_DONE;
-        Service.getUserBooks(userId, isDone).then((books) {
-          Logger.debug("_PageSubState", books.toString());
-          setState(() {
-            _controller.stop(canceled: true);
-            _animRunning = false;
-            _lstBooks = books;
-          });
-        });
+        _getUserBooksAsync();
       } else {
         //TODO load from DB
         Future.delayed(Duration(seconds: 2)).then((value) {
@@ -119,8 +110,8 @@ class _PageSubState extends State<_PageSub> with AutomaticKeepAliveClientMixin, 
 
     if (widget.type == PAGE_TYPE_ALL) {
       if (userId == null) userId = "";
-      Service.getBookGroups(userId).then((bookGroups) {
-        Logger.debug("_PageSubState", bookGroups.toString());
+      Api.getBookGroups(userId).then((bookGroups) {
+
         setState(() {
           _controller.stop(canceled: true);
           _animRunning = false;
@@ -128,6 +119,17 @@ class _PageSubState extends State<_PageSub> with AutomaticKeepAliveClientMixin, 
         });
       });
     }
+  }
+
+  _getUserBooksAsync() {
+    BooKLearnState learnState = widget.type == PAGE_TYPE_DONE ? BooKLearnState.T_DONE : BooKLearnState.T_ING;
+    Api.getUserBooks(App.getUserId()!, learnState).then((books) {
+      setState(() {
+        _controller.stop(canceled: true);
+        _animRunning = false;
+        _lstBooks = books;
+      });
+    });
   }
 
   @override
@@ -152,13 +154,13 @@ class _PageSubState extends State<_PageSub> with AutomaticKeepAliveClientMixin, 
           );
         } else {
           return GridView(
-            padding: EdgeInsets.symmetric(horizontal: 12),
+            padding: EdgeInsets.symmetric(horizontal: 48, vertical: 12),
             gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
               crossAxisCount: 2,
               // 主轴间距
-              mainAxisSpacing: 24,
+              mainAxisSpacing: 36,
               // 次轴间距
-              crossAxisSpacing: 24,
+              crossAxisSpacing: 36,
               // 子项宽高比率
               childAspectRatio: 3 / 4,
             ),
@@ -168,15 +170,19 @@ class _PageSubState extends State<_PageSub> with AutomaticKeepAliveClientMixin, 
           );
         }
       } else {
-        return BookListView(listBooks: _lstBooks);
+        return BookGalleryView(listBooks: _lstBooks);
       }
     }
   }
 
   Widget _createBookGroupItemUI(BookGroup bookGroup) {
     return Material(
+      color: Theme.of(context).colorScheme.primaryContainer,
       child: InkWell(
-        onTap: () {},
+        onTap: () {
+          Navigator.pushNamed(context, App.ROUTE_BOOK_GALLERY_PAGE,
+              arguments: {"title": bookGroup.name, "book_group_id": bookGroup.id});
+        },
         child: Flex(
           direction: Axis.vertical,
           children: [
@@ -184,6 +190,7 @@ class _PageSubState extends State<_PageSub> with AutomaticKeepAliveClientMixin, 
             Expanded(
               flex: 3,
               child: Container(
+                padding: EdgeInsets.all(12),
                 child: CachedNetworkImage(
                     imageUrl: bookGroup.cover,
                     fit: BoxFit.fill,
@@ -199,13 +206,10 @@ class _PageSubState extends State<_PageSub> with AutomaticKeepAliveClientMixin, 
             Expanded(
                 flex: 1,
                 child: Container(
-                  color: Theme.of(context).colorScheme.primaryContainer,
                   width: double.infinity,
                   child: Row(
                     children: [
-                      SizedBox(
-                        width: 12,
-                      ),
+                      SizedBox(width: 8),
                       Expanded(
                         child: Text(
                           bookGroup.name,
@@ -217,9 +221,7 @@ class _PageSubState extends State<_PageSub> with AutomaticKeepAliveClientMixin, 
                               ),
                         ),
                       ),
-                      SizedBox(
-                        width: 12,
-                      ),
+                      SizedBox(width: 8),
                     ],
                   ),
                 ))

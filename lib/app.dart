@@ -6,9 +6,10 @@ import 'package:my_eng_program/ui/widgets/theme_notifier.dart';
 
 class App {
   static const String ROUTE_SPLASH = "/splash";
-  static const String ROUTE_BOOK_GROUP = "/book_group";
+  static const String ROUTE_BOOK_GALLERY_PAGE = "/book_gallery_page";
   static const String ROUTE_WORDS_DETAIL = "/word_detail_page";
   static const String ROUTE_BOOK_CONTENT = "/book_content_page";
+  static const String ROUTE_CHAPTERS_LIST_PAGE = "/chapter_list_page";
   static const String ROUTE_REGISTER = "/register";
   static const String ROUTE_MAIN = "/main";
 

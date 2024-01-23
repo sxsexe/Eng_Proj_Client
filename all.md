@@ -11,6 +11,7 @@
 8.    dialogue  https://helenadailyenglish.com/basic-english-conversation-100-daily-topics
 9.    advanced dialogue https://basicenglishspeaking.com/daily-english-conversation-topics/
 10.   easy conversions https://www.eslfast.com/easydialogs/
+11.   每日一句 https://dict.eudic.net/home/dailysentence
 
 
 
@@ -21,3 +22,7 @@
 
 ### 在线查询词义 
 1.  海词 https://dict.cn/search?q=story
+2.  
+
+###  Android模拟器命令
+1.   D:\codespace\sdks\android-sdk\emulator> ./emulator -avd Pixel_6_API_30

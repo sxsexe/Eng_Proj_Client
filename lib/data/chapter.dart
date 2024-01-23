@@ -8,16 +8,12 @@ class Chapter {
 
   factory Chapter.fromJson(Map<String, dynamic> json) {
     Chapter chapter = Chapter(name: json['name'] as String);
-
-    var lstData = json['contents'];
-    for (var e in lstData) {
-      chapter.contentList.add(ChapterContent.fromJson(e));
-    }
+    chapter.contentList = ChapterContent.listFromJson(json['contents']);
     return chapter;
   }
 
   Map<String, dynamic> toJson() {
-    return {"name": name, 'content': contentList};
+    return {"name": name, 'contents': contentList};
   }
 
   @override
