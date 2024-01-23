@@ -16,15 +16,24 @@ class WordDetailCard extends StatefulWidget {
 }
 
 class _WordDetailState extends State<WordDetailCard> {
-  GlobalKey<_WordDetailState> wordKey = GlobalKey();
+
+
+  static const String TAG = "WordDetailState";
+
+  @override
+  void initState() {
+    super.initState();
+    Logger.debug(TAG, "re initState");
+  }
 
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
+        controller: ScrollController(initialScrollOffset: 0),
         child: Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: _createGenderWrapperWidgetList(),
-    ));
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: _createGenderWrapperWidgetList(),
+        ));
   }
 
   Row _createGenderTitle(GenderDetail detail) {

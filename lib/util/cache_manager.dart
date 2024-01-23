@@ -40,7 +40,7 @@ class RamCacheManager {
   }
 
 /**
- * 用户的books cache
+ * User books cache
  */
   List<Book> _sUserBooks = [];
   set UserBooks(List<Book> data) => _sUserBooks = data;

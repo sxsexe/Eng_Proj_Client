@@ -18,7 +18,6 @@ class _WordDetailPageState extends State<WordDetailPage> {
   late Word _word;
   late Book _book;
   bool _loading = true;
-  late WordDetailCard _wordDetailCard;
   static const String TAG = "WordDetailPage";
 
   final int SCORE_1 = 10;
@@ -26,21 +25,14 @@ class _WordDetailPageState extends State<WordDetailPage> {
   final int SCORE_3 = 80;
 
   @override
-  void initState() {
-    super.initState();
-  }
-
-  @override
   void didChangeDependencies() {
     super.didChangeDependencies();
 
-    final Map<String, dynamic> args = ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>;
-    _book = Book.fromJson(args);
+    Book _book = ModalRoute.of(context)!.settings.arguments as Book;
     // Logger.debug(TAG, "argument book = $_book");
     Api.getRandomWord(_book.DBName).then((word) {
       setState(() {
         _word = word!;
-        _wordDetailCard = WordDetailCard(word: _word);
         _loading = false;
       });
     });
@@ -51,15 +43,13 @@ class _WordDetailPageState extends State<WordDetailPage> {
       _loading = true;
     });
 
-    Api.upsertUserWord(App.getUserId()!, _word.ID, _word.name, score, _word.dbName).then((rs) {
-      Api.getRandomWord(_book.DBName).then((word) {
-        setState(() {
-          _word = word!;
-          _loading = false;
-          _wordDetailCard = WordDetailCard(word: _word);
-        });
+    Api.getRandomWord(_book.DBName).then((word) {
+      setState(() {
+        _word = word!;
+        _loading = false;
       });
     });
+    Api.upsertUserWord(App.getUserId()!, _word.ID, _word.name, score, _word.dbName);
   }
 
   Widget _createOpButtons() {
@@ -108,7 +98,8 @@ class _WordDetailPageState extends State<WordDetailPage> {
     } else {
       return Column(
         children: [
-          Expanded(child: _wordDetailCard),
+          //   Expanded(child: _wordDetailCard),
+          Expanded(child: WordDetailCard(word: _word)),
           _createOpButtons(),
         ],
       );

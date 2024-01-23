@@ -18,11 +18,7 @@ class _BookChaptersPageState extends State<BookChaptersPage> {
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    Map<String, dynamic> args = ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>;
-    // Map<String, dynamic> args = jsonDecode() as Map<String, dynamic>;
-    _book = Book(id: args['_id'], name: args['name'], groupID: args['group_id'], type: args['type']);
-    _book.chapterList = args['chapters'];
-
+    Book _book = ModalRoute.of(context)!.settings.arguments as Book;
     setState(() {
       _lstChapters = _book.chapterList;
       _title = _book.name;
@@ -55,10 +51,10 @@ class _BookChaptersPageState extends State<BookChaptersPage> {
         onTap: () {
           Logger.debug("ChaptersPage", "index=$index");
           var args = {
-            "book_id" : _book.id,
-            "book_type" : _book.type,
-            "title" : chapter.name,
-            "contents" : chapter.contentList
+            "book_id": _book.id,
+            "book_type": _book.type,
+            "title": chapter.name,
+            "contents": chapter.contentList
           };
           Navigator.pushNamed(context, App.ROUTE_BOOK_CONTENT, arguments: args);
         },

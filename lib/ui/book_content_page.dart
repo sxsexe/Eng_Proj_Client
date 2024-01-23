@@ -6,7 +6,10 @@ import 'package:just_audio/just_audio.dart';
 import 'package:my_eng_program/app.dart';
 import 'package:my_eng_program/data/chapter_content.dart';
 import 'package:my_eng_program/io/Api.dart';
+import 'package:my_eng_program/util/cache_manager.dart';
+import 'package:my_eng_program/util/event_bus.dart';
 import 'package:my_eng_program/util/logger.dart';
+import 'package:my_eng_program/util/strings.dart';
 
 import '../data/book.dart';
 
@@ -18,24 +21,14 @@ class BookContentPage extends StatefulWidget {
 }
 
 class _BookContentState extends State<BookContentPage> {
-  String _title = "";
-  // ignore: unused_field
-  String _bookID = "";
-  late BooKLearnState _learnState;
-  BookType _bookType = BookType.T_DIALOG;
-  List<ChapterContent> _contentList = [];
-
+  late Book _book;
   static const String TAG = "BookContent";
 
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    Map<String, dynamic> args = ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>;
-    _contentList = args['contents'];
-    _title = args['title'];
-    _bookID = args['book_id'];
-    _learnState = args['learn_state'];
-    _bookType = BookType.values[args['book_type']];
+    _book = ModalRoute.of(context)!.settings.arguments as Book;
+    Logger.debug(TAG, "argument book=$_book");
   }
 
   Widget _createTitleUI(String title) {
@@ -106,9 +99,9 @@ class _BookContentState extends State<BookContentPage> {
 
   Widget _createTextUI(String content, int index) {
     Widget _paragraphUI;
-    if (_bookType == BookType.T_DIALOG) {
+    if (_book.bookType == BookType.T_DIALOG) {
       _paragraphUI = _createDialogParagraph(content, index);
-    } else if (_bookType == BookType.T_STORY) {
+    } else if (_book.bookType == BookType.T_STORY) {
       _paragraphUI = _createStoryParagraph(content, index);
     } else {
       _paragraphUI = SizedBox();
@@ -127,18 +120,22 @@ class _BookContentState extends State<BookContentPage> {
 
   Widget _createImageUI(String imageUrl) {
     Logger.error(TAG, "_createImage url=" + imageUrl);
-    return Container(
-      width: double.infinity,
-      padding: EdgeInsets.all(18),
-      child: Center(
-        child: CachedNetworkImage(
-          imageUrl: imageUrl,
-          errorListener: (error) {
-            Logger.error(TAG, "_createImage error=$error");
-          },
+    if (StringUtil.isStringEmpty(imageUrl)) {
+      return SizedBox();
+    } else {
+      return Container(
+        width: double.infinity,
+        padding: EdgeInsets.all(18),
+        child: Center(
+          child: CachedNetworkImage(
+            imageUrl: imageUrl,
+            errorListener: (error) {
+              Logger.error(TAG, "_createImage error=$error");
+            },
+          ),
         ),
-      ),
-    );
+      );
+    }
   }
 
 //FIXME
@@ -170,8 +167,8 @@ class _BookContentState extends State<BookContentPage> {
   List<Widget> _createContentsUI() {
     List<Widget> _widgets = [];
 
-    _widgets.add(_createTitleUI(_title));
-
+    _widgets.add(_createTitleUI(_book.name));
+    var _contentList = _book.contentList;
     for (var contentObj in _contentList) {
       if (contentObj.type == ContentType.C_TEXT) {
         _widgets.add(_createTextUI(contentObj.content, contentObj.idx));
@@ -186,16 +183,12 @@ class _BookContentState extends State<BookContentPage> {
 
     _widgets.add(SizedBox(height: 24));
 
-    if (_learnState == BooKLearnState.T_ING) {
+    if (_book.learnState == BooKLearnState.T_ING) {
       _widgets.add(Container(
           width: 180,
           height: 56,
           child: ElevatedButton(
-            onPressed: () {
-              var now = DateUtil.formatDate(DateTime.now(), format: DateFormats.full);
-              Api.updateUserBookStatus(
-                  App.getUserId()!, _bookID, BooKLearnState.T_DONE.index, _bookType.index, now, now);
-            },
+            onPressed: () => _updateBookState(BooKLearnState.T_ING, BooKLearnState.T_DONE),
             child: Text(
               "完成学习",
               style: Theme.of(context).textTheme.displaySmall,
@@ -209,7 +202,8 @@ class _BookContentState extends State<BookContentPage> {
 
   List<Widget> _createActions() {
     List<Widget> _widgets = [];
-    if (_learnState == BooKLearnState.T_DONE) {
+
+    if (_book.learnState == BooKLearnState.T_DONE) {
       _widgets.add(new TextButton(
         child: Text(
           "重新学习",
@@ -217,12 +211,9 @@ class _BookContentState extends State<BookContentPage> {
                 color: Theme.of(context).colorScheme.secondary,
               ),
         ),
-        onPressed: () {
-          var now = DateUtil.formatDate(DateTime.now(), format: DateFormats.full);
-          Api.updateUserBookStatus(App.getUserId()!, _bookID, BooKLearnState.T_ING.index, _bookType.index, now, now);
-        },
+        onPressed: () => this._updateBookState(BooKLearnState.T_DONE, BooKLearnState.T_ING),
       ));
-    } else if (_learnState == BooKLearnState.T_NOT_START) {
+    } else if (_book.learnState == BooKLearnState.T_NOT_START) {
       _widgets.add(new TextButton(
         child: Text(
           "加入学习",
@@ -230,13 +221,30 @@ class _BookContentState extends State<BookContentPage> {
                 color: Theme.of(context).colorScheme.secondary,
               ),
         ),
-        onPressed: () {
-          var now = DateUtil.formatDate(DateTime.now(), format: DateFormats.full);
-          Api.updateUserBookStatus(App.getUserId()!, _bookID, BooKLearnState.T_ING.index, _bookType.index, now, now);
-        },
+        onPressed: () => this._updateBookState(BooKLearnState.T_NOT_START, BooKLearnState.T_ING),
       ));
     }
     return _widgets;
+  }
+
+  _updateBookState(BooKLearnState oldState, BooKLearnState newState) {
+    var now = DateUtil.formatDate(DateTime.now(), format: DateFormats.full);
+    Api.updateUserBookStatus(App.getUserId()!, _book.id, newState.index, _book.bookType.index, now, now).then((rs) {
+      Logger.debug(TAG, "_updateBookState rs=$rs, oldState=$oldState");
+      if (rs) {
+        _book.learnState = newState;
+        if (oldState == BooKLearnState.T_NOT_START) {
+          Logger.debug(TAG, "addNewUserBook rs=$rs");
+          RamCacheManager.getInstance().addNewUserBook(_book);
+        } else {
+          Logger.debug(TAG, "updateBookLearnState rs=$rs");
+          RamCacheManager.getInstance().updateBookLearnState(_book.id, newState);
+        }
+        eventBus.fire(BookStateEvent(_book.id));
+
+        //TODO refresh actions and buttons
+      }
+    });
   }
 
   @override
@@ -244,24 +252,7 @@ class _BookContentState extends State<BookContentPage> {
     return Scaffold(
       appBar: AppBar(
         title: Text(""),
-        actions: [
-          ..._createActions()
-          //   new PopupMenuButton<String>(
-          //     itemBuilder: (BuildContext context) => <PopupMenuItem<String>>[
-          //       new PopupMenuItem<String>(value: 'value01', child: new Text('Item One')),
-          //       new PopupMenuItem<String>(value: 'value02', child: new Text('Item Two')),
-          //     ],
-          //     onSelected: (String action) {
-          //       // 点击选项的时候
-          //       switch (action) {
-          //         case 'value01':
-          //           break;
-          //         case 'value02':
-          //           break;
-          //       }
-          //     },
-          //   ),
-        ],
+        actions: _createActions(),
       ),
       body: SingleChildScrollView(
         child: Container(

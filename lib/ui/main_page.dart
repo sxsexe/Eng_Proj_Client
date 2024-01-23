@@ -4,6 +4,7 @@ import 'package:my_eng_program/app.dart';
 import 'package:my_eng_program/data/book.dart';
 import 'package:my_eng_program/io/Api.dart';
 import 'package:my_eng_program/ui/widgets/book_gallery_view.dart';
+import 'package:my_eng_program/util/event_bus.dart';
 import 'package:my_eng_program/util/logger.dart';
 import 'package:my_eng_program/util/strings.dart';
 
@@ -97,15 +98,12 @@ class _PageSubState extends State<_PageSub> with AutomaticKeepAliveClientMixin, 
 
     String? userId = App.getUserId();
     if (widget.type == PAGE_TYPE_ING || widget.type == PAGE_TYPE_DONE) {
+      eventBus.on<BookStateEvent>().listen((bookId) {
+        Logger.debug("MainPage", "on Event $bookId");
+        _getUserBooksAsync();
+      });
       if (userId != null) {
-        BooKLearnState learnState = widget.type == PAGE_TYPE_DONE ? BooKLearnState.T_DONE : BooKLearnState.T_ING;
-        Api.getUserBooks(userId, learnState).then((books) {
-          setState(() {
-            _controller.stop(canceled: true);
-            _animRunning = false;
-            _lstBooks = books;
-          });
-        });
+        _getUserBooksAsync();
       } else {
         //TODO load from DB
         Future.delayed(Duration(seconds: 2)).then((value) {
@@ -128,6 +126,17 @@ class _PageSubState extends State<_PageSub> with AutomaticKeepAliveClientMixin, 
         });
       });
     }
+  }
+
+  _getUserBooksAsync() {
+    BooKLearnState learnState = widget.type == PAGE_TYPE_DONE ? BooKLearnState.T_DONE : BooKLearnState.T_ING;
+    Api.getUserBooks(App.getUserId()!, learnState).then((books) {
+      setState(() {
+        _controller.stop(canceled: true);
+        _animRunning = false;
+        _lstBooks = books;
+      });
+    });
   }
 
   @override

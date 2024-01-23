@@ -2,6 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:my_eng_program/app.dart';
 import 'package:my_eng_program/data/book.dart';
+import 'package:my_eng_program/util/strings.dart';
 
 class BookGalleryView extends StatefulWidget {
   final List<Book> listBooks;
@@ -21,20 +22,13 @@ class _BookListState extends State<BookGalleryView> {
       child: InkWell(
         onTap: () {
           if (book.bookType == BookType.T_WORD) {
-            Navigator.pushNamed(context, App.ROUTE_WORDS_DETAIL, arguments: book.toJson());
+            Navigator.pushNamed(context, App.ROUTE_WORDS_DETAIL, arguments: book);
           }
           if (book.bookType == BookType.T_STORY) {
-            var args = {
-              "book_id": book.id,
-              "book_type": book.type,
-              "title": book.name,
-              "learn_state": book.learnState,
-              "contents": book.contentList,
-            };
-            Navigator.pushNamed(context, App.ROUTE_BOOK_CONTENT, arguments: args);
+            Navigator.pushNamed(context, App.ROUTE_BOOK_CONTENT, arguments: book);
           }
           if (book.bookType == BookType.T_DIALOG) {
-            Navigator.pushNamed(context, App.ROUTE_CHAPTERS_LIST_PAGE, arguments: book.toJson());
+            Navigator.pushNamed(context, App.ROUTE_CHAPTERS_LIST_PAGE, arguments: book);
           }
         },
         child: Flex(
@@ -44,16 +38,7 @@ class _BookListState extends State<BookGalleryView> {
             Expanded(
               flex: 3,
               child: Container(
-                child: CachedNetworkImage(
-                    imageUrl: book.cover ?? "",
-                    fit: BoxFit.fill,
-                    progressIndicatorBuilder: (context, url, downloadProgress) => Center(
-                          child: CircularProgressIndicator(
-                            value: downloadProgress.progress,
-                            color: Theme.of(context).colorScheme.secondary,
-                          ),
-                        ),
-                    errorWidget: (context, url, error) => Icon(Icons.error)),
+                child: _createBookCover(book.cover),
               ),
             ),
             Expanded(
@@ -82,6 +67,25 @@ class _BookListState extends State<BookGalleryView> {
         ),
       ),
     );
+  }
+
+  Widget _createBookCover(String? imageUrl) {
+    if (StringUtil.isStringEmpty(imageUrl)) {
+      return Center(
+        child: Icon(Icons.coronavirus_rounded),
+      );
+    } else {
+      return CachedNetworkImage(
+          imageUrl: imageUrl!,
+          fit: BoxFit.fill,
+          progressIndicatorBuilder: (context, url, downloadProgress) => Center(
+                child: CircularProgressIndicator(
+                  value: downloadProgress.progress,
+                  color: Theme.of(context).colorScheme.secondary,
+                ),
+              ),
+          errorWidget: (context, url, error) => Icon(Icons.error));
+    }
   }
 
   Widget _createBodyUI() {

@@ -77,13 +77,7 @@ class Api {
         "last_time": lastTime,
       },
     );
-
-    bool rs = false;
-    if (resp.isSuccess()) {
-      rs = true;
-    }
-
-    return rs;
+    return resp.isSuccess();
   }
 
   static Future<List<Book>> getUserBooks(String userId, BooKLearnState learnState) async {
@@ -104,7 +98,7 @@ class Api {
   static Future<Word?> getRandomWord(wordDbName, [count = RamCacheManager.WORDS_CACHE_COUNT]) async {
     Word? word = await RamCacheManager.getInstance().getNextWord();
     if (word == null) {
-      var resp = await Http().  post("random_words", data: {'word_db_nm': wordDbName, "count": count});
+      var resp = await Http().post("random_words", data: {'word_db_nm': wordDbName, "count": count});
       if (resp.isSuccess()) {
         List<Word> lstWords = Word.listFromJson(resp.data['words']);
         RamCacheManager.getInstance().Words = lstWords;
